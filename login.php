@@ -32,7 +32,7 @@ if (isset($_POST['form'])){
                         if(isset($_GET['redirect'])){
                             header("Location: ".$_GET['redirect']."");
                         } else {
-                            header("Location: /");
+                            header("Location: index.php");
                         }
                     }
                 } else {
