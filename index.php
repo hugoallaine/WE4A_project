@@ -8,6 +8,12 @@
     <link rel='stylesheet' type='text/css' href='css/test.css'>
 </head>
 <body>
+    <div class="feed-container">
+        <div class="tweet">
+            <h2>Nom d'utilisateur</h2>
+            <p>Contenu du tweet</p>
+        </div>
+    </div>
     <nav class="navbar">
         <ul>
             <li><a href="#">Accueil</a></li>
@@ -15,10 +21,4 @@
             <li><a href="#">Paramètres</a></li>
         </ul>
     </nav>
-    <div class="feed-container">
-        <div class="tweet">
-            <h2>Nom d'utilisateur</h2>
-            <p>Contenu du tweet</p>
-        </div>
-    </div>
 </body>
