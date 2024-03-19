@@ -66,7 +66,7 @@ if (isset($_POST['form'])) {
         function onClick(e) {
             e.preventDefault();
             grecaptcha.enterprise.ready(async () => {
-            const token = await grecaptcha.enterprise.execute('6Le1YZ4pAAAAAJRKez380JQpQuUFqPwzT-NxW0a7', {action: 'LOGIN'});
+            const token = await grecaptcha.enterprise.execute('6Le1YZ4pAAAAAJRKez380JQpQuUFqPwzT-NxW0a7', {action: 'signup'});
             });
         }
     </script>
