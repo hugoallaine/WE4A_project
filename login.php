@@ -3,7 +3,7 @@ session_start();
 require_once('php_tool/alreadyConnected.php');
 require_once('php_tool/db.php');
 
-if (isset($_POST['form'])){
+if (isset($_POST['form'])) {
     $email = SecurizeString_ForSQL($_POST['user']);
     $password = SecurizeString_ForSQL($_POST['password']);
     if (!empty($email) AND !empty($password)) {
@@ -16,7 +16,7 @@ if (isset($_POST['form'])){
                 if ($user['verified']) {
                     if ($user['isTfaEnabled']) {
                         $_SESSION['email'] = $user['email'];
-                        if(isset($_GET['redirect'])){
+                        if(isset($_GET['redirect'])) {
                             header("Location: /2FA/2FA_login?redirect=".$_GET['redirect']."");
                         } else {
                             header("Location: /2FA/2FA_login");
@@ -24,9 +24,8 @@ if (isset($_POST['form'])){
                     } else {
                         $_SESSION['id'] = $user['id'];
                         $_SESSION['email'] = $user['email'];
-                        $_SESSION['pseudo'] = $user['pseudo'];
                         $_SESSION['isAdmin'] = $user['isAdmin'];
-                        if(isset($_GET['redirect'])){
+                        if(isset($_GET['redirect'])) {
                             header("Location: ".$_GET['redirect']."");
                         } else {
                             header("Location: index.php");
