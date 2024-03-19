@@ -1,14 +1,15 @@
 <?php
 session_start();
-require('./db.php');
+require('php_tool/db.php');
+require('php_tool/security.php');
 
 if (isset($_SESSION['id'])){
     header('Location: index.php'); # changer la destination de la page après
 }
 
 if (isset($_POST['form'])){
-    $email = htmlspecialchars($_POST['user']);
-    $password = htmlspecialchars($_POST['password']);
+    $email = SecurizeString_ForSQL($_POST['user']);
+    $password = SecurizeString_ForSQL($_POST['password']);
     if (!empty($email) AND !empty($password)) {
         $req = $db->prepare("SELECT id,email,password,pseudo,verified,tfa,isAdmin FROM users WHERE email = ?");
         $req->execute(array($email));
