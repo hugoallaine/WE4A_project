@@ -7,7 +7,7 @@ if (isset($_POST['form'])) {
     if (!empty($email) AND !empty($password)) {
         $req = $db->prepare("SELECT id,email,password,pseudo,verified,isTfaEnabled,isAdmin FROM users WHERE email = ?");
         $req->execute(array($email));
-        $isUserExist = $req->fetch();
+        $isUserExist = $req->rowCount();
         if ($isUserExist) {
             $user = $req->fetch();
             if (password_verify($password, $user['password'])) {
@@ -16,18 +16,18 @@ if (isset($_POST['form'])) {
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['isTfaEnabled'] = $user['isTfaEnabled'];
                         if(isset($_GET['redirect'])) {
-                            header("Location: login.php?redirect=".$_GET['redirect']."");
+                            header("Location: /login.php?redirect=".$_GET['redirect']."");
                         } else {
-                            header("Location: login.php");
+                            header("Location: /login.php");
                         }
                     } else {
                         $_SESSION['id'] = $user['id'];
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['isAdmin'] = $user['isAdmin'];
                         if(isset($_GET['redirect'])) {
-                            header("Location: ../".$_GET['redirect']."");
+                            header("Location: ".$_GET['redirect']."");
                         } else {
-                            header("Location: /index.php");
+                            header("Location: index.php");
                         }
                     }
                 } else {
