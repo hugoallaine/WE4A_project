@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__).'/db.php');
+require_once dirname(__FILE__).'/db.php';
 
 if (isset($_POST['form'])) {
     $email = SecurizeString_ForSQL($_POST['user']);

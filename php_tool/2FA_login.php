@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__)."/2FA_config.php");
+require_once dirname(__FILE__)."/2FA_config.php";
 
 if(!isset($_SESSION['email']) || !isset($_SESSION['isTfaEnabled'])){
     header("Location: /index.php");
@@ -32,10 +32,10 @@ if(isset($_POST['tfa'])){
 <html lang="fr">        
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Connexion 2FA - Jeu2Dame</title>
-    <link rel="stylesheet" href="../style/border.css">
-    <link rel="stylesheet" href="../style/stylebutton1.css">
-    <link rel="stylesheet" href="../style/2FAlogin.css">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' href='css/default.css'>
 </head>
 <body>
     <header>
