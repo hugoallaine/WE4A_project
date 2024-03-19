@@ -1,5 +1,6 @@
 <?php
-require_once('php_tool/session.php');
+session_start();
+require_once('php_tool/alreadyConnected.php');
 require_once('php_tool/db.php');
 
 if (isset($_POST['form'])){
