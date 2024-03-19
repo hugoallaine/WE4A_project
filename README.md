@@ -8,7 +8,7 @@ Developed by :
 
 ### Module utilisé :
 
-Authentification à deux facteurs :
-- https://github.com/RobThree/TwoFactorAuth
-Envoi de mail par authentification SMTP :
-- https://github.com/PHPMailer/PHPMailer
+Authentification à deux facteurs :   
+- https://github.com/RobThree/TwoFactorAuth   
+Envoi de mail par authentification SMTP :   
+- https://github.com/PHPMailer/PHPMailer   
