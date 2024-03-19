@@ -16,9 +16,9 @@
     </div>
     <nav class="navbar">
         <ul>
-            <li><a href="#">Accueil</a></li>
-            <li><a href="#">Profil</a></li>
-            <li><a href="#">Paramètres</a></li>
+            <li><a href="#"><img class="icon" src="/WE4A_project/img/icon/debug.png" alt="Accueil"></a></li>
+            <li><a href="#"><img class="icon" src="/WE4A_project/img/icon/debug.png" alt="Profil"></a></li>
+            <li><a href="#"><img class="icon" src="/WE4A_project/img/icon/debug.png" alt="Paramètres"></a></li>
         </ul>
     </nav>
 </body>
