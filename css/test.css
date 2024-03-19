@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    box-sizing: border-box;
+}
+
+.feed-container {
+    width: 70vh; /* Utilisez vh pour la largeur */
+    margin: 0 auto;
+    background-color: #f5f8fa;
+    padding: 2rem; /* Utilisez rem pour le padding */
+    border-radius: 1rem; /* Utilisez rem pour le border-radius */
+    height: 100vh; /* Utilisez vh pour la hauteur */
+    position: relative;
+    z-index: 2;
+}
+
+.tweet {
+    background-color: #fff;
+    padding: 1rem; /* Utilisez rem pour le padding */
+    margin-bottom: 1.5rem; /* Utilisez rem pour la marge */
+    border-radius: 0.5rem; /* Utilisez rem pour le border-radius */
+    border: 1px solid #e1e8ed;
+}
+
+.tweet h2 {
+    margin: 0;
+    color: #1da1f2;
+    font-size: 1.25rem; /* Utilisez rem pour la taille de la police */
+}
+
+.tweet p {
+    margin: 0.625rem 0 0; /* Utilisez rem pour la marge */
+    color: #14171a;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.navbar {
+    position: absolute;
+    top: 0;
+    right: 0; /* Positionne la barre de navigation à droite */
+    background-color: #f5f8fa;
+    padding: 1rem;
+    width: 15vh /* Calcule la largeur de la barre de navigation */
+    z-index: 1;
+}
+
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbar ul li {
+    margin-left: 1rem;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #1da1f2;
+}
