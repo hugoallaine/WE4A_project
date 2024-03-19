@@ -54,6 +54,7 @@ if (isset($_POST['form'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>YGreg - Login</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/login.css'>
 </head>
 <body>
