@@ -1,7 +1,6 @@
 <?php
 session_start();
 require('php_tool/db.php');
-require('php_tool/security.php');
 
 if (isset($_SESSION['id'])){
     header('Location: index.php'); # changer la destination de la page après
@@ -63,7 +62,7 @@ if (isset($_POST['form'])){
 </head>
 <body>
     <section>
-        <form>
+        <form method="POST" action="">
             <h1>Connexion à YGreg</h1>
             <div>
                 <input type="text" class="form_input" name="user" placeholder="" required/>
