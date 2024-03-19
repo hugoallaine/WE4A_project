@@ -16,3 +16,20 @@ body {
     width: 75px;
     height: 75px;
 }
+
+.feed{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 2px solid black;
+}
+
+.feed h2{
+    margin: 3px;
+}
+
+.feed img{
+    width: 75px;
+    height: 75px;
+}
