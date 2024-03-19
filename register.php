@@ -61,6 +61,15 @@ if (isset($_POST['form'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/login.css'>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le1YZ4pAAAAAJRKez380JQpQuUFqPwzT-NxW0a7"></script>
+    <script>
+        function onClick(e) {
+            e.preventDefault();
+            grecaptcha.enterprise.ready(async () => {
+            const token = await grecaptcha.enterprise.execute('6Le1YZ4pAAAAAJRKez380JQpQuUFqPwzT-NxW0a7', {action: 'LOGIN'});
+            });
+        }
+    </script>
 </head>
 <body>
     <section>
@@ -105,6 +114,7 @@ if (isset($_POST['form'])) {
                 echo '<div class="error-message">'.$error.'</div>'; 
             }
             ?>
+            
         </form>
     </section>
 </body>
