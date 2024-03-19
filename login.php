@@ -1,23 +1,19 @@
 <?php
-session_start();
-require('php_tool/db.php');
-
-if (isset($_SESSION['id'])){
-    header('Location: index.php'); # changer la destination de la page après
-}
+require_once('php_tool/session.php');
+require_once('php_tool/db.php');
 
 if (isset($_POST['form'])){
     $email = SecurizeString_ForSQL($_POST['user']);
     $password = SecurizeString_ForSQL($_POST['password']);
     if (!empty($email) AND !empty($password)) {
-        $req = $db->prepare("SELECT id,email,password,pseudo,verified,tfa,isAdmin FROM users WHERE email = ?");
+        $req = $db->prepare("SELECT id,email,password,pseudo,verified,isTfaEnabled,isAdmin FROM users WHERE email = ?");
         $req->execute(array($email));
         $isUserExist = $req->fetch();
         if ($isUserExist) {
             $user = $req->fetch();
             if (password_verify($password, $user['password'])) {
                 if ($user['verified']) {
-                    if ($user['tfa']) {
+                    if ($user['isTfaEnabled']) {
                         $_SESSION['email'] = $user['email'];
                         if(isset($_GET['redirect'])){
                             header("Location: /2FA/2FA_login?redirect=".$_GET['redirect']."");
