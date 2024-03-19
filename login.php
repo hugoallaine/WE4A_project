@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('php_tool/alreadyConnected.php');
-require_once('php_tool/db.php');
+require_once(dirname(__FILE__).'/php_tool/alreadyConnected.php');
+require_once(dirname(__FILE__).'/php_tool/db.php');
 
 if (isset($_POST['form'])) {
     $email = SecurizeString_ForSQL($_POST['user']);
@@ -16,6 +16,7 @@ if (isset($_POST['form'])) {
                 if ($user['verified']) {
                     if ($user['isTfaEnabled']) {
                         $_SESSION['email'] = $user['email'];
+                        $_SESSION['isTfaEnabled'] = $user['isTfaEnabled'];
                         if(isset($_GET['redirect'])) {
                             header("Location: /2FA/2FA_login?redirect=".$_GET['redirect']."");
                         } else {
@@ -44,7 +45,6 @@ if (isset($_POST['form'])) {
         $error = "Tous les champs doivent être complétés.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
