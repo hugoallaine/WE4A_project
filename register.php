@@ -1,53 +1,73 @@
 <?php
+require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
 require_once dirname(__FILE__).'/php_tool/db.php';
 require_once dirname(__FILE__).'/php_tool/mails.php';
+require_once dirname(__FILE__).'/php_tool/vendor/autoload.php';
+
+function getIp(){
+    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }else{
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
 
 if (isset($_POST['form'])) {
-    $pseudo = SecurizeString_ForSQL($_POST['pseudo']);
-    $email = SecurizeString_ForSQL($_POST['email']);
-    $password = SecurizeString_ForSQL($_POST['password']);
-    $password2 = SecurizeString_ForSQL($_POST['password2']);
-    $name = SecurizeString_ForSQL($_POST['name']);
-    $firstname = SecurizeString_ForSQL($_POST['firstname']);
-    $birthdate = $_POST['birthdate'];
-    if (!empty($pseudo) AND !empty($email) AND !empty($password) AND !empty($password2) AND !empty($name) AND !empty($firstname) AND !empty($birthdate)) {
-        if (strlen($pseudo) <= 32) {
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $req = $db->prepare("SELECT id FROM users WHERE email = ?");
-                $req->execute(array($email));
-                $emailexist = $req->rowCount();
-                if ($emailexist == 0) {
-                    if ($password == $password2) {
-                        if (strlen($password) >= 12) {
-                            $password = password_hash($password, PASSWORD_DEFAULT);
-                            $key = "";
-                            for($i=1;$i<255;$i++) {
-                                $key .= mt_rand(0,9);
+    $recaptcha = new \ReCaptcha\ReCaptcha('6LeKHp8pAAAAAAocYWWv_6N7Q5YgOX6skXCDS0zW');
+    $gRecaptchaResponse = $_POST['g-recaptcha-response'];
+    $resp = $recaptcha->setExpectedHostname('localhost')->verify($gRecaptchaResponse, getIp());
+    if ($resp->isSuccess()) {
+        $pseudo = SecurizeString_ForSQL($_POST['pseudo']);
+        $email = SecurizeString_ForSQL($_POST['email']);
+        $password = SecurizeString_ForSQL($_POST['password']);
+        $password2 = SecurizeString_ForSQL($_POST['password2']);
+        $name = SecurizeString_ForSQL($_POST['name']);
+        $firstname = SecurizeString_ForSQL($_POST['firstname']);
+        $birthdate = $_POST['birthdate'];
+        if (!empty($pseudo) AND !empty($email) AND !empty($password) AND !empty($password2) AND !empty($name) AND !empty($firstname) AND !empty($birthdate)) {
+            if (strlen($pseudo) <= 32) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $req = $db->prepare("SELECT id FROM users WHERE email = ?");
+                    $req->execute(array($email));
+                    $emailexist = $req->rowCount();
+                    if ($emailexist == 0) {
+                        if ($password == $password2) {
+                            if (strlen($password) >= 12) {
+                                $password = password_hash($password, PASSWORD_DEFAULT);
+                                $key = "";
+                                for($i=1;$i<255;$i++) {
+                                    $key .= mt_rand(0,9);
+                                }
+                                $req = $db->prepare("INSERT INTO users(email,password,name,firstname,birth_date,pseudo) VALUES(?,?,?,?,?,?)");
+                                $req->execute(array($email, $password, $name, $firstname, $birthdate, $pseudo));
+                                $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
+                                $req->execute(array($email, $key, $email));
+                                sendMailConfirm($email, $key);
+                                $error = "Votre compte a bien été créé ! <a href=\"login.php\">Me connecter</a>";
+                                $status = 1;
+                            } else {
+                                $error = "Votre mot de passe doit faire au minimum 12 caractères.";
                             }
-                            $req = $db->prepare("INSERT INTO users(email,password,name,firstname,birth_date,pseudo) VALUES(?,?,?,?,?,?)");
-                            $req->execute(array($email, $password, $name, $firstname, $birthdate, $pseudo));
-                            $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
-                            $req->execute(array($email, $key, $email));
-                            sendMailConfirm($email, $key);
-                            $error = "Votre compte a bien été créé ! <a href=\"login.php\">Me connecter</a>";
-                            $status = 1;
                         } else {
-                            $error = "Votre mot de passe doit faire au minimum 12 caractères.";
+                            $error = "Vos mots de passe ne correspondent pas.";
                         }
                     } else {
-                        $error = "Vos mots de passe ne correspondent pas.";
+                        $error = "Cette adresse email existe déjà.";
                     }
                 } else {
-                    $error = "Cette adresse email existe déjà.";
+                    $error = "Votre adresse email n'est pas valide.";
                 }
             } else {
-                $error = "Votre adresse email n'est pas valide.";
+                $error = "Votre nom d'utilisateur ne doit pas dépasser 32 caractères !";
             }
         } else {
-            $error = "Votre nom d'utilisateur ne doit pas dépasser 32 caractères !";
+            $error = "Tous les champs doivent être complétés !";
         }
     } else {
-        $error = "Tous les champs doivent être complétés !";
+        $error = "Merci de remplir le captcha.";
     }
 }
 ?>
@@ -61,15 +81,7 @@ if (isset($_POST['form'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/login.css'>
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le1YZ4pAAAAAJRKez380JQpQuUFqPwzT-NxW0a7"></script>
-    <script>
-        function onClick(e) {
-            e.preventDefault();
-            grecaptcha.enterprise.ready(async () => {
-            const token = await grecaptcha.enterprise.execute('6Le1YZ4pAAAAAJRKez380JQpQuUFqPwzT-NxW0a7', {action: 'signup'});
-            });
-        }
-    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <section>
@@ -103,6 +115,9 @@ if (isset($_POST['form'])) {
                 <input type="date" class="form_input" name="birthdate" placeholder="" required/>
                 <label>Date de naissance</label>
             </div>
+            <div>
+                <div class="g-recaptcha" data-sitekey="6LeKHp8pAAAAAJLsKa4Rat4VGMWCypnGg0MUebG5"></div>
+            </div>
             <input type="submit" class="form_submit" name="form" value="S'inscrire"/>
             <?php 
             if (!isset($error)) {
@@ -114,7 +129,6 @@ if (isset($_POST['form'])) {
                 echo '<div class="error-message">'.$error.'</div>'; 
             }
             ?>
-            
         </form>
     </section>
 </body>
