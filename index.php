@@ -29,6 +29,7 @@
     <nav class="navbar">
     <ul>
             <?php
+            /* (isset($_SESSION['id'])) */
             if (true) {
                 echo "
                 <li><a href='#'><img class='icon' src='/WE4A_project/img/icon/debug.png' alt='Accueil'></a></li>
