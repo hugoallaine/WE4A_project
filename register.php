@@ -79,6 +79,7 @@ if (isset($_POST['form'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/login.css'>
+    <link rel='stylesheet' type='text/css' href='css/register.css'>
     <script src="../js/register.js" defer></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
@@ -87,38 +88,45 @@ if (isset($_POST['form'])) {
         <form method="POST" action="">
             <h1>Inscription à YGreg</h1>
             <div class="steps">
-                <div>
-                    <input type="text" class="form_input" name="pseudo" placeholder="" required/>
-                    <label>Pseudo</label>
+                <div class="step">
+                    <div>
+                        <input type="text" class="form_input" name="email" placeholder="" required/>
+                        <label>Adresse Mail</label>
+                    </div>
+                    <div>
+                        <input type="password" class="form_input" name="password" placeholder="" required/>
+                        <label>Mot de passe</label>
+                    </div>
+                    <div>
+                        <input type="password" class="form_input" name="password2" placeholder="" required/>
+                        <label>Confirmer le mot de passe</label>
+                    </div>
                 </div>
-                <div>
-                    <input type="text" class="form_input" name="email" placeholder="" required/>
-                    <label>Adresse Mail</label>
+                <div class="step">
+                    <div>
+                        <input type="text" class="form_input" name="name" placeholder="" required/>
+                        <label>Nom</label>
+                    </div>
+                    <div>
+                        <input type="text" class="form_input" name="firstname" placeholder="" required/>
+                        <label>Prénom</label>
+                    </div>
+                    <div>
+                        <input type="date" class="form_input" name="birthdate" placeholder="" required/>
+                        <label>Date de naissance</label>
+                    </div>
                 </div>
-                <div>
-                    <input type="password" class="form_input" name="password" placeholder="" required/>
-                    <label>Mot de passe</label>
+                <div class="step">
+                    <div>
+                        <input type="text" class="form_input" name="pseudo" placeholder="" required/>
+                        <label>Pseudo</label>
+                    </div>
+                    <div>
+                        <div class="g-recaptcha" data-sitekey="6LeKHp8pAAAAAJLsKa4Rat4VGMWCypnGg0MUebG5"></div>
+                    </div>
+                    <input type="submit" class="form_submit" name="form" value="S'inscrire"/>
                 </div>
-                <div>
-                    <input type="password" class="form_input" name="password2" placeholder="" required/>
-                    <label>Confirmer le mot de passe</label>
-                </div>
-            <div>
-                <input type="text" class="form_input" name="name" placeholder="" required/>
-                <label>Nom</label>
             </div>
-            <div>
-                <input type="text" class="form_input" name="firstname" placeholder="" required/>
-                <label>Prénom</label>
-            </div>
-            <div>
-                <input type="date" class="form_input" name="birthdate" placeholder="" required/>
-                <label>Date de naissance</label>
-            </div>
-            <div>
-                <div class="g-recaptcha" data-sitekey="6LeKHp8pAAAAAJLsKa4Rat4VGMWCypnGg0MUebG5"></div>
-            </div>
-            <input type="submit" class="form_submit" name="form" value="S'inscrire"/>
             <?php 
             if (!isset($error)) {
                 $error = "";
