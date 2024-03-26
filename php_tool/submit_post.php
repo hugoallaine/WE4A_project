@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/db.php';
 function sendPost($post) {
     global $db;
     $req = $db->prepare("INSERT INTO posts (id_user, content) VALUES (?, ?)");
-    $req->execute(array($_SESSION['id'], $post));
+    $req->execute(array(1, $post));
 }
 
 if (isset($_POST['postSubmit'])) {
