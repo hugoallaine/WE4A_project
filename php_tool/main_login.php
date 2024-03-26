@@ -21,13 +21,11 @@ if (isset($_POST['form'])) {
                             header("Location: /login.php");
                         }
                     } else {
-                        $_SESSION['id'] = $user['id'];
-                        $_SESSION['email'] = $user['email'];
-                        $_SESSION['isAdmin'] = $user['isAdmin'];
+                        createLoginCookie($user['email'], $user['token']);
                         if(isset($_GET['redirect'])) {
                             header("Location: ".$_GET['redirect']."");
                         } else {
-                            header("Location: index.php");
+                            header("Location: /index.php");
                         }
                     }
                 } else {

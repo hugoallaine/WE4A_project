@@ -37,12 +37,10 @@ if (isset($_POST['form'])) {
                         if ($password == $password2) {
                             if (strlen($password) >= 12) {
                                 $password = password_hash($password, PASSWORD_DEFAULT);
-                                $key = "";
-                                for($i=1;$i<255;$i++) {
-                                    $key .= mt_rand(0,9);
-                                }
-                                $req = $db->prepare("INSERT INTO users(email,password,name,firstname,birth_date,pseudo) VALUES(?,?,?,?,?,?)");
-                                $req->execute(array($email, $password, $name, $firstname, $birthdate, $pseudo));
+                                $key = generateToken(255);
+                                $token = generateToken(255);
+                                $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo) VALUES(?,?,?,?,?,?)");
+                                $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo));
                                 $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
                                 $req->execute(array($email, $key, $email));
                                 sendMailConfirm($email, $key);
@@ -81,28 +79,30 @@ if (isset($_POST['form'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/login.css'>
+    <script src="../js/register.js" defer></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <section>
         <form method="POST" action="">
             <h1>Inscription à YGreg</h1>
-            <div>
-                <input type="text" class="form_input" name="pseudo" placeholder="" required/>
-                <label>Pseudo</label>
-            </div>
-            <div>
-                <input type="text" class="form_input" name="email" placeholder="" required/>
-                <label>Adresse Mail</label>
-            </div>
-            <div>
-                <input type="password" class="form_input" name="password" placeholder="" required/>
-                <label>Mot de passe</label>
-            </div>
-            <div>
-                <input type="password" class="form_input" name="password2" placeholder="" required/>
-                <label>Confirmer le mot de passe</label>
-            </div>
+            <div class="steps">
+                <div>
+                    <input type="text" class="form_input" name="pseudo" placeholder="" required/>
+                    <label>Pseudo</label>
+                </div>
+                <div>
+                    <input type="text" class="form_input" name="email" placeholder="" required/>
+                    <label>Adresse Mail</label>
+                </div>
+                <div>
+                    <input type="password" class="form_input" name="password" placeholder="" required/>
+                    <label>Mot de passe</label>
+                </div>
+                <div>
+                    <input type="password" class="form_input" name="password2" placeholder="" required/>
+                    <label>Confirmer le mot de passe</label>
+                </div>
             <div>
                 <input type="text" class="form_input" name="name" placeholder="" required/>
                 <label>Nom</label>

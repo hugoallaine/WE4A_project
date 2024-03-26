@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__)."/2FA_config.php";
 
-if(!isset($_SESSION['email']) || !isset($_SESSION['isTfaEnabled'])){
-    header("Location: /index.php");
+if(!isset($_SESSION['email'])){
+    header("Location: /login.php");
 }
 
 use RobThree\Auth\TwoFactorAuth;
@@ -13,10 +13,8 @@ if(isset($_POST['tfa'])){
     $user = $req->fetch();
     $tfa = new TwoFactorAuth();
     if(!empty($_POST['tfa_code_app']) AND $tfa->verifyCode($user['tfa_code'], $_POST['tfa_code_app'])){
-        $_SESSION['id'] = $user['id'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['admin'] = $user['admin'];
-        unset($_SESSION['isTfaEnabled']);
+        createLoginCookie($_SESSION['email'], $user['token']);
+        unset($_SESSION['email']);
         if(isset($_GET['redirect'])){
             header("Location: ../".$_GET['redirect']."");
         } else {
