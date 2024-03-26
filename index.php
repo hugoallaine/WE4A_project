@@ -1,5 +1,6 @@
 <?php
 include 'php_tool/submit_post.php';
+require_once dirname(__FILE__).'/php_tool/db.php';
 ?>
 
 <!DOCTYPE html>
@@ -14,21 +15,23 @@ include 'php_tool/submit_post.php';
 </head>
 <body>
     <div class="feed-container">
-        <div class="feed">
-            <h2>Nom d'utilisateur</h2>
-            <a href="#"><img class="feed-avatar" src="/WE4A_project/img/icon/debug.png" alt="Avatar"></a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-        <div class="feed">
-            <h2>Nom d'utilisateur</h2>
-            <a href="#"><img class="feed-avatar" src="/WE4A_project/img/icon/debug.png" alt="Avatar"></a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-        <div class="feed">
-            <h2>Nom d'utilisateur</h2>
-            <a href="#"><img class="feed-avatar" src="/WE4A_project/img/icon/debug.png" alt="Avatar"></a>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
+        <?php
+
+        $req = $db->prepare("SELECT * FROM `posts` INNER JOIN users ON posts.id_user = users.id LIMIT 10");
+        $req->execute();
+        $posts = $req->fetchAll();
+
+        foreach ($posts as $post) {
+            echo "
+            <div class='feed'>
+                <h2>".$post['pseudo']."</h2>
+                <a href='#'><img class='feed-avatar' src='/WE4A_project/img/icon/debug.png' alt='Avatar'></a>
+                <p>".$post['content']."</p>
+            </div>
+            ";
+        }
+
+        ?>
     </div>
     <nav class="navbar">
     <ul>
@@ -51,11 +54,12 @@ include 'php_tool/submit_post.php';
         </ul>
     </nav>
     <div id="modalPost" class="modalPost" style="display: none;">
-        <form class ="formPost" method="POST" action="">
-            <textarea class="textAreaPost" placeholder="Saisir un message" required></textarea>
+        <form id="formPostId" class ="formPost" method="POST" action="">
+            <textarea id="textAreaPostId" name="textAreaPostId" class="textAreaPost" placeholder="Saisir un message" required></textarea>
             <input type="submit" class="postSubmit" name="postSubmit" value="Envoyer le message"/>
             <div class=error-message><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
         </form>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/WE4A_project/js/home.js"></script>
 </body>
