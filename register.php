@@ -89,44 +89,48 @@ if (isset($_POST['form'])) {
             <h1>Inscription à YGreg</h1>
             <div class="steps">
                 <div class="step">
-                    <div>
+                    <div class="container">
                         <input type="text" class="form_input" name="email" placeholder="" required/>
                         <label>Adresse Mail</label>
                     </div>
-                    <div>
+                    <div class="container">
                         <input type="password" class="form_input" name="password" placeholder="" required/>
                         <label>Mot de passe</label>
                     </div>
-                    <div>
+                    <div class="container">
                         <input type="password" class="form_input" name="password2" placeholder="" required/>
                         <label>Confirmer le mot de passe</label>
                     </div>
                 </div>
                 <div class="step">
-                    <div>
+                    <div class="container">
                         <input type="text" class="form_input" name="name" placeholder="" required/>
                         <label>Nom</label>
                     </div>
-                    <div>
+                    <div class="container">
                         <input type="text" class="form_input" name="firstname" placeholder="" required/>
                         <label>Prénom</label>
                     </div>
-                    <div>
+                    <div class="container">
                         <input type="date" class="form_input" name="birthdate" placeholder="" required/>
                         <label>Date de naissance</label>
                     </div>
                 </div>
                 <div class="step">
-                    <div>
+                    <div class="container">
                         <input type="text" class="form_input" name="pseudo" placeholder="" required/>
                         <label>Pseudo</label>
                     </div>
-                    <div>
+                    <div class="container">
                         <div class="g-recaptcha" data-sitekey="6LeKHp8pAAAAAJLsKa4Rat4VGMWCypnGg0MUebG5"></div>
                     </div>
                     <input type="submit" class="form_submit" name="form" value="S'inscrire"/>
                 </div>
             </div>
+            <div class="footer">
+				<input class="prev" disabled value="Annuler"/>
+				<input class="next" type="submit" name="confirm" value="Suivant"/>
+			</div>
             <?php 
             if (!isset($error)) {
                 $error = "";

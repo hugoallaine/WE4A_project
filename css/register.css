@@ -1,11 +1,53 @@
+section {
+	height: 50vh;
+	padding: 20px 20px 30px 20px;
+	border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+}
+
 .steps {
-	width:400%;
-	display:flex;
-	transition:all 300ms ease-in-out;
+	width: 300%;
+	display: flex;
+	transition: all 300ms ease-in-out;
 }
 
 .steps .step {
-	width:98vw;
-	max-width:400px;
-	padding: 10px 0px 20px 0px;
+	width: 100vw;
+	padding: 10px 0px 10px 0px;
+}
+
+form {
+	padding: 0;
+	box-shadow: none;
+	overflow: hidden;
+}
+
+.footer input {
+	padding: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border: none;
+	border-radius: 5px;
+	background-color: #008fee;
+	color: white;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.footer input:hover {
+	background-color: #0177c5;
+	color: white;
+}
+
+.footer input:disabled {
+	background-color: #ccc;
+	color: #666;
+	opacity: 0.5;
+}
+
+.footer {
+	margin-top: 15px;
+	padding: 15px 0px;
+	display: flex;
+	justify-content: space-evenly;
 }

@@ -57,11 +57,11 @@ if (isset($_POST['form'])) {
     <section>
         <form method="POST" action="">
             <h1>Connexion à YGreg</h1>
-            <div>
+            <div class="container">
                 <input type="text" class="form_input" name="user" placeholder="" required/>
                 <label>Adresse Mail</label>
             </div>
-            <div>
+            <div class="container">
                 <input type="password" class="form_input" name="password" placeholder="" required/>
                 <label>Mot de passe</label>
             </div>
