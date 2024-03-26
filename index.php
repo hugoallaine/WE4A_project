@@ -1,3 +1,7 @@
+<?php
+include 'php_tool/submit_post.php';
+?>
+
 <!DOCTYPE html>
 <html lang='fr'>
 <head>
@@ -47,7 +51,7 @@
         </ul>
     </nav>
     <div id="modalPost" class="modalPost" style="display: none;">
-        <form class ="formPost" method="POST" action="php_tool/submit_post.php">
+        <form class ="formPost" method="POST" action="">
             <textarea class="textAreaPost" placeholder="Saisir un message" required></textarea>
             <input type="submit" class="postSubmit" name="postSubmit" value="Envoyer le message"/>
             <div class=error-message><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
