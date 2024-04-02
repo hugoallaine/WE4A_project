@@ -79,6 +79,15 @@ label {
     pointer-events: none;
 }
 
+img {
+    position: absolute;
+    top: .4rem;
+    right: .8rem;
+    z-index: 2;
+    cursor: pointer;
+    width: 10%;
+}
+
 .form_submit {
     display: block;
     padding: .72rem 2rem;
@@ -116,4 +125,8 @@ label {
 
 .form_submit:hover {
     background-color: #0a7fa5;
+}
+
+input.invalid {
+    background-color: #ff0033;
 }

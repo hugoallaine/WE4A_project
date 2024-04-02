@@ -52,6 +52,7 @@ if (isset($_POST['form'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/login.css'>
+    <script src="js/login.js" defer></script>
 </head>
 <body>
     <section>
@@ -62,8 +63,10 @@ if (isset($_POST['form'])) {
                 <label>Adresse Mail</label>
             </div>
             <div class="container">
-                <input type="password" class="form_input" name="password" placeholder="" required/>
+                <input type="password" class="form_input" id="password" name="password" placeholder="" required/>
                 <label>Mot de passe</label>
+                <img src="img/icon/password_hide.png" alt="Show/Hide Password" class="show-password" onmouseover="ShowPass_MouseOn(this)" 
+				onmouseout="ShowPass_MouseOff(this)" onclick="TogglePassword(this)"/>
             </div>
             <input type="submit" class="form_submit" name="form" value="Se connecter"/>
             <div class=error-message><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
