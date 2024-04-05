@@ -18,7 +18,6 @@ $(document).ready(function(){
             url: 'php_tool/submit_post.php',
             data: formData,
             success: function(response){
-                document.getElementById('modalPost').style.display = 'none';
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
             }
