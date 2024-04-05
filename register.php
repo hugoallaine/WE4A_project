@@ -3,6 +3,7 @@ require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
 require_once dirname(__FILE__).'/php_tool/db.php';
 require_once dirname(__FILE__).'/php_tool/mails.php';
 require_once dirname(__FILE__).'/php_tool/vendor/autoload.php';
+redirectIfConnected();
 
 function getIp(){
     if(!empty($_SERVER['HTTP_CLIENT_IP'])){
