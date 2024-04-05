@@ -24,6 +24,7 @@ $(document).ready(function(){
             success: function(response){
                 document.getElementById('modalPost').style.display = 'none';
                 document.getElementById('formPostId').reset();
+                $('#modalPost').modal('hide');
             }
         });
     });
