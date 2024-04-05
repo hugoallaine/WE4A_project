@@ -42,8 +42,8 @@ require_once dirname(__FILE__).'/php_tool/db.php';
 
                 ?>
             </div>
-            <div class="col-md-1">
-                <nav class="nav flex-column">
+            <div class="col-md-1 p-0">
+                <nav class="nav flex-column bg-secondary-subtle">
                     
                 
                     <?php
