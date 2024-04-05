@@ -11,8 +11,6 @@ require_once dirname(__FILE__).'/php_tool/db.php';
     <title>YGreg - Home</title>
     <link rel="icon" type="image/png" href="img/logo/YGreg_logo.png"/>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' href='css/default.css'>
-    <link rel='stylesheet' type='text/css' href='css/home.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
@@ -35,7 +33,7 @@ require_once dirname(__FILE__).'/php_tool/db.php';
                     echo "
                     <div class='feed'>
                         <h2>".$post['pseudo']."</h2>
-                        <a href='#'><img class='feed-avatar' src='/WE4A_project/img/icon/debug.png' alt='Avatar'></a>
+                        <a href='#'><img class='feed-avatar w-50' src='/WE4A_project/img/icon/debug.png' alt='Avatar'></a>
                         <p>".$post['content']."</p>
                     </div>
                     ";
@@ -51,10 +49,10 @@ require_once dirname(__FILE__).'/php_tool/db.php';
                     /* (isset($_SESSION['id'])) */
                     if (true) {
                         echo "
-                        <a class='nav-link icon' href='#'><img src='/WE4A_project/img/icon/debug.png' alt='Accueil'></a>
-                        <a class='nav-link icon' href='#'><img src='/WE4A_project/img/icon/debug.png' alt='Profile'></a>
-                        <a class='nav-link icon buttonWritePost' href='#'><img src='/WE4A_project/img/icon/debug.png' alt='Ecrire un post'></a>
-                        <a class='nav-link icon' href='#'><img src='/WE4A_project/img/icon/debug.png' alt='Déconnexion'></a>
+                        <a class='nav-link icon' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Accueil'></a>
+                        <a class='nav-link icon' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Profile'></a>
+                        <a class='nav-link icon buttonWritePost' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Ecrire un post'></a>
+                        <a class='nav-link icon' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Déconnexion'></a>
                         ";
                     } else {
                         echo "
