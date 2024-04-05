@@ -12,6 +12,7 @@ require_once dirname(__FILE__).'/php_tool/db.php';
     <title>YGreg - Home</title>
     <link rel="icon" type="image/png" href="img/logo/YGreg_logo.png"/>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="/WE4A_project/css/test.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
@@ -23,30 +24,31 @@ require_once dirname(__FILE__).'/php_tool/db.php';
             
             <div class="col-md-2 col-xs-0"></div>
                 
-            <div class="feed-container col-md-7 col-10 bg-primary-subtle">
-
-                
-
+            <div class="feed-container col-md-7 col-10 p-0">      
 
                 <?php
 
-                $req = $db->prepare("SELECT * FROM `posts` INNER JOIN users ON posts.id_user = users.id LIMIT 3");
+                $req = $db->prepare("SELECT * FROM `posts` INNER JOIN users ON posts.id_user = users.id LIMIT 10");
                 $req->execute();
                 $posts = $req->fetchAll();
 
                 foreach ($posts as $post) {
                     echo "
-                    <div class='feed'>
-                        <h2>".$post['pseudo']."</h2>
-                        <a href='#'><img class='feed-avatar w-50' src='/WE4A_project/img/icon/debug.png' alt='Avatar'></a>
-                        <p>".$post['content']."</p>
+                    <div class='card rounded-0 animated-post'>
+                        <div class='card-body'>
+                            <div class='d-flex align-items-center'>
+                                <img src='/WE4A_project/img/icon/debug.png' width='32' height='32' alt='Avatar' class='mr-2'>
+                                <h5 class='card-title m-0'>".$post['pseudo']."</h5>
+                            </div>
+                            <p>".$post['content']."</p>
+                        </div>
                     </div>
                     ";
                 }
 
                 ?>
             </div>
-            <div class="col-md-1 col-2 bg-secondary-subtle p-0">
+            <div class="col-md-1 col-2 bg-secondary-subtle p-0 vh-100">
                 <nav class="nav flex-column">
                     
                 
@@ -69,6 +71,7 @@ require_once dirname(__FILE__).'/php_tool/db.php';
     
                 </nav>
             </div>
+            <!-- Pop-up to write a post -->
             <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -87,7 +90,6 @@ require_once dirname(__FILE__).'/php_tool/db.php';
                     </div>
                 </div>
             </div>
-
 
             <div class="col-md-2 col-xs-0"></div>
 
