@@ -21,9 +21,13 @@ require_once dirname(__FILE__).'/php_tool/db.php';
 
         <div class="row">
             
-            <div class="col-md-3"></div>
+            <div class="col-md-2 col-xs-0"></div>
                 
-            <div class="feed-container col-md-5 bg-primary-subtle">
+            <div class="feed-container col-md-7 col-10 bg-primary-subtle">
+
+                
+
+
                 <?php
 
                 $req = $db->prepare("SELECT * FROM `posts` INNER JOIN users ON posts.id_user = users.id LIMIT 3");
@@ -42,8 +46,8 @@ require_once dirname(__FILE__).'/php_tool/db.php';
 
                 ?>
             </div>
-            <div class="col-md-1 p-0">
-                <nav class="nav flex-column bg-secondary-subtle">
+            <div class="col-md-1 col-2 bg-secondary-subtle p-0">
+                <nav class="nav flex-column">
                     
                 
                     <?php
@@ -85,7 +89,7 @@ require_once dirname(__FILE__).'/php_tool/db.php';
             </div>
 
 
-            <div class="col-md-3"></div>
+            <div class="col-md-2 col-xs-0"></div>
 
         </div>
 
