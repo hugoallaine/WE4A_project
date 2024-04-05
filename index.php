@@ -23,7 +23,7 @@ require_once dirname(__FILE__).'/php_tool/db.php';
             
             <div class="col-md-3"></div>
                 
-            <div class="feed-container col-md-5">
+            <div class="feed-container col-md-5 bg-primary-subtle">
                 <?php
 
                 $req = $db->prepare("SELECT * FROM `posts` INNER JOIN users ON posts.id_user = users.id LIMIT 3");
@@ -52,7 +52,7 @@ require_once dirname(__FILE__).'/php_tool/db.php';
                         echo "
                         <a class='nav-link icon' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Accueil'></a>
                         <a class='nav-link icon' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Profile'></a>
-                        <a class='nav-link icon buttonWritePost' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Ecrire un post'></a>
+                        <a class='nav-link icon buttonWritePost' href='#' data-bs-toggle='modal' data-bs-target='#modalPost'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Ecrire un post'></a>   
                         <a class='nav-link icon' href='#'><img class='w-100' src='/WE4A_project/img/icon/debug.png' alt='Déconnexion'></a>
                         ";
                     } else {
@@ -65,13 +65,25 @@ require_once dirname(__FILE__).'/php_tool/db.php';
     
                 </nav>
             </div>
-            <div id="modalPost" class="modalPost" style="display: none;">
-                <form id="formPostId" class ="formPost" method="POST" action="">
-                    <textarea id="textAreaPostId" name="textAreaPostId" class="textAreaPost" placeholder="Saisir un message" required></textarea>
-                    <input type="submit" class="postSubmit" name="postSubmit" value="Envoyer le message"/>
-                    <div class=error-message><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
-                </form>
+            <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form id="formPostId" class="formPost" method="POST" action="">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalPostLabel">Nouveau message</h5>
+                            </div>
+                            <div class="modal-body">
+                                <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder="Saisir un message" required></textarea>
+                                <div class="error-message"><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>                                <input type="submit" class="btn btn-primary" name="postSubmit" value="Envoyer le message"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+
 
             <div class="col-md-3"></div>
 
