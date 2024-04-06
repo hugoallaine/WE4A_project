@@ -1,3 +1,12 @@
+function TogglePassword(checked) {
+    var x = document.getElementById("password");
+    if (checked) {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
 $(document).ready(function(){
     $('.textAreaPost').on('keydown', function(e) {
         // Si la touche pressée est Entrée
@@ -21,6 +30,23 @@ $(document).ready(function(){
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
             }
+        });
+    });
+
+    $('#formLoginId').submit(function(e){
+        e.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+        
+        // Récupérer les données du formulaire
+        var formData = $(this).serialize();
+        // Envoyer les données du formulaire via AJAX
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/main_login.php',
+            data: formData,
+            success: function(response){
+                console.log(response);
+                document.getElementById('formLoginId').reset();
+            },
         });
     });
 });

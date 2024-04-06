@@ -72,7 +72,7 @@ session_start();
                         </ul>
                     </div>
                     <?php else: ?>
-                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none">
+                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
                         <img src="img/icon/utilisateur.png" alt="" width="32" height="32" class="rounded-circle me-3">
                         <strong>Se connecter</strong>
                     </a>
@@ -84,7 +84,7 @@ session_start();
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid d-flex justify-content-space-around">
                         <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search">
+                            <input class="form-control me-2" type="search" name="searchbar" placeholder="Rechercher" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit"><img src="img/icon/loupe.png"
                                     class="img-fluid d-block mx-auto" width="30"></button>
                         </form>
@@ -106,6 +106,39 @@ session_start();
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>                                
                                     <input type="submit" class="btn btn-primary" name="postSubmit" value="Envoyer le message"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal - Se connecter -->
+                <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form id="formLoginId" class="formLogin" method="POST" action="">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLoginLabel">Se connecter</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="username" name="user" placeholder="" required/>
+                                        <label for="username" class="form-label">Adresse Mail</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="" required/>
+                                        <label for="password" class="form-label">Mot de passe</label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="showpassword" onchange="TogglePassword(this.checked)">
+                                        <label class="form-check-label" for="showpassword">
+                                            Montrer le mot de passe
+                                        </label>
+                                    </div>
+                                    <div class="text-danger"><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>                                
+                                    <input type="submit" class="btn btn-primary" name="formLogin" value="Valider"/>
                                 </div>
                             </form>
                         </div>
