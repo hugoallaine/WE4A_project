@@ -1,15 +1,15 @@
 <?php
-require_once dirname(__FILE__) . '/php_tool/alreadyConnected.php';
+require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
 //redirectIfNotConnected();
 require_once dirname(__FILE__).'/php_tool/submit_post.php';
 require_once dirname(__FILE__).'/php_tool/db.php';
 
 $currentPage = 'Accueil';
 
-require_once dirname(__FILE__) . '/php_tool/template_top.php';
+require_once dirname(__FILE__).'/php_tool/template_top.php';
 ?>
 <main>
-    <div class="feed-container col-md-7 col-10 p-0">
+    <div class="feed-container col-8 p-0">
         <?php
         $req = $db->prepare("SELECT * FROM `posts` INNER JOIN users ON posts.id_user = users.id LIMIT 10");
         $req->execute();
@@ -31,5 +31,5 @@ require_once dirname(__FILE__) . '/php_tool/template_top.php';
     </div>
 </main>
 <?php
-require_once dirname(__FILE__) . '/php_tool/template_bot.php';
+require_once dirname(__FILE__).'/php_tool/template_bot.php';
 ?>

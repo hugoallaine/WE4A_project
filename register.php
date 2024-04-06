@@ -1,9 +1,10 @@
 <?php
 require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
+redirectIfConnected();
 require_once dirname(__FILE__).'/php_tool/db.php';
 require_once dirname(__FILE__).'/php_tool/mails.php';
 require_once dirname(__FILE__).'/php_tool/vendor/autoload.php';
-redirectIfConnected();
+require_once dirname(__FILE__).'/php_tool/json.php';
 
 function getIp(){
     if(!empty($_SERVER['HTTP_CLIENT_IP'])){
@@ -17,7 +18,7 @@ function getIp(){
 }
 
 if (isset($_POST['form'])) {
-    $recaptcha = new \ReCaptcha\ReCaptcha('6LeKHp8pAAAAAAocYWWv_6N7Q5YgOX6skXCDS0zW');
+    $recaptcha = new \ReCaptcha\ReCaptcha($json['reCaptcha_secret']);
     $gRecaptchaResponse = $_POST['g-recaptcha-response'];
     $resp = $recaptcha->setExpectedHostname('localhost')->verify($gRecaptchaResponse, getIp());
     if ($resp->isSuccess()) {
@@ -123,7 +124,7 @@ if (isset($_POST['form'])) {
                         <label>Pseudo</label>
                     </div>
                     <div class="container">
-                        <div class="g-recaptcha" data-sitekey="6LeKHp8pAAAAAJLsKa4Rat4VGMWCypnGg0MUebG5"></div>
+                        <div class="g-recaptcha" data-sitekey="6LeClLIpAAAAAIt1EesWjZ_TEuMne4QRk-TTuBQ2"></div>
                     </div>
                     <input type="submit" class="form_submit" name="form" value="S'inscrire"/>
                 </div>

@@ -4,20 +4,22 @@ use PHPMailer\PHPMailer\Exception;
 require_once dirname(__FILE__).'/vendor/PHPMailer/src/PHPMailer.php';
 require_once dirname(__FILE__).'/vendor/PHPMailer/src/Exception.php';
 require_once dirname(__FILE__).'/vendor/PHPMailer/src/SMTP.php';
+require_once dirname(__FILE__).'/json.php';
 
 function sendMail($destinataire, $sujet, $message) {
+    global $json;
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host = 'mail.allaine.cc';
+        $mail->Host = $json['mailserver'];
         $mail->SMTPAuth = true;
-        $mail->Username = 'ygreg@allaine.cc';
-        $mail->Password = 'JzVk&V^x7c&kW6TB2XYHfgxQNP9rh5iz@o%8$E2CvxXw6C*xwfUraetz%pJqs6Qd';
+        $mail->Username = $json['SMTP_user'];
+        $mail->Password = $json['SMTP_password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = 465;
-        $mail->setFrom('ygreg@allaine.cc', 'YGreg');
+        $mail->Port = $json['SMTP_port'];
+        $mail->setFrom($json['SMTP_user'], 'YGreg');
         $mail->addAddress($destinataire);
-        $mail->addReplyTo('no-reply@allaine.cc','No-Reply');
+        $mail->addReplyTo($json['SMTP_noreply'],'No-Reply');
         $mail->isHTML(true);
         $mail->Subject = $sujet;
         $mail->Body = $message;

@@ -8,7 +8,7 @@ function sendPost($post) {
     global $db;
     $req = $db->prepare("INSERT INTO posts (id_user, content) VALUES (?, ?)");
     /* Change 2, by $_SESSION['id'] */
-    $req->execute(array(1, $post));
+    $req->execute(array(6, $post));
 }
 
 if (isset($_POST['textAreaPostId'])) {
