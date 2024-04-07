@@ -52,6 +52,7 @@ $(document).ready(function(){
                     $('#modalLogin').modal('hide');
                     var loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
                     loginToast.show();
+                    location.reload();
                 }
                 document.getElementById('formLoginId').reset();
             },
