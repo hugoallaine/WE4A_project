@@ -68,7 +68,7 @@ session_start();
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Se déconnecter</a></li>
+                            <li><a id="logout-button" class="dropdown-item" href="#">Se déconnecter</a></li>       
                         </ul>
                     </div>
                     <?php else: ?>
@@ -96,12 +96,13 @@ session_start();
                         </div>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" name="searchbar" placeholder="Rechercher" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit"><img src="img/icon/loupe.png"
+                            <button class="btn btn-outline-primary" type="submit"><img src="img/icon/loupe.png"
                                     class="img-fluid d-block mx-auto" width="30"></button>
                         </form>
-                        <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#modalPost'>Écrire un Greg</button>
+                        <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#<?php if(isset($_SESSION['id'])){echo "modalPost";}else{echo "modalLogin";} ?>'>Écrire un Greg</button>
                     </div>
                 </nav>
+                <?php if(isset($_SESSION['id'])): ?>
                 <!-- Modal - Ecrire un tweet -->
                 <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -121,6 +122,7 @@ session_start();
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
                 <!-- Modal - Se connecter -->
                 <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
