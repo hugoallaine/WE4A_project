@@ -44,7 +44,9 @@ $(document).ready(function(){
             url: 'php_tool/main_login.php',
             data: formData,
             success: function(response){
-                console.log(response);
+                if (response.error) {
+                    $('#error_message').text(response.message);
+                }
                 document.getElementById('formLoginId').reset();
             },
         });

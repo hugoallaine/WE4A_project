@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/db.php';
 
-if (isset($_POST['formLogin'])) {
+if (isset($_POST['user']) && isset($_POST['password'])) {
     $email = SecurizeString_ForSQL($_POST['user']);
     $password = SecurizeString_ForSQL($_POST['password']);
     if (!empty($email) AND !empty($password)) {
@@ -30,5 +30,10 @@ if (isset($_POST['formLogin'])) {
     } else {
         $error = "Tous les champs doivent être complétés.";
     }
+}
+
+if (isset($error)) {
+    header('Content-Type: application/json');
+    echo json_encode(array('error' => true,'message' => $error));
 }
 ?>

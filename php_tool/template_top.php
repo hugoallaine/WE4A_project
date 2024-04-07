@@ -101,7 +101,6 @@ session_start();
                                 </div>
                                 <div class="modal-body">
                                     <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder="Saisir un message" required></textarea>
-                                    <div class="error-message"><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>                                
@@ -134,7 +133,7 @@ session_start();
                                             Montrer le mot de passe
                                         </label>
                                     </div>
-                                    <div class="text-danger"><?php if(isset($error)){echo '<p>'.$error."</p>";} ?></div>
+                                    <div id="error_message" class="text-danger"></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>                                
