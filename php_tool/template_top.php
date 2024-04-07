@@ -83,6 +83,17 @@ session_start();
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid d-flex justify-content-space-around">
+                        <div class="dropdown">
+                        <button class="btn btn-light dropdown" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="img/icon/filtre.png" class="img-fluid d-block mx-auto" width="30">
+                        </button>
+                            <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                <li><a class="dropdown-item" href="#">Filtre 1</a></li>
+                                <li><a class="dropdown-item" href="#">Filtre 2</a></li>
+                                <li><a class="dropdown-item" href="#">Filtre 3</a></li>
+                                <!-- Ajoutez autant de filtres que vous le souhaitez -->
+                            </ul>
+                        </div>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" name="searchbar" placeholder="Rechercher" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit"><img src="img/icon/loupe.png"
@@ -96,13 +107,13 @@ session_start();
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <form id="formPostId" class="formPost" method="POST" action="">
-                                <div class="modal-header">
+                                <div class="modal-header border-bottom-0">
                                     <h5 class="modal-title" id="modalPostLabel">Nouveau message</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder="Saisir un message" required></textarea>
+                                    <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder="Saisir un message" required style="resize: none; height:20vh"></textarea>
                                 </div>
-                                <div class="modal-footer">
+                                <div class="modal-footer border-top-0">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>                                
                                     <input type="submit" class="btn btn-primary" name="postSubmit" value="Envoyer le message"/>
                                 </div>
