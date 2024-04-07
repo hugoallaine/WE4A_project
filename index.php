@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
-//redirectIfNotConnected();
 require_once dirname(__FILE__).'/php_tool/submit_post.php';
 require_once dirname(__FILE__).'/php_tool/db.php';
 
@@ -19,7 +18,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 <div class='card rounded-0 animated-post'>
                     <div class='card-body'>
                         <div class='d-flex align-items-center'>
-                            <img src='/WE4A_project/img/icon/debug.png' width='32' height='32' alt='Avatar' class='mr-2'>
+                            <img src='/WE4A_project/img/avatar/utilisateur.png' width='32' height='32' alt='Avatar' class='mr-2'>
                             <h5 class='card-title m-0'>" . $post['pseudo'] . "</h5>
                         </div>
                         <p>" . $post['content'] . "</p>

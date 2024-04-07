@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
-//redirectIfNotConnected();
 
 $currentPage = 'Profil';
 
