@@ -16,6 +16,7 @@ $(document).ready(function(){
         }
     });
 
+    /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function(e){
         e.preventDefault(); // Empêcher le formulaire de se soumettre normalement
         
@@ -33,6 +34,7 @@ $(document).ready(function(){
         });
     });
 
+    /* Login */
     $('#formLoginId').submit(function(e){
         e.preventDefault(); // Empêcher le formulaire de se soumettre normalement
         
@@ -53,6 +55,23 @@ $(document).ready(function(){
                 }
                 document.getElementById('formLoginId').reset();
             },
+        });
+    });
+
+    /* Logout */
+    $('#logout-button').click(function(e){
+        e.preventDefault();
+    
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/logout.php',
+            success: function(){
+                location.reload();
+            },
+            error: function(){
+
+                console.log('Erreur lors de la déconnexion');
+            }
         });
     });
 });
