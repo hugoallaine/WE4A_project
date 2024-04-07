@@ -59,8 +59,8 @@ session_start();
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                             id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="img/icon/utilisateur.png" alt="" width="32" height="32" class="rounded-circle me-3">
-                            <strong>Pseudo</strong>
+                            <img src="img/avatar/<?php echo $_SESSION['avatar']; ?>" alt="" width="32" height="32" class="rounded-circle me-3">
+                            <strong><?php echo $_SESSION['pseudo']; ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                             <li><a class="dropdown-item" href="#">Paramètres</a></li>
@@ -73,7 +73,7 @@ session_start();
                     </div>
                     <?php else: ?>
                     <a href="#" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
-                        <img src="img/icon/utilisateur.png" alt="" width="32" height="32" class="rounded-circle me-3">
+                        <img src="img/avatar/utilisateur.png" alt="" width="32" height="32" class="rounded-circle me-3">
                         <strong>Se connecter</strong>
                     </a>
                     <?php endif; ?>

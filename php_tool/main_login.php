@@ -1,11 +1,12 @@
 <?php
+session_start();
 require_once dirname(__FILE__).'/db.php';
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
     $email = SecurizeString_ForSQL($_POST['user']);
     $password = SecurizeString_ForSQL($_POST['password']);
     if (!empty($email) AND !empty($password)) {
-        $req = $db->prepare("SELECT id,email,password,pseudo,verified,isTfaEnabled,isAdmin FROM users WHERE email = ?");
+        $req = $db->prepare("SELECT id,email,password,pseudo,avatar,verified,isTfaEnabled,isAdmin FROM users WHERE email = ?");
         $req->execute(array($email));
         $isUserExist = $req->rowCount();
         if ($isUserExist) {
@@ -16,7 +17,12 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['isTfaEnabled'] = $user['isTfaEnabled'];
                     } else {
-                        createLoginCookie($user['email'], $user['token']);
+                        $_SESSION['id'] = $user['id'];
+                        $_SESSION['email'] = $user['email'];
+                        $_SESSION['pseudo'] = $user['pseudo'];
+                        $_SESSION['avatar'] = $user['avatar'];
+                        $_SESSION['isAdmin'] = $user['isAdmin'];
+                        //createLoginCookie($user['email'], $user['token']);
                     }
                 } else {
                     $error = "Votre adresse mail n'a pas été confirmé, consultez votre boite mail.";
