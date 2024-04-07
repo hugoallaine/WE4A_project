@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/toast.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
     <script src="/WE4A_project/js/template.js" defer></script>
 </head>
-<body>
+<body style="overflow: hidden;">
     <div class="container-fluid">
         <!-- Container principal -->
         <div class="row">
@@ -113,7 +113,7 @@ require_once dirname(__FILE__).'/toast.php';
                                     <h5 class="modal-title" id="modalPostLabel">Nouveau message</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder="Saisir un message" required style="resize: none; height:20vh"></textarea>
+                                    <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder="Saisir un message" required style="resize: none; height:30vh"></textarea>
                                 </div>
                                 <div class="modal-footer border-top-0">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>                                
