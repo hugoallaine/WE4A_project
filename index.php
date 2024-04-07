@@ -8,12 +8,14 @@ $currentPage = 'Accueil';
 require_once dirname(__FILE__).'/php_tool/template_top.php';
 ?>
 <main>
-    <div class="feed-container col-8 p-0">
+    
+    <div class="feed-container col-8 p-0 overflow-auto vh-100">
         <?php
         $req = $db->prepare("SELECT * FROM `posts` INNER JOIN users ON posts.id_user = users.id LIMIT 10");
         $req->execute();
         $posts = $req->fetchAll();
         foreach ($posts as $post) {
+
             echo "
                 <div class='card rounded-0 animated-post'>
                     <div class='card-body'>
