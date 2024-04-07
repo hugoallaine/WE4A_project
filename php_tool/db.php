@@ -1,8 +1,10 @@
 <?php
-$servername = "localhost";
-$username = "php";
-$password = "chuApPg9*rGqcxWqXH8#!q%Rc7M4Re5e#EHokYx8L";
-$dbname = "ygreg";
+require_once dirname(__FILE__).'/json.php';
+
+$servername = $json['db_host'];
+$username = $json['db_user'];
+$password = $json['db_password'];
+$dbname = $json['db_name'];
 try {
     $db = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
