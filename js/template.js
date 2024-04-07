@@ -46,6 +46,10 @@ $(document).ready(function(){
             success: function(response){
                 if (response.error) {
                     $('#error_message').text(response.message);
+                } else {
+                    $('#modalLogin').modal('hide');
+                    var loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
+                    loginToast.show();
                 }
                 document.getElementById('formLoginId').reset();
             },
