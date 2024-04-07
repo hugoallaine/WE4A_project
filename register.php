@@ -41,7 +41,7 @@ if (isset($_POST['form'])) {
                                 $password = password_hash($password, PASSWORD_DEFAULT);
                                 $key = generateToken(255);
                                 $token = generateToken(255);
-                                $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo) VALUES(?,?,?,?,?,?)");
+                                $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo) VALUES(?,?,?,?,?,?,?)");
                                 $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo));
                                 $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
                                 $req->execute(array($email, $key, $email));
@@ -81,8 +81,6 @@ if (isset($_POST['form'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='css/default.css'>
     <link rel='stylesheet' type='text/css' href='css/login.css'>
-    <link rel='stylesheet' type='text/css' href='css/register.css'>
-    <script src="../js/register.js" defer></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
@@ -129,10 +127,6 @@ if (isset($_POST['form'])) {
                     <input type="submit" class="form_submit" name="form" value="S'inscrire"/>
                 </div>
             </div>
-            <div class="footer">
-				<input class="prev" disabled value="Annuler"/>
-				<input class="next" type="submit" name="confirm" value="Suivant"/>
-			</div>
             <?php 
             if (!isset($error)) {
                 $error = "";
