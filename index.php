@@ -33,7 +33,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                             <div class='col-1'>
                                 <div class='row'>
                                     <div class='col-12 p-0'>
-                                        <button class='btn'>
+                                        <button class='btn like-button' " . (isset($_SESSION['id']) ? "data-post-id='" . $post['id'] . "'" : "data-bs-toggle='modal' data-bs-target='#modalLogin'") . ">
                                             <img src='/WE4A_project/img/icon/like.png' alt='like button' class='img-fluid' >
                                         </button>
                                     </div>
