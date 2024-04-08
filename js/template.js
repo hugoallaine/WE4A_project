@@ -101,4 +101,22 @@ $(document).ready(function(){
             }
         });
     });
+
+    /* Like post */
+    $('.like-button').click(function() {
+        var postId = $(this).data('post-id');
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/like_post.php',
+            data: {post_id: postId},
+            success: function(response){
+                // Handle the response from the server
+                console.log(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Handle any errors
+                console.error(textStatus, errorThrown);
+            }
+        });
+    });
 });
