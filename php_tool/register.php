@@ -1,27 +1,15 @@
 <?php
-require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
-redirectIfConnected();
 require_once dirname(__FILE__).'/php_tool/db.php';
 require_once dirname(__FILE__).'/php_tool/mails.php';
-require_once dirname(__FILE__).'/php_tool/vendor/autoload.php';
 require_once dirname(__FILE__).'/php_tool/json.php';
 
-function getIp(){
-    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }else{
-        $ip = $_SERVER['REMOTE_ADDR'];
-    }
-    return $ip;
-}
-
 if (isset($_POST['form'])) {
+    /*
     $recaptcha = new \ReCaptcha\ReCaptcha($json['reCaptcha_secret']);
     $gRecaptchaResponse = $_POST['g-recaptcha-response'];
     $resp = $recaptcha->setExpectedHostname('localhost')->verify($gRecaptchaResponse, getIp());
-    if ($resp->isSuccess()) {
+    */
+    if (true) {
         $pseudo = SecurizeString_ForSQL($_POST['pseudo']);
         $email = SecurizeString_ForSQL($_POST['email']);
         $password = SecurizeString_ForSQL($_POST['password']);
@@ -41,7 +29,7 @@ if (isset($_POST['form'])) {
                                 $password = password_hash($password, PASSWORD_DEFAULT);
                                 $key = generateToken(255);
                                 $token = generateToken(255);
-                                $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo) VALUES(?,?,?,?,?,?,?)");
+                                $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo,avatar) VALUES(?,?,?,?,?,?,?,?)");
                                 $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo));
                                 $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
                                 $req->execute(array($email, $key, $email));

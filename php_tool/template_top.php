@@ -199,26 +199,46 @@ require_once dirname(__FILE__).'/toast.php';
                                             Montrer le mot de passe
                                         </label>
                                     </div>
+                                    <hr>
+                                    <div class="mb-3">
+                                        <label for="pseudo" class="form-label">Pseudo</label>
+                                        <input type="text" class="form-control" id="pseudo" aria-label="pseudo">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="avatar" class="form-label">Avatar</label>
+                                        <input type="file" class="form-control" id="avatar" aria-label="avatar">
+                                    </div>
+                                    <hr>
                                     <div class="row mb-3">
                                         <div class="col">
-                                            <input type="text" class="form-control" placeholder="Prénom" aria-label="Prénom">
+                                            <label for="firstname" class="form-label">Prénom</label>
+                                            <input type="text" class="form-control" id="firstname" aria-label="Prénom">
                                         </div>
                                         <div class="col">
-                                            <input type="text" class="form-control" placeholder="Nom" aria-label="Nom">
+                                            <label for="name" class="form-label">Nom</label>
+                                            <input type="text" class="form-control" id="name" aria-label="Nom">
                                         </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="birthdate" class="form-label">Date de naissance</label>
+                                        <input type="date" class="form-control" id="birthdate" aria-label="birthdate">
                                     </div>
                                     <div class="row g-3">
                                         <div class="col-12">
-                                            <input type="text" class="form-control" id="inputAddress" placeholder="Adresse">
+                                            <label for="inputAddress" class="form-label">Adresse</label>
+                                            <input type="text" class="form-control" id="inputAddress">
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" id="inputCity" placeholder="Ville">
+                                            <label for="inputCity" class="form-label">Ville</label>
+                                            <input type="text" class="form-control" id="inputCity">
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" id="inputZip" placeholder="Code Postal">
+                                            <label for="inputZip" class="form-label">Code Postal</label>
+                                            <input type="text" class="form-control" id="inputZip">
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" id="inputCountry" placeholder="Pays">
+                                            <label for="inputCountry" class="form-label">Pays</label>
+                                            <input type="text" class="form-control" id="inputCountry">
                                         </div>
                                     </div>
                                     <div id="error-message-r" class="text-danger"></div>
