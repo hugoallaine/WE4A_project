@@ -19,11 +19,29 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
             echo "
                 <div class='card rounded-0 animated-post'>
                     <div class='card-body'>
-                        <div class='d-flex align-items-center'>
-                            <img src='/WE4A_project/img/avatar/utilisateur.png' width='32' height='32' alt='Avatar' class='mr-2'>
-                            <h5 class='card-title m-0'>" . $post['pseudo'] . "</h5>
+                        <div class='row'>
+                            <div class='col-1'>
+                                <img src='/WE4A_project/img/avatar/utilisateur.png' width='32' height='32' alt='Avatar' class='mr-2'>
+                                <h5 class='card-title m-0'>" . $post['pseudo'] . "</h5>
+                                <h6 class='card-subtitle mb-2 text-muted'>" . $post['created_at'] . "</h6>
+                            </div>
+                            <div class='col'>
+                                <p>" . $post['content'] . "</p>
+                            </div>
+                            <div class='col-1'>
+                                <div class='row'>
+                                    <div class='col-12'>
+                                        <button class='btn p-1'>
+                                            <img src='/WE4A_project/img/icon/like.png' alt='like button' class='img-fluid' >
+                                        </button>
+                                    </div>
+                                    <div class='col-12'>
+                                        <button class='btn p-1'>
+                                            <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
+                                        </button>
+                                    </div>
+                            </div>
                         </div>
-                        <p>" . $post['content'] . "</p>
                     </div>
                 </div>
                 ";
