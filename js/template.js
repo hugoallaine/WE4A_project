@@ -50,7 +50,7 @@ $(document).ready(function(){
                     $('#error_message').text(response.message);
                 } else {
                     $('#modalLogin').modal('hide');
-                    var loginToast = new bootstrap.Toast(document.getElementById('Toast'));
+                    var loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
                     loginToast.show();
                     setTimeout(function() {
                         location.reload();

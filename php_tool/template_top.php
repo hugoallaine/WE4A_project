@@ -159,6 +159,6 @@ require_once dirname(__FILE__).'/toast.php';
                 </div>
                 <!-- Toast -->
                 <?php 
-                successToast('Connexion réussie');
+                successToast('Connexion réussie','loginToast');
                 ?>
                 <!-- Main -->

@@ -20,7 +20,11 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
                         $_SESSION['id'] = $user['id'];
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['pseudo'] = $user['pseudo'];
-                        $_SESSION['avatar'] = $user['avatar'];
+                        if (empty($user['avatar'])) {
+                            $_SESSION['avatar'] = "utilisateur.png";
+                        } else {
+                            $_SESSION['avatar'] = $user['avatar'];
+                        }
                         $_SESSION['isAdmin'] = $user['isAdmin'];
                         //createLoginCookie($user['email'], $user['token']);
                     }
