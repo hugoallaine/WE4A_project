@@ -147,7 +147,7 @@ require_once dirname(__FILE__).'/toast.php';
                                             Montrer le mot de passe
                                         </label>
                                     </div>
-                                    <div id="error_message" class="text-danger"></div>
+                                    <div id="error-message" class="text-danger"></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#modalRegister'>S'inscrire</button>
@@ -189,8 +189,8 @@ require_once dirname(__FILE__).'/toast.php';
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="password-repeat" class="form-label">Répéter le mot de passe</label>
+                                    <div class="mb-2">
+                                        <label for="password-repeat" class="form-label">Répéter les mots de passe</label>
                                         <input type="password" class="form-control" id="password-r-repeat" aria-label="password-repeat">
                                     </div>
                                     <div class="form-check mb-3">
@@ -199,7 +199,29 @@ require_once dirname(__FILE__).'/toast.php';
                                             Montrer le mot de passe
                                         </label>
                                     </div>
-                                    <div id="error_message" class="text-danger"></div>
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <input type="text" class="form-control" placeholder="Prénom" aria-label="Prénom">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" placeholder="Nom" aria-label="Nom">
+                                        </div>
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" id="inputAddress" placeholder="Adresse">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="inputCity" placeholder="Ville">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="inputZip" placeholder="Code Postal">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="inputCountry" placeholder="Pays">
+                                        </div>
+                                    </div>
+                                    <div id="error-message-r" class="text-danger"></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#modalLogin'>Se connecter</button>
@@ -213,5 +235,6 @@ require_once dirname(__FILE__).'/toast.php';
                 <!-- Toast -->
                 <?php 
                 successToast('Connexion réussie','loginToast');
+                successToast('Inscription réussie. Vérifier votre adresse email.','registerToast');
                 ?>
                 <!-- Main -->

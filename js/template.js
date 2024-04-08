@@ -21,7 +21,6 @@ function TogglePasswordRegister(checked) {
 
 $(document).ready(function(){
     $('.textAreaPost').on('keydown', function(e) {
-        // Si la touche pressée est Entrée
         if (e.which == 13) {
             e.preventDefault();
             $('#formPostId').submit();
@@ -30,11 +29,8 @@ $(document).ready(function(){
 
     /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function(e){
-        e.preventDefault(); // Empêcher le formulaire de se soumettre normalement
-        
-        // Récupérer les données du formulaire
+        e.preventDefault();
         var formData = $(this).serialize();
-        // Envoyer les données du formulaire via AJAX
         $.ajax({
             type: 'POST',
             url: 'php_tool/submit_post.php',
@@ -48,18 +44,15 @@ $(document).ready(function(){
 
     /* Login */
     $('#formLoginId').submit(function(e){
-        e.preventDefault(); // Empêcher le formulaire de se soumettre normalement
-        
-        // Récupérer les données du formulaire
+        e.preventDefault();
         var formData = $(this).serialize();
-        // Envoyer les données du formulaire via AJAX
         $.ajax({
             type: 'POST',
             url: 'php_tool/main_login.php',
             data: formData,
             success: function(response){
                 if (response.error) {
-                    $('#error_message').text(response.message);
+                    $('#error-message').text(response.message);
                 } else {
                     $('#modalLogin').modal('hide');
                     var loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
@@ -73,10 +66,30 @@ $(document).ready(function(){
         });
     });
 
+    /* Register */
+    $('#formRegisterId').submit(function(e){
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/register.php',
+            data: formData,
+            success: function(response){
+                if (response.error) {
+                    $('#error-message-r').text(response.message);
+                } else {
+                    $('#modalRegister').modal('hide');
+                    var registerToast = new bootstrap.Toast(document.getElementById('registerToast'));
+                    registerToast.show();
+                }
+                document.getElementById('formRegisterId').reset();
+            },
+        });
+    });
+
     /* Logout */
     $('#logout-button').click(function(e){
         e.preventDefault();
-    
         $.ajax({
             type: 'POST',
             url: 'php_tool/logout.php',
@@ -84,7 +97,6 @@ $(document).ready(function(){
                 location.reload();
             },
             error: function(){
-
                 console.log('Erreur lors de la déconnexion');
             }
         });
