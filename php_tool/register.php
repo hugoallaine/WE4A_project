@@ -3,21 +3,35 @@ require_once dirname(__FILE__).'/php_tool/db.php';
 require_once dirname(__FILE__).'/php_tool/mails.php';
 require_once dirname(__FILE__).'/php_tool/json.php';
 
-if (isset($_POST['form'])) {
-    /*
+function getIp() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
+if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['password-r']) && isset($_POST['password2']) && isset($_POST['pseudo']) && isset($_POST['name']) && isset($_POST['firstname']) && isset($_POST['birthdate']) && isset($_POST['address-r']) && isset($_POST['city-r']) && isset($_POST['zipcode-r']) && isset($_POST['country-r'])) {
     $recaptcha = new \ReCaptcha\ReCaptcha($json['reCaptcha_secret']);
     $gRecaptchaResponse = $_POST['g-recaptcha-response'];
     $resp = $recaptcha->setExpectedHostname('localhost')->verify($gRecaptchaResponse, getIp());
-    */
-    if (true) {
-        $pseudo = SecurizeString_ForSQL($_POST['pseudo']);
-        $email = SecurizeString_ForSQL($_POST['email']);
-        $password = SecurizeString_ForSQL($_POST['password']);
-        $password2 = SecurizeString_ForSQL($_POST['password2']);
-        $name = SecurizeString_ForSQL($_POST['name']);
-        $firstname = SecurizeString_ForSQL($_POST['firstname']);
-        $birthdate = $_POST['birthdate'];
-        if (!empty($pseudo) AND !empty($email) AND !empty($password) AND !empty($password2) AND !empty($name) AND !empty($firstname) AND !empty($birthdate)) {
+    if ($resp->isSuccess()) {
+        $email = SecurizeString_ForSQL($_POST['mail1-r'])."@".SecurizeString_ForSQL($_POST['mail2-r']);
+        $password = SecurizeString_ForSQL($_POST['password-r']);
+        $password2 = SecurizeString_ForSQL($_POST['password2-r']);
+        $pseudo = SecurizeString_ForSQL($_POST['pseudo-r']);
+        $avatar = "utilisateur.png";
+        $name = SecurizeString_ForSQL($_POST['name-r']);
+        $firstname = SecurizeString_ForSQL($_POST['firstname-r']);
+        $birthdate = $_POST['birthdate-r'];
+        $address = SecurizeString_ForSQL($_POST['address-r']);
+        $city = SecurizeString_ForSQL($_POST['city-r']);
+        $zipcode = SecurizeString_ForSQL($_POST['zipcode-r']);
+        $country = SecurizeString_ForSQL($_POST['country-r']);
+        if (!empty($email) && !empty($password) && !empty($password2) && !empty($pseudo) && !empty($name) && !empty($firstname) && !empty($birthdate) && !empty($address) && !empty($city) && !empty($zipcode) && !empty($country)) {
             if (strlen($pseudo) <= 32) {
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $req = $db->prepare("SELECT id FROM users WHERE email = ?");
@@ -26,16 +40,34 @@ if (isset($_POST['form'])) {
                     if ($emailexist == 0) {
                         if ($password == $password2) {
                             if (strlen($password) >= 12 && preg_match('/[A-Z]/', $password) && preg_match('/[a-z]/', $password) && preg_match('/[0-9]/', $password) && preg_match('/[^a-zA-Z0-9]/', $password)) {
-                                $password = password_hash($password, PASSWORD_DEFAULT);
-                                $key = generateToken(255);
-                                $token = generateToken(255);
-                                $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo,avatar) VALUES(?,?,?,?,?,?,?,?)");
-                                $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo));
-                                $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
-                                $req->execute(array($email, $key, $email));
-                                sendMailConfirm($email, $key);
-                                $error = "Votre compte a bien été créé ! <a href=\"login.php\">Me connecter</a>";
-                                $status = 1;
+                                if (strlen($zipcode) == 5) {
+                                    if (isset($_FILES['avatar']) && !empty($_FILES['avatar']['name'])) {
+                                        $maxsize = 2097152;
+                                        $extensions = array('jpg', 'jpeg', 'png', 'gif');
+                                        if ($_FILES['avatar']['size'] <= $taillemax) {
+                                            $extensionupload = strtolower(substr(strrchr($_FILES['avatar']['name'], '.'), 1));
+                                            if (in_array($extensionupload, $extensionsvalides)) {
+                                                $directory = "avatar/".$_SESSION['id'].".".$extensionupload;
+                                                $move = move_uploaded_file($_FILES['avatar']['tmp_name'], $directory);
+                                                if ($move) {
+                                                    $avatar = $_SESSION['id'].".".$extensionupload;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    $password = password_hash($password, PASSWORD_DEFAULT);
+                                    $key = generateToken(255);
+                                    $token = generateToken(255);
+                                    $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo,avatar) VALUES (?,?,?,?,?,?,?,?)");
+                                    $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo, $avatar));
+                                    $req = $db->prepare("INSERT INTO address(id_user,address,city,zip_code,country) VALUES((SELECT id FROM users WHERE email = ?),?,?,?,?)");
+                                    $req->execute(array($email, $address, $city, $zipcode, $country));
+                                    $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
+                                    $req->execute(array($email, $key, $email));
+                                    sendMailConfirm($email, $key);
+                                } else {
+                                    $error = "Votre code postal doit contenir 5 chiffres.";
+                                }
                             } else {
                                 $error = "Votre mot de passe ne satisfait pas les conditions minimums.";
                             }
@@ -58,74 +90,9 @@ if (isset($_POST['form'])) {
         $error = "Merci de remplir le captcha.";
     }
 }
-?>
 
-<!DOCTYPE html>
-<html lang='fr'>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>YGreg - Register</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' href='css/default.css'>
-    <link rel='stylesheet' type='text/css' href='css/login.css'>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-</head>
-<body>
-    <section>
-        <form method="POST" action="">
-            <h1>Inscription à YGreg</h1>
-            <div class="steps">
-                <div class="step">
-                    <div class="container">
-                        <input type="text" class="form_input" name="email" placeholder="" required/>
-                        <label>Adresse Mail</label>
-                    </div>
-                    <div class="container">
-                        <input type="password" class="form_input" name="password" placeholder="" required/>
-                        <label>Mot de passe</label>
-                    </div>
-                    <div class="container">
-                        <input type="password" class="form_input" name="password2" placeholder="" required/>
-                        <label>Confirmer le mot de passe</label>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="container">
-                        <input type="text" class="form_input" name="name" placeholder="" required/>
-                        <label>Nom</label>
-                    </div>
-                    <div class="container">
-                        <input type="text" class="form_input" name="firstname" placeholder="" required/>
-                        <label>Prénom</label>
-                    </div>
-                    <div class="container">
-                        <input type="date" class="form_input" name="birthdate" placeholder="" required/>
-                        <label>Date de naissance</label>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="container">
-                        <input type="text" class="form_input" name="pseudo" placeholder="" required/>
-                        <label>Pseudo</label>
-                    </div>
-                    <div class="container">
-                        <div class="g-recaptcha" data-sitekey="6LeClLIpAAAAAIt1EesWjZ_TEuMne4QRk-TTuBQ2"></div>
-                    </div>
-                    <input type="submit" class="form_submit" name="form" value="S'inscrire"/>
-                </div>
-            </div>
-            <?php 
-            if (!isset($error)) {
-                $error = "";
-            }
-            if(isset($status) && $status == 1) { 
-                echo '<div class="success-message">'.$error.'</div>'; 
-            } else { 
-                echo '<div class="error-message">'.$error.'</div>'; 
-            }
-            ?>
-        </form>
-    </section>
-</body>
-</html>
+if (isset($error)) {
+    header('Content-Type: application/json');
+    echo json_encode(array('error' => true,'message' => $error));
+}
+?>

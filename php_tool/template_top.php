@@ -13,6 +13,7 @@ require_once dirname(__FILE__).'/toast.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/WE4A_project/js/template.js" defer></script>
 </head>
 <body style="overflow: hidden;">
@@ -170,15 +171,15 @@ require_once dirname(__FILE__).'/toast.php';
                                     <div class="mb-3">
                                         <label for="mail" class="form-label">Adresse email</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="mail" aria-label="mail">
+                                            <input type="text" class="form-control" id="mail" name="mail1-r" aria-label="mail">
                                             <span class="input-group-text">@</span>
-                                            <input type="text" class="form-control" aria-label="mail2">
+                                            <input type="text" class="form-control" name="mail2-r" aria-label="mail2">
                                         </div>
                                         <div class="form-text">Utiliser une adresse email valide uniquement. Un mail de vérification vous sera envoyé.</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Mot de passe</label>
-                                        <input type="password" class="form-control" id="password-r" aria-label="password">
+                                        <input type="password" class="form-control" id="password-r" name="password-r" aria-label="password">
                                         <div class="form-text">
                                             Les caractéristiques minimales pour un mot de passe sont :
                                             <ul>
@@ -191,7 +192,7 @@ require_once dirname(__FILE__).'/toast.php';
                                     </div>
                                     <div class="mb-2">
                                         <label for="password-repeat" class="form-label">Répéter les mots de passe</label>
-                                        <input type="password" class="form-control" id="password-r-repeat" aria-label="password-repeat">
+                                        <input type="password" class="form-control" id="password-r-repeat" name="password2-r" aria-label="password-repeat">
                                     </div>
                                     <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" value="" id="showpassword" onchange="TogglePasswordRegister(this.checked)">
@@ -202,43 +203,46 @@ require_once dirname(__FILE__).'/toast.php';
                                     <hr>
                                     <div class="mb-3">
                                         <label for="pseudo" class="form-label">Pseudo</label>
-                                        <input type="text" class="form-control" id="pseudo" aria-label="pseudo">
+                                        <input type="text" class="form-control" id="pseudo" name="pseudo-r" aria-label="pseudo">
                                     </div>
                                     <div class="mb-3">
                                         <label for="avatar" class="form-label">Avatar</label>
-                                        <input type="file" class="form-control" id="avatar" aria-label="avatar">
+                                        <input type="file" class="form-control" id="avatar" name="avatar-r" aria-label="avatar">
                                     </div>
                                     <hr>
                                     <div class="row mb-3">
                                         <div class="col">
                                             <label for="firstname" class="form-label">Prénom</label>
-                                            <input type="text" class="form-control" id="firstname" aria-label="Prénom">
+                                            <input type="text" class="form-control" id="firstname" name="firstname-r" aria-label="Prénom">
                                         </div>
                                         <div class="col">
                                             <label for="name" class="form-label">Nom</label>
-                                            <input type="text" class="form-control" id="name" aria-label="Nom">
+                                            <input type="text" class="form-control" id="name" name="name-r" aria-label="Nom">
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="birthdate" class="form-label">Date de naissance</label>
-                                        <input type="date" class="form-control" id="birthdate" aria-label="birthdate">
+                                        <input type="date" class="form-control" id="birthdate" name="birthdate-r" aria-label="birthdate">
                                     </div>
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <label for="inputAddress" class="form-label">Adresse</label>
-                                            <input type="text" class="form-control" id="inputAddress">
+                                            <input type="text" class="form-control" id="inputAddress" name="address-r">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="inputCity" class="form-label">Ville</label>
-                                            <input type="text" class="form-control" id="inputCity">
+                                            <input type="text" class="form-control" id="inputCity" name="city-r">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="inputZip" class="form-label">Code Postal</label>
-                                            <input type="text" class="form-control" id="inputZip">
+                                            <input type="text" class="form-control" id="inputZip" name="zipcode-r">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="inputCountry" class="form-label">Pays</label>
-                                            <input type="text" class="form-control" id="inputCountry">
+                                            <input type="text" class="form-control" id="inputCountry" name="country-r">
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-center align-items-center">
+                                            <div class="g-recaptcha" data-sitekey="6LeClLIpAAAAAIt1EesWjZ_TEuMne4QRk-TTuBQ2"></div>
                                         </div>
                                     </div>
                                     <div id="error-message-r" class="text-danger"></div>
