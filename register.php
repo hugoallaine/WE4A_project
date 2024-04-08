@@ -37,7 +37,7 @@ if (isset($_POST['form'])) {
                     $emailexist = $req->rowCount();
                     if ($emailexist == 0) {
                         if ($password == $password2) {
-                            if (strlen($password) >= 12) {
+                            if (strlen($password) >= 12 && preg_match('/[A-Z]/', $password) && preg_match('/[a-z]/', $password) && preg_match('/[0-9]/', $password) && preg_match('/[^a-zA-Z0-9]/', $password)) {
                                 $password = password_hash($password, PASSWORD_DEFAULT);
                                 $key = generateToken(255);
                                 $token = generateToken(255);
@@ -49,7 +49,7 @@ if (isset($_POST['form'])) {
                                 $error = "Votre compte a bien été créé ! <a href=\"login.php\">Me connecter</a>";
                                 $status = 1;
                             } else {
-                                $error = "Votre mot de passe doit faire au minimum 12 caractères.";
+                                $error = "Votre mot de passe ne satisfait pas les conditions minimums.";
                             }
                         } else {
                             $error = "Vos mots de passe ne correspondent pas.";

@@ -150,8 +150,61 @@ require_once dirname(__FILE__).'/toast.php';
                                     <div id="error_message" class="text-danger"></div>
                                 </div>
                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#modalRegister'>S'inscrire</button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>                                
                                     <input type="submit" class="btn btn-primary" name="formLogin" value="Valider"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal - S'inscrire -->
+                <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form id="formRegisterId" class="formRegister" method="POST" action="">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalRegisterLabel">S'inscrire</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="mail" class="form-label">Adresse email</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="mail" aria-label="mail">
+                                            <span class="input-group-text">@</span>
+                                            <input type="text" class="form-control" aria-label="mail2">
+                                        </div>
+                                        <div class="form-text">Utiliser une adresse email valide uniquement. Un mail de vérification vous sera envoyé.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Mot de passe</label>
+                                        <input type="password" class="form-control" id="password-r" aria-label="password">
+                                        <div class="form-text">
+                                            Les caractéristiques minimales pour un mot de passe sont :
+                                            <ul>
+                                                <li>12 caractères</li>
+                                                <li>1 majuscule</li>
+                                                <li>1 chiffre</li>
+                                                <li>1 caractère spécial</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password-repeat" class="form-label">Répéter le mot de passe</label>
+                                        <input type="password" class="form-control" id="password-r-repeat" aria-label="password-repeat">
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="showpassword" onchange="TogglePasswordRegister(this.checked)">
+                                        <label class="form-check-label" for="showpassword">
+                                            Montrer le mot de passe
+                                        </label>
+                                    </div>
+                                    <div id="error_message" class="text-danger"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#modalLogin'>Se connecter</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>                                
+                                    <input type="submit" class="btn btn-primary" name="formRegister" value="Valider"/>
                                 </div>
                             </form>
                         </div>

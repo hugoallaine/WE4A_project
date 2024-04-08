@@ -7,6 +7,18 @@ function TogglePassword(checked) {
     }
 }
 
+function TogglePasswordRegister(checked) {
+    var x = document.getElementById("password-r");
+    var y = document.getElementById("password-r-repeat");
+    if (checked) {
+        x.type = "text";
+        y.type = "text";
+    } else {
+        x.type = "password";
+        y.type = "password";
+    }
+}
+
 $(document).ready(function(){
     $('.textAreaPost').on('keydown', function(e) {
         // Si la touche pressée est Entrée

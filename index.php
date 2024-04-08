@@ -20,7 +20,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 <div class='card rounded-0 animated-post'>
                     <div class='card-body'>
                         <div class='row'>
-                            <div class='col-1'>
+                            <div class='col-2'>
                                 <img src='/WE4A_project/img/avatar/utilisateur.png' width='32' height='32' alt='Avatar' class='mr-2'>
                                 <h5 class='card-title m-0'>" . $post['pseudo'] . "</h5>
                                 <h6 class='card-subtitle mb-2 text-muted'>" . $post['created_at'] . "</h6>
