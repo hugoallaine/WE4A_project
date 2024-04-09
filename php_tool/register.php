@@ -1,7 +1,8 @@
 <?php
-require_once dirname(__FILE__).'/php_tool/db.php';
-require_once dirname(__FILE__).'/php_tool/mails.php';
-require_once dirname(__FILE__).'/php_tool/json.php';
+require_once dirname(__FILE__).'/db.php';
+require_once dirname(__FILE__).'/mails.php';
+require_once dirname(__FILE__).'/vendor/autoload.php';
+require_once dirname(__FILE__).'/json.php';
 
 function getIp() {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -14,7 +15,7 @@ function getIp() {
     return $ip;
 }
 
-if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['password-r']) && isset($_POST['password2']) && isset($_POST['pseudo']) && isset($_POST['name']) && isset($_POST['firstname']) && isset($_POST['birthdate']) && isset($_POST['address-r']) && isset($_POST['city-r']) && isset($_POST['zipcode-r']) && isset($_POST['country-r'])) {
+if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['password-r']) && isset($_POST['password2-r']) && isset($_POST['pseudo-r']) && isset($_POST['name-r']) && isset($_POST['firstname-r']) && isset($_POST['birthdate-r']) && isset($_POST['address-r']) && isset($_POST['city-r']) && isset($_POST['zipcode-r']) && isset($_POST['country-r'])) {
     $recaptcha = new \ReCaptcha\ReCaptcha($json['reCaptcha_secret']);
     $gRecaptchaResponse = $_POST['g-recaptcha-response'];
     $resp = $recaptcha->setExpectedHostname('localhost')->verify($gRecaptchaResponse, getIp());
@@ -41,16 +42,18 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                         if ($password == $password2) {
                             if (strlen($password) >= 12 && preg_match('/[A-Z]/', $password) && preg_match('/[a-z]/', $password) && preg_match('/[0-9]/', $password) && preg_match('/[^a-zA-Z0-9]/', $password)) {
                                 if (strlen($zipcode) == 5) {
-                                    if (isset($_FILES['avatar']) && !empty($_FILES['avatar']['name'])) {
+                                    if (isset($_FILES['avatar-r']) && !empty($_FILES['avatar-r']['name'])) {
+                                        $error = $_FILES['avatar-r']['name'];
                                         $maxsize = 2097152;
                                         $extensions = array('jpg', 'jpeg', 'png', 'gif');
-                                        if ($_FILES['avatar']['size'] <= $taillemax) {
-                                            $extensionupload = strtolower(substr(strrchr($_FILES['avatar']['name'], '.'), 1));
+                                        if ($_FILES['avatar-r']['size'] <= $taillemax) {
+                                            $extensionupload = strtolower(substr(strrchr($_FILES['avatar-r']['name'], '.'), 1));
                                             if (in_array($extensionupload, $extensionsvalides)) {
-                                                $directory = "avatar/".$_SESSION['id'].".".$extensionupload;
-                                                $move = move_uploaded_file($_FILES['avatar']['tmp_name'], $directory);
+                                                $tmp_avatar_name = generateToken(24).".".$extensionupload;
+                                                $directory = "../img/avatar/". $tmp_avatar_name;
+                                                $move = move_uploaded_file($_FILES['avatar-r']['tmp_name'], $directory);
                                                 if ($move) {
-                                                    $avatar = $_SESSION['id'].".".$extensionupload;
+                                                    $avatar = $tmp_avatar_name;
                                                 }
                                             }
                                         }

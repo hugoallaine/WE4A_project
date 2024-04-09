@@ -69,14 +69,18 @@ $(document).ready(function(){
     /* Register */
     $('#formRegisterId').submit(function(e){
         e.preventDefault();
-        var formData = $(this).serialize();
+        var formData = new FormData(this);;
+        formData.append('avatar-r', $('#avatar')[0].files[0]);
         $.ajax({
             type: 'POST',
             url: 'php_tool/register.php',
             data: formData,
+            processData: false,
+            contentType: false,
             success: function(response){
                 if (response.error) {
                     $('#error-message-r').text(response.message);
+                    console.log(response.message);
                 } else {
                     $('#modalRegister').modal('hide');
                     var registerToast = new bootstrap.Toast(document.getElementById('registerToast'));
@@ -105,17 +109,19 @@ $(document).ready(function(){
     /* Like post */
     $('.like-button').click(function() {
         var postId = $(this).data('post-id');
+        var likeImage = $(this).find('img');
         $.ajax({
-            type: 'POST',
             url: 'php_tool/like_post.php',
-            data: {post_id: postId},
-            success: function(response){
-                // Handle the response from the server
-                console.log(response);
+            type: 'POST',
+            data: {
+                post_id: postId
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Handle any errors
-                console.error(textStatus, errorThrown);
+            success: function(response) {
+                if (response === 'liked') {
+                    likeImage.attr('src', '/WE4A_project/img/icon/liked.png');
+                } else {
+                    likeImage.attr('src', '/WE4A_project/img/icon/like.png');
+                }
             }
         });
     });

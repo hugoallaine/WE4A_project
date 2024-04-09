@@ -163,7 +163,7 @@ require_once dirname(__FILE__).'/toast.php';
                 <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="modalRegisterLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form id="formRegisterId" class="formRegister" method="POST" action="">
+                            <form enctype="multipart/form-data" id="formRegisterId" class="formRegister" method="POST" action="">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modalRegisterLabel">S'inscrire</h5>
                                 </div>
@@ -171,15 +171,15 @@ require_once dirname(__FILE__).'/toast.php';
                                     <div class="mb-3">
                                         <label for="mail" class="form-label">Adresse email</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="mail" name="mail1-r" aria-label="mail">
+                                            <input type="text" class="form-control" id="mail" name="mail1-r">
                                             <span class="input-group-text">@</span>
-                                            <input type="text" class="form-control" name="mail2-r" aria-label="mail2">
+                                            <input type="text" class="form-control" name="mail2-r">
                                         </div>
                                         <div class="form-text">Utiliser une adresse email valide uniquement. Un mail de vérification vous sera envoyé.</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Mot de passe</label>
-                                        <input type="password" class="form-control" id="password-r" name="password-r" aria-label="password">
+                                        <input type="password" class="form-control" id="password-r" name="password-r">
                                         <div class="form-text">
                                             Les caractéristiques minimales pour un mot de passe sont :
                                             <ul>
@@ -191,11 +191,11 @@ require_once dirname(__FILE__).'/toast.php';
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <label for="password-repeat" class="form-label">Répéter les mots de passe</label>
-                                        <input type="password" class="form-control" id="password-r-repeat" name="password2-r" aria-label="password-repeat">
+                                        <label for="password-r-repeat" class="form-label">Répéter le mot de passe</label>
+                                        <input type="password" class="form-control" id="password-r-repeat" name="password2-r">
                                     </div>
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" value="" id="showpassword" onchange="TogglePasswordRegister(this.checked)">
+                                        <input class="form-check-input" type="checkbox" value="" id="showpassword-r" onchange="TogglePasswordRegister(this.checked)">
                                         <label class="form-check-label" for="showpassword">
                                             Montrer le mot de passe
                                         </label>
@@ -203,26 +203,27 @@ require_once dirname(__FILE__).'/toast.php';
                                     <hr>
                                     <div class="mb-3">
                                         <label for="pseudo" class="form-label">Pseudo</label>
-                                        <input type="text" class="form-control" id="pseudo" name="pseudo-r" aria-label="pseudo">
+                                        <input type="text" class="form-control" id="pseudo" name="pseudo-r">
                                     </div>
                                     <div class="mb-3">
+                                        <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
                                         <label for="avatar" class="form-label">Avatar</label>
-                                        <input type="file" class="form-control" id="avatar" name="avatar-r" aria-label="avatar">
+                                        <input type="file" class="form-control" id="avatar" name="avatar-r">
                                     </div>
                                     <hr>
                                     <div class="row mb-3">
                                         <div class="col">
                                             <label for="firstname" class="form-label">Prénom</label>
-                                            <input type="text" class="form-control" id="firstname" name="firstname-r" aria-label="Prénom">
+                                            <input type="text" class="form-control" id="firstname" name="firstname-r">
                                         </div>
                                         <div class="col">
                                             <label for="name" class="form-label">Nom</label>
-                                            <input type="text" class="form-control" id="name" name="name-r" aria-label="Nom">
+                                            <input type="text" class="form-control" id="name" name="name-r">
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="birthdate" class="form-label">Date de naissance</label>
-                                        <input type="date" class="form-control" id="birthdate" name="birthdate-r" aria-label="birthdate">
+                                        <input type="date" class="form-control" id="birthdate" name="birthdate-r">
                                     </div>
                                     <div class="row g-3">
                                         <div class="col-12">
@@ -245,7 +246,7 @@ require_once dirname(__FILE__).'/toast.php';
                                             <div class="g-recaptcha" data-sitekey="6LeClLIpAAAAAIt1EesWjZ_TEuMne4QRk-TTuBQ2"></div>
                                         </div>
                                     </div>
-                                    <div id="error-message-r" class="text-danger"></div>
+                                    <div id="error-message-r" class="text-danger text-align-center"></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle='modal' data-bs-target='#modalLogin'>Se connecter</button>
