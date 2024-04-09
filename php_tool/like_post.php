@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 session_start();
 error_reporting(E_ERROR | E_PARSE);
@@ -12,15 +9,20 @@ if (isset($_POST['post_id'])) {
     $postId = SecurizeString_ForSQL($_POST['post_id']);
     $userId = SecurizeString_ForSQL($_SESSION['id']);
 
-    $req = $db->prepare("SELECT * FROM `likes` WHERE id_user = ? AND id_post = ?");
+    /* Check if the user has already liked the post */
+    $req = $db->prepare("SELECT * FROM `likes` WHERE id_user = ? AND id_post = ? AND type = 'like'");
     $req->execute(array($userId, $postId));
     $like = $req->fetch();
-    if ($like[""] == "") {
+    if ($like == false) {
+        /* If the user has not liked the post, add a like */
         $req = $db->prepare("INSERT INTO likes (id_user, id_post) VALUES (?, ?)");
         $req->execute(array($userId, $postId));
+        echo "liked";
     } else {
+        /* If the user has already liked the post, remove the like */
         $req = $db->prepare("DELETE FROM likes WHERE id_user = ? AND id_post = ?");
         $req->execute(array($userId, $postId));
-    }
+        echo "unliked";
+    }   
 }
 ?>
