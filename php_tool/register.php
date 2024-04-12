@@ -42,7 +42,7 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                         if ($password == $password2) {
                             if (strlen($password) >= 12 && preg_match('/[A-Z]/', $password) && preg_match('/[a-z]/', $password) && preg_match('/[0-9]/', $password) && preg_match('/[^a-zA-Z0-9]/', $password)) {
                                 if (strlen($zipcode) == 5) {
-                                    if (isset($_FILES['avatar-r']) && !empty($_FILES['avatar-r']['name'])) {
+                                    /*if (isset($_FILES['avatar-r']) && !empty($_FILES['avatar-r']['name'])) {
                                         $error = $_FILES['avatar-r']['name'];
                                         $maxsize = 2097152;
                                         $extensions = array('jpg', 'jpeg', 'png', 'gif');
@@ -57,6 +57,23 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                                 }
                                             }
                                         }
+                                    }*/
+                                    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+                                        // Nom original du fichier
+                                        $filename = $_FILES['avatar']['name'];
+                                        $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+                                        $newfilename = generateToken(24).".".$file_extension;
+                                        // Chemin temporaire où le fichier est stocké sur le serveur
+                                        $tmp_name = $_FILES['avatar']['tmp_name'];
+                                    
+                                        // Taille du fichier
+                                        $filesize = $_FILES['avatar']['size'];
+                                    
+                                        // Déplacer le fichier vers un emplacement permanent
+                                        $upload_directory = '../assets/img/avatar/';
+                                        $destination = $upload_directory . $newfilename;
+                                        move_uploaded_file($tmp_name, $destination);
+                                        $avatar = $newfilename;
                                     }
                                     $password = password_hash($password, PASSWORD_DEFAULT);
                                     $key = generateToken(255);
