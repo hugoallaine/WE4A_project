@@ -86,7 +86,7 @@ $(document).ready(function(){
                     var registerToast = new bootstrap.Toast(document.getElementById('registerToast'));
                     registerToast.show();
                 }
-                document.getElementById('formRegisterId').reset();
+                //document.getElementById('formRegisterId').reset();
             },
         });
     });
