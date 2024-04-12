@@ -10,7 +10,7 @@ if (isset($_POST['post_id'])) {
     $userId = SecurizeString_ForSQL($_SESSION['id']);
 
     /* Check if the user has already liked the post */
-    $req = $db->prepare("SELECT * FROM `likes` WHERE id_user = ? AND id_post = ? AND type = 'like'");
+    $req = $db->prepare("SELECT * FROM `likes` WHERE id_user = ? AND id_post = ?");
     $req->execute(array($userId, $postId));
     $like = $req->fetch();
     if ($like == false) {
