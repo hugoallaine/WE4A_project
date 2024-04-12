@@ -39,7 +39,7 @@ function sendMailConfirm($destinataire, $confirmkey) {
     </head>
     <body>
         <h1>V&eacute;rification de votre adresse email - YGreg</h1>
-        <p>Bonjour, veuillez confirmer votre compte en cliquant sur le lien suivant : <a href="http://ygreg.allaine.cc/mail_confirmation.php?mail='.urlencode($destinataire).'&key='.urlencode($confirmkey).'">Confirmer</a></p>
+        <p>Bonjour, veuillez confirmer votre compte en cliquant sur le lien suivant : <a href="http://y.allaine.cc/validator.php?email='.urlencode($destinataire).'&key='.urlencode($confirmkey).'">Confirmer</a></p>
         <p>Si vous n\'&ecirc;tes pas &agrave; l\'origine de cette action, merci d\'ignorer ce mail.</p>
     </body>
     </html>
@@ -58,7 +58,7 @@ function sendMailReset($destinataire, $resetkey) {
     </head>
     <body>
         <h1>R&eacute;initialisation de votre mot de passe - YGreg</h1>
-        <p>Bonjour, veuillez r&eacute;initialiser votre mot de passe en cliquant sur le lien suivant : <a href="http://ygreg.allaine.cc/reset_password.php?mail='.urlencode($destinataire).'&key='.urlencode($resetkey).'">Réinitialiser</a></p>
+        <p>Bonjour, veuillez r&eacute;initialiser votre mot de passe en cliquant sur le lien suivant : <a href="http://y.allaine.cc/reset_password.php?email='.urlencode($destinataire).'&key='.urlencode($resetkey).'">Réinitialiser</a></p>
         <p>Si vous n\'&ecirc;tes pas &agrave; l\'origine de cette action, merci d\'ignorer ce mail.</p>
     </body>
     </html>
