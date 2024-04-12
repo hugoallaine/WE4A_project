@@ -21,8 +21,8 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
             <h1>Profil de <?php echo $userinfo['pseudo']; ?></h1>
         </div>
         <div class="card-body">
-            <div class="banner" style="background-image: url('img/banners/<?php echo $userinfo['banner']; ?>');">
-                <img src="img/avatars/<?php echo $userinfo['avatar']; ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>">
+            <div class="banner" style="background-image: url('img/user/<?php echo $userinfo['id'].'/'.$userinfo['banner']; ?>');">
+                <img src="img/user/<?php echo $userinfo['id'].'/'.$userinfo['avatar']; ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>">
             </div>
         </div>
     </div>
