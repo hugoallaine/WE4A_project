@@ -70,13 +70,12 @@ $(document).ready(function () {
     $('#formRegisterId').submit(function (e) {
         e.preventDefault();
         var formData = new FormData(this);
-        formData.append('avatar-r', $('#avatar')[0].files[0]);
         $.ajax({
             type: 'POST',
             url: 'php_tool/register.php',
             data: formData,
-            processData: false,
             contentType: false,
+            processData: false,
             success: function (response) {
                 if (response.error) {
                     $('#error-message-r').text(response.message);

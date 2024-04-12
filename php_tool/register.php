@@ -47,9 +47,7 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                     $token = generateToken(255);
                                     $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo,avatar) VALUES (?,?,?,?,?,?,?,?)");
                                     $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo, $avatar));
-                                    $error = "maman";
                                     if (isset($_FILES['avatar-r']) && $_FILES['avatar-r']['error'] === UPLOAD_ERR_OK) {
-                                        $error = "nique ta mère";
                                         if ($_FILES['avatar-r']['size'] <= 2097152) {
                                             $req = $db->prepare("SELECT id FROM users WHERE email = ?");
                                             $req->execute(array($email));
@@ -58,9 +56,16 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                             $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
                                             $newfilename = "avatar.".$file_extension;
                                             $tmp_name = $_FILES['avatar-r']['tmp_name'];
-                                            $upload_directory = '/WE4A_project/img/user/'.$line['id'].'/'.$newfilename;
-                                            move_uploaded_file($tmp_name, $upload_directory);
+                                            $upload_directory = '../img/user/'.$line['id'].'/';
+                                            echo $upload_directory;
+                                            if (!file_exists($upload_directory)) {
+                                                mkdir($upload_directory, 0777, true);
+                                            }
+                                            $path = $upload_directory.$newfilename;
+                                            move_uploaded_file($tmp_name, $path);
                                             $avatar = $newfilename;
+                                            $req = $db->prepare("UPDATE users SET avatar = ? WHERE email = ?");
+                                            $req->execute(array($avatar, $email));
                                         }
                                     }
                                     $req = $db->prepare("INSERT INTO address(id_user,address,city,zip_code,country) VALUES((SELECT id FROM users WHERE email = ?),?,?,?,?)");
