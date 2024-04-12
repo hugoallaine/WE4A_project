@@ -38,7 +38,7 @@ require_once dirname(__FILE__).'/toast.php';
                             </a>
                         </li>
                         <li>
-                            <a href="profile.php" class="nav-link <?php if($currentPage === 'Profil'){echo 'active';}else{echo 'link-dark';} ?>" aria-current="page">
+                            <a href="profile.php<?php if(isset($_SESSION['id'])){echo "?pseudo=".$_SESSION['pseudo'];} ?>" class="nav-link <?php if($currentPage === 'Profil'){echo 'active';}else{echo 'link-dark';} ?>" aria-current="page">
                                 <img src="img/icon/profil.png" class="bi me-2" width="16" height="16">
                                 Profil
                             </a>
@@ -74,7 +74,7 @@ require_once dirname(__FILE__).'/toast.php';
                         </ul>
                     </div>
                     <?php else: ?>
-                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
+                    <a href="#" id="login" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
                         <img src="img/icon/utilisateur.png" alt="" width="32" height="32" class="rounded-circle me-3">
                         <strong>Se connecter</strong>
                     </a>

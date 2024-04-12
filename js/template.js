@@ -69,7 +69,7 @@ $(document).ready(function(){
     /* Register */
     $('#formRegisterId').submit(function(e){
         e.preventDefault();
-        var formData = new FormData(this);;
+        var formData = new FormData(this);
         formData.append('avatar-r', $('#avatar')[0].files[0]);
         $.ajax({
             type: 'POST',
@@ -80,7 +80,6 @@ $(document).ready(function(){
             success: function(response){
                 if (response.error) {
                     $('#error-message-r').text(response.message);
-                    console.log(response.message);
                 } else {
                     $('#modalRegister').modal('hide');
                     var registerToast = new bootstrap.Toast(document.getElementById('registerToast'));
