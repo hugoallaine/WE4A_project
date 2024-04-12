@@ -70,7 +70,7 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                         $filesize = $_FILES['avatar']['size'];
                                     
                                         // Déplacer le fichier vers un emplacement permanent
-                                        $upload_directory = '../assets/img/avatar/';
+                                        $upload_directory = '../img/user/';
                                         $destination = $upload_directory . $newfilename;
                                         move_uploaded_file($tmp_name, $destination);
                                         $avatar = $newfilename;

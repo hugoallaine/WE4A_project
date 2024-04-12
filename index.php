@@ -33,7 +33,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     <div class='card-body'>
                         <div class='row'>
                             <div class='col-md-2 col-3 text-center'>
-                                <img src='/WE4A_project/img/avatar/utilisateur.png' width='32' height='32' alt='Avatar' class='mr-2'>
+                                <img src='/WE4A_project/img/icon/utilisateur.png' width='32' height='32' alt='Avatar' class='mr-2'>
                                 <h5 class='card-title m-0'>" . $post['pseudo'] . "</h5>
                                 <p class='card-subtitle text-muted'>" . $formatted_date . "</p>
                             </div>
