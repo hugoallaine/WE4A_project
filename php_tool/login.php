@@ -21,7 +21,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['pseudo'] = $user['pseudo'];
                         if (empty($user['avatar'])) {
-                            $_SESSION['avatar'] = "utilisateur.png";
+                            $_SESSION['avatar'] = null;
                         } else {
                             $_SESSION['avatar'] = $user['avatar'];
                         }
