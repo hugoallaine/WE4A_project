@@ -24,7 +24,6 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
         $password = SecurizeString_ForSQL($_POST['password-r']);
         $password2 = SecurizeString_ForSQL($_POST['password2-r']);
         $pseudo = SecurizeString_ForSQL($_POST['pseudo-r']);
-        $avatar = "utilisateur.png";
         $name = SecurizeString_ForSQL($_POST['name-r']);
         $firstname = SecurizeString_ForSQL($_POST['firstname-r']);
         $birthdate = $_POST['birthdate-r'];
@@ -45,8 +44,8 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                     $password = password_hash($password, PASSWORD_DEFAULT);
                                     $key = generateToken(255);
                                     $token = generateToken(255);
-                                    $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo,avatar) VALUES (?,?,?,?,?,?,?,?)");
-                                    $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo, $avatar));
+                                    $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo) VALUES (?,?,?,?,?,?,?)");
+                                    $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo));
                                     if (isset($_FILES['avatar-r']) && $_FILES['avatar-r']['error'] === UPLOAD_ERR_OK) {
                                         if ($_FILES['avatar-r']['size'] <= 2097152) {
                                             $req = $db->prepare("SELECT id FROM users WHERE email = ?");
