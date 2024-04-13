@@ -61,7 +61,7 @@ require_once dirname(__FILE__).'/toast.php';
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                             id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="img/user/<?php echo $_SESSION['id']."/".$_SESSION['avatar']; ?>" alt="" width="32" height="32" class="rounded-circle me-3">
+                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="" width="32" height="32" class="rounded-circle me-3">
                             <strong><?php echo $_SESSION['pseudo']; ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
@@ -135,11 +135,11 @@ require_once dirname(__FILE__).'/toast.php';
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="username" name="user" placeholder="" required/>
+                                        <input type="text" class="form-control" id="username" name="user" placeholder="" required autocomplete="email"/>
                                         <label for="username" class="form-label">Adresse Mail</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="" required/>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="" required autocomplete="current-password"/>
                                         <label for="password" class="form-label">Mot de passe</label>
                                     </div>
                                     <div class="form-check mb-3">
@@ -179,7 +179,7 @@ require_once dirname(__FILE__).'/toast.php';
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Mot de passe</label>
-                                        <input type="password" class="form-control" id="password-r" name="password-r">
+                                        <input type="password" class="form-control" id="password-r" name="password-r" autocomplete="new-password">
                                         <div class="form-text">
                                             Les caractéristiques minimales pour un mot de passe sont :
                                             <ul>
@@ -203,7 +203,7 @@ require_once dirname(__FILE__).'/toast.php';
                                     <hr>
                                     <div class="mb-3">
                                         <label for="pseudo" class="form-label">Pseudo</label>
-                                        <input type="text" class="form-control" id="pseudo" name="pseudo-r">
+                                        <input type="text" class="form-control" id="pseudo" name="pseudo-r" autocomplete="username">
                                     </div>
                                     <div class="mb-3">
                                         <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
@@ -214,21 +214,21 @@ require_once dirname(__FILE__).'/toast.php';
                                     <div class="row mb-3">
                                         <div class="col">
                                             <label for="firstname" class="form-label">Prénom</label>
-                                            <input type="text" class="form-control" id="firstname" name="firstname-r">
+                                            <input type="text" class="form-control" id="firstname" name="firstname-r" autocomplete="given-name">
                                         </div>
                                         <div class="col">
                                             <label for="name" class="form-label">Nom</label>
-                                            <input type="text" class="form-control" id="name" name="name-r">
+                                            <input type="text" class="form-control" id="name" name="name-r" autocomplete="family-name">
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="birthdate" class="form-label">Date de naissance</label>
-                                        <input type="date" class="form-control" id="birthdate" name="birthdate-r">
+                                        <input type="date" class="form-control" id="birthdate" name="birthdate-r" autocomplete="bday">
                                     </div>
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <label for="inputAddress" class="form-label">Adresse</label>
-                                            <input type="text" class="form-control" id="inputAddress" name="address-r">
+                                            <input type="text" class="form-control" id="inputAddress" name="address-r" autocomplete="street-address">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="inputCity" class="form-label">Ville</label>
@@ -236,11 +236,11 @@ require_once dirname(__FILE__).'/toast.php';
                                         </div>
                                         <div class="col-md-4">
                                             <label for="inputZip" class="form-label">Code Postal</label>
-                                            <input type="text" class="form-control" id="inputZip" name="zipcode-r">
+                                            <input type="text" class="form-control" id="inputZip" name="zipcode-r" autocomplete="postal-code">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="inputCountry" class="form-label">Pays</label>
-                                            <input type="text" class="form-control" id="inputCountry" name="country-r">
+                                            <input type="text" class="form-control" id="inputCountry" name="country-r" autocomplete="country-name">
                                         </div>
                                         <div class="col-12 d-flex justify-content-center align-items-center">
                                             <div class="g-recaptcha" data-sitekey="6LeClLIpAAAAAIt1EesWjZ_TEuMne4QRk-TTuBQ2"></div>
