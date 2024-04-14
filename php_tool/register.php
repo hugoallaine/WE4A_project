@@ -56,7 +56,6 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                             $newfilename = "avatar.".$file_extension;
                                             $tmp_name = $_FILES['avatar-r']['tmp_name'];
                                             $upload_directory = '../img/user/'.$line['id'].'/';
-                                            echo $upload_directory;
                                             if (!file_exists($upload_directory)) {
                                                 mkdir($upload_directory, 0777, true);
                                             }

@@ -60,10 +60,21 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                             <input type="text" id="pseudo-f" name="pseudo-f" class="form-control" value="<?php echo $userinfo['pseudo']; ?>" required>
                             <label for="pseudo-f" class="form-label">Pseudo</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <textarea id="bio" name="bio" class="form-control" style="resize: none; height:30vh"></textarea>
-                            <label for="bio" class="form-label">Bio</label>
+                        <div class="mb-3">
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+                            <label for="avatar-f" class="form-label">Avatar</label>
+                            <input type="file" class="form-control" id="avatar-f" name="avatar-f">
                         </div>
+                        <div class="mb-3">
+                            <input type="hidden" name="MAX_FILE_SIZE" value="10485760">
+                            <label for="banner-f" class="form-label">Bannière</label>
+                            <input type="file" class="form-control" id="banner-f" name="banner-f">
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea id="bio-f" name="bio-f" class="form-control" style="resize: none; height:30vh"><?php echo $userinfo['bio']; ?></textarea>
+                            <label for="bio-f" class="form-label">Bio</label>
+                        </div>
+                        
                         <div id="error-message" class="text-danger"></div>
                     </div>
                     <div class="modal-footer">
@@ -74,7 +85,11 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
             </div>
         </div>
     </div>
-    <?php endif; ?>
+    <!-- Toast - Modifier le profil -->
+    <?php
+    successToast("Profil modifié avec succès !", "changeProfileToast");
+    endif;
+    ?>
 </main>
 <?php
 require_once dirname(__FILE__).'/php_tool/template_bot.php';
