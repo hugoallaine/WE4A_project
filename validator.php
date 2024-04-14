@@ -5,8 +5,8 @@ require_once dirname(__FILE__).'/php_tool/db.php';
  * Vérification de l'adresse email utilisateur pour la validation du compte
  */
 if (isset($_GET['email']) && isset($_GET['key'])) {
-    $email = SecurizeString_ForSQL($_GET['email']);
-    $key = SecurizeString_ForSQL($_GET['key']);
+    $email = urldecode($_GET['email']);
+    $key = urldecode($_GET['key']);
     if (!empty($email) && !empty($key)) {
         $req = $db->prepare("SELECT * FROM emailsnonverifies WHERE email = ? AND token = ?");
         $req->execute(array($email, $key));

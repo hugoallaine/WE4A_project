@@ -21,7 +21,7 @@ function SecurizeString_ForSQL($string){
 }
 
 function generateToken($length) {
-    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_+=~';
+    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=~';
     $chars_length = strlen($chars);
     $token = '';
     for ($i = 0; $i < $length; $i++) {
