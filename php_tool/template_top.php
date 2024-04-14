@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once dirname(__FILE__).'/alreadyConnected.php';
 require_once dirname(__FILE__).'/toast.php';
 ?>
 <!DOCTYPE html>
@@ -38,7 +39,7 @@ require_once dirname(__FILE__).'/toast.php';
                             </a>
                         </li>
                         <li>
-                            <a href="profile.php<?php if(isset($_SESSION['id'])){echo "?pseudo=".$_SESSION['pseudo'];} ?>" class="nav-link <?php if($currentPage === 'Profil'){echo 'active';}else{echo 'link-dark';} ?>" aria-current="page">
+                            <a href="<?php if(isConnected()){echo "profile.php?pseudo=".$_SESSION['pseudo'];}else{echo '#';} ?>" class="nav-link <?php if($currentPage === 'Profil'){echo 'active';}else{echo 'link-dark';} ?>" aria-current="page" <?php if(!isConnected()){echo "data-bs-toggle='modal' data-bs-target='#modalLogin'";} ?>>
                                 <img src="img/icon/profil.png" class="bi me-2" width="16" height="16">
                                 Profil
                             </a>
@@ -57,7 +58,7 @@ require_once dirname(__FILE__).'/toast.php';
                         </li>
                     </ul>
                     <hr>
-                    <?php if(isset($_SESSION['id'])): ?>
+                    <?php if(isConnected()): ?>
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                             id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -101,10 +102,10 @@ require_once dirname(__FILE__).'/toast.php';
                             <button class="btn btn-outline-primary" type="submit"><img src="img/icon/loupe.png"
                                     class="img-fluid d-block mx-auto" width="30"></button>
                         </form>
-                        <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#<?php if(isset($_SESSION['id'])){echo "modalPost";}else{echo "modalLogin";} ?>'>Écrire un Greg</button>
+                        <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#<?php if(isConnected()){echo "modalPost";}else{echo "modalLogin";} ?>'>Écrire un Greg</button>
                     </div>
                 </nav>
-                <?php if(isset($_SESSION['id'])): ?>
+                <?php if(isConnected()): ?>
                 <!-- Modal - Ecrire un tweet -->
                 <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">

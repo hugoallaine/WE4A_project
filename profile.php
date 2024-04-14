@@ -13,7 +13,7 @@ if (isset($_GET['pseudo'])) {
     $req = $db->prepare('SELECT Count(*) AS following FROM follows WHERE id_user_following = ?');
     $req->execute(array($userinfo['id']));
     $following = $req->fetch();
-} elseif (isset($_SESSION['id']) && isset($_SESSION['pseudo'])) {
+} elseif (isConnected()) {
     header("Location: profile.php?pseudo=".$_SESSION['pseudo']);
 } else {
     header("Location: index.php");
@@ -36,7 +36,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 </h5>
                 <div class="d-flex align-items-center">
                     <?php
-                    if(isset($_SESSION['id']) && $_SESSION['id'] == $userinfo['id']) {
+                    if(isConnected() && $_SESSION['id'] == $userinfo['id']) {
                         echo '<a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalProfile">Modifier mon profil</a>';
                     }
                     ?>
@@ -46,7 +46,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
             <p class="card-text"><?php echo $userinfo['bio']; ?></p>
         </div>
     </div>
-    <?php if(isset($_SESSION['id']) && $_SESSION['id'] == $userinfo['id']): ?>
+    <?php if(isConnected() && $_SESSION['id'] == $userinfo['id']): ?>
     <!-- Modal - Modifier le profil -->
     <div class="modal fade" id="modalProfile" tabindex="-1" role="dialog" aria-labelledby="modalProfileLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
