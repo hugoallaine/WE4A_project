@@ -52,9 +52,9 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                         </button>
                                     </div>
                                     <div class='col-12 p-0'>
-                                        <button class='btn'>
-                                            <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
-                                        </button>
+                                    <button class='btn' type='button' data-bs-toggle='modal' data-bs-target='#" . (isset($_SESSION['id']) ? 'modalPost' : 'modalLogin') . "' data-tweet-id='" . $post['id'] . "'>
+                                        <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
+                                    </button>
                                     </div>
                                 </div>
                             </div>
