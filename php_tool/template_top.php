@@ -120,6 +120,7 @@ require_once dirname(__FILE__).'/toast.php';
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>                                
                                     <input type="submit" class="btn btn-primary" name="postSubmit" value="Envoyer le message"/>
                                 </div>
+                                <input type="hidden" name="id_parent" value="" />
                             </form>
                         </div>
                     </div>
