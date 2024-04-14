@@ -3,9 +3,6 @@ session_start();
 require_once dirname(__FILE__).'/db.php';
 require_once dirname(__FILE__).'/alreadyConnected.php';
 
-$check = $db->prepare("SELECT * FROM users WHERE id = ?");
-$check->execute(array($_SESSION['id']));
-$check = $check->fetch();
 if (isConnected()) {
     if (isset($_POST['pseudo-f'])) {
         $pseudo = SecurizeString_ForSQL($_POST['pseudo-f']);
