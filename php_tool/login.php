@@ -6,7 +6,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     $email = SecurizeString_ForSQL($_POST['user']);
     $password = SecurizeString_ForSQL($_POST['password']);
     if (!empty($email) AND !empty($password)) {
-        $req = $db->prepare("SELECT id,email,password,pseudo,avatar,verified,tfaKey,isAdmin FROM users WHERE email = ?");
+        $req = $db->prepare("SELECT id,email,password,token,pseudo,avatar,verified,tfaKey,isAdmin FROM users WHERE email = ?");
         $req->execute(array($email));
         $isUserExist = $req->rowCount();
         if ($isUserExist) {
@@ -19,6 +19,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
                     } else {
                         $_SESSION['id'] = $user['id'];
                         $_SESSION['email'] = $user['email'];
+                        $_SESSION['token'] = $user['token'];
                         $_SESSION['pseudo'] = $user['pseudo'];
                         if (empty($user['avatar'])) {
                             $_SESSION['avatar'] = null;
