@@ -12,10 +12,7 @@ session_start_secure();
 function isConnected() {
     global $db;
     if (isset($_SESSION['token']) && isset($_SESSION['id'])) {
-        $req = $db->prepare("SELECT id FROM users WHERE token = ?");
-        $req->execute(array($_SESSION['token']));
-        $account = $req->fetch();
-        if ($account['id'] == $_SESSION['id']) {
+        if (checkToken($_SESSION['token'], $_SESSION['id'])) {
             return true;
         }
     }

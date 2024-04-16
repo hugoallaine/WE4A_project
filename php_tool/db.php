@@ -30,11 +30,11 @@ function generateToken($length) {
     return $token;
 }
 
-function checkToken($token, $email) {
+function checkToken($token, $id) {
     global $db;
-    $req = $db->prepare("SELECT * FROM users WHERE token = ? AND email = ?");
-    $req->execute(array($token));
-    $result = $req->fetch();
+    $req = $db->prepare("SELECT * FROM users WHERE token = ? AND id = ?");
+    $req->execute(array($token, $id));
+    $result = $req->rowCount();
     if ($result) {
         return true;
     }
