@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once dirname(__FILE__).'/alreadyConnected.php';
+session_start_secure();
 require_once dirname(__FILE__).'/toast.php';
 ?>
 <!DOCTYPE html>
@@ -18,7 +18,7 @@ require_once dirname(__FILE__).'/toast.php';
     <script src="/WE4A_project/js/template.js" defer></script>
     <?php if($currentPage == "Profil"){echo "<script src='/WE4A_project/js/profile.js' defer></script>";} ?>
 </head>
-<body style="overflow: hidden;">
+<body class="overflow-hidden">
     <div class="container-fluid">
         <!-- Container principal -->
         <div class="row">
@@ -26,7 +26,7 @@ require_once dirname(__FILE__).'/toast.php';
             <div class="col-2 p-0 vh-100">
                 <!-- Sidebar -->
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100">
-                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <a href="index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                         <img src="img/logo/YGreg_logo.png" alt="YGreg" width="40" height="40"
                             class="bi me-2">
                         <span class="fs-4">YGreg</span>
@@ -67,7 +67,7 @@ require_once dirname(__FILE__).'/toast.php';
                             <strong><?php echo $_SESSION['pseudo']; ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                            <li><a class="dropdown-item" href="#">Paramètres</a></li>
+                            <li><a class="dropdown-item" href="settings.php">Paramètres</a></li>
                             <li><a class="dropdown-item" href="#">Support</a></li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -128,6 +128,7 @@ require_once dirname(__FILE__).'/toast.php';
                     </div>
                 </div>
                 <?php endif; ?>
+                <?php if(!isConnected()): ?>
                 <!-- Modal - Se connecter -->
                 <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -260,9 +261,12 @@ require_once dirname(__FILE__).'/toast.php';
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
                 <!-- Toast -->
                 <?php 
-                successToast('Connexion réussie','loginToast');
-                successToast('Inscription réussie. Vérifier votre adresse email.','registerToast');
+                if (!isConnected()) {
+                    successToast('Connexion réussie','loginToast');
+                    successToast('Inscription réussie. Vérifier votre adresse email.','registerToast');
+                }
                 ?>
                 <!-- Main -->

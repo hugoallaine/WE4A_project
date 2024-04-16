@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start_secure();
 require_once dirname(__FILE__).'/db.php';
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
