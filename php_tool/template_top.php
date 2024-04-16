@@ -17,6 +17,7 @@ require_once dirname(__FILE__).'/toast.php';
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/WE4A_project/js/template.js" defer></script>
     <?php if($currentPage == "Profil"){echo "<script src='/WE4A_project/js/profile.js' defer></script>";} ?>
+    <?php if($currentPage == "Paramètres"){echo "<script src='/WE4A_project/js/settings.js' defer></script>";} ?>
 </head>
 <body class="overflow-hidden">
     <div class="container-fluid">

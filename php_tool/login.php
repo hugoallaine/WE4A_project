@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 require_once dirname(__FILE__).'/db.php';
 
@@ -13,7 +14,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
             $user = $req->fetch();
             if (password_verify($password, $user['password'])) {
                 if ($user['verified']) {
-                    if ($user['isTfaEnabled']) {
+                    if (!empty($user['tfaKey'])) {
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['tfaKey'] = $user['tfaKey'];
                     } else {
@@ -45,5 +46,8 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
 if (isset($error)) {
     header('Content-Type: application/json');
     echo json_encode(array('error' => true,'message' => $error));
+} else {
+    header('Content-Type: application/json');
+    echo json_encode(array('error' => false));
 }
 ?>

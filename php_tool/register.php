@@ -100,5 +100,8 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
 if (isset($error)) {
     header('Content-Type: application/json');
     echo json_encode(array('error' => true,'message' => $error));
+} else {
+    header('Content-Type: application/json');
+    echo json_encode(array('error' => false));
 }
 ?>

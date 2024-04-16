@@ -1,7 +1,7 @@
 var buttons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#modalPost"]');
 
-buttons.forEach(function(button) {
-    button.addEventListener('click', function() {
+buttons.forEach(function (button) {
+    button.addEventListener('click', function () {
         var tweetId = button.getAttribute('data-tweet-id');
         var input = document.querySelector('input[name="id_parent"]');
         input.value = tweetId;

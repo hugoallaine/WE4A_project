@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
+session_start_secure();
+
 $currentPage = 'Profil';
 
 if (isset($_GET['pseudo'])) {

@@ -1,11 +1,11 @@
 $(document).ready(function () {
-     /* Modifier le profil */
-     $('#formProfile').submit(function (e) {
+    /* Modifier le profil */
+    $('#formProfile').submit(function (e) {
         e.preventDefault();
         var formData = new FormData(this);
         $.ajax({
             type: 'POST',
-            url: 'php_tool/change_profile.php',
+            url: 'php_tool/changeAccount.php',
             data: formData,
             contentType: false,
             processData: false,
@@ -18,7 +18,7 @@ $(document).ready(function () {
                     profileToast.show();
                     setTimeout(function () {
                         if (response.changedpseudo) {
-                            window.location.href = "profile.php?pseudo="+response.pseudo;
+                            window.location.href = "profile.php?pseudo=" + response.pseudo;
                         } else {
                             location.reload(true);
                         }
