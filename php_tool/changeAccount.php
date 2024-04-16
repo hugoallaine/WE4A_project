@@ -166,7 +166,7 @@ if (isConnected()) {
             if (checkToken($_SESSION['token'], $_SESSION['id'])) {
                 $req = $db->prepare('DELETE FROM likes WHERE id_user = ?');
                 $req->execute(array($_SESSION['id']));
-                $req = $db->prepare('DELETE FROM pictures INNER JOIN posts ON pictures.id_post = posts.id WHERE posts.id_user = ?');
+                $req = $db->prepare('DELETE pictures FROM pictures JOIN posts ON pictures.id_post = posts.id WHERE posts.id_user = ?');
                 $req->execute(array($_SESSION['id']));
                 $req = $db->prepare('DELETE FROM posts WHERE id_user = ?');
                 $req->execute(array($_SESSION['id']));

@@ -80,7 +80,7 @@ $(document).ready(function () {
                     var deleteAccountToast = new bootstrap.Toast(document.getElementById('deleteAccountToast'));
                     deleteAccountToast.show();
                     setTimeout(function () {
-                        location.href = 'logout.php';
+                        location.href = 'index.php';
                     }, 2000);
                 }
                 document.getElementById('formDeleteAccount').reset();
