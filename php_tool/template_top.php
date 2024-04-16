@@ -153,6 +153,10 @@ require_once dirname(__FILE__).'/toast.php';
                                             Montrer le mot de passe
                                         </label>
                                     </div>
+                                    <div id="tfaDiv" class="form-floating mb-3" style="display:none;">
+                                        <input type="text" class="form-control" id="tfa_code" name="tfa_code" placeholder="" autocomplete="one-time-code"/>
+                                        <label for="tfa_code" class="form-label">Code de double authentification</label>
+                                    </div>
                                     <div id="error-message" class="text-danger"></div>
                                 </div>
                                 <div class="modal-footer">

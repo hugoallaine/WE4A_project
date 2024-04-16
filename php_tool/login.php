@@ -2,6 +2,9 @@
 require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 require_once dirname(__FILE__).'/db.php';
+require_once dirname(__FILE__).'/vendor/autoload.php';
+use RobThree\Auth\TwoFactorAuth;
+$tfa = new TwoFactorAuth($issuer = 'YGreg');
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
     $email = SecurizeString_ForSQL($_POST['user']);
@@ -14,9 +17,24 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
             $user = $req->fetch();
             if (password_verify($password, $user['password'])) {
                 if ($user['verified']) {
-                    if (!empty($user['tfaKey'])) {
-                        $_SESSION['email'] = $user['email'];
-                        $_SESSION['tfaKey'] = $user['tfaKey'];
+                    if (!empty($user['tfaKey']) && !empty($_POST['tfa_code'])) {
+                        if ($tfa->verifyCode($user['tfaKey'], $_POST['tfa_code'])) {
+                            $_SESSION['id'] = $user['id'];
+                            $_SESSION['email'] = $user['email'];
+                            $_SESSION['token'] = $user['token'];
+                            $_SESSION['pseudo'] = $user['pseudo'];
+                            if (empty($user['avatar'])) {
+                                $_SESSION['avatar'] = null;
+                            } else {
+                                $_SESSION['avatar'] = $user['avatar'];
+                            }
+                            $_SESSION['isAdmin'] = $user['isAdmin'];
+                        } else {
+                            $error = "Code invalide.";
+                        }
+                    } else if (!empty($user['tfaKey']) && empty($_POST['tfa_code'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(array('tfa' => true));
                     } else {
                         $_SESSION['id'] = $user['id'];
                         $_SESSION['email'] = $user['email'];
@@ -46,8 +64,5 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
 if (isset($error)) {
     header('Content-Type: application/json');
     echo json_encode(array('error' => true,'message' => $error));
-} else {
-    header('Content-Type: application/json');
-    echo json_encode(array('error' => false));
 }
 ?>

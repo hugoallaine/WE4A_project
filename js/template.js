@@ -63,15 +63,19 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.error) {
                     $('#error-message').text(response.message);
+                    document.getElementById('formLoginId').reset();
+                } else if (response.tfa) {
+                    $("#tfaDiv").css("display", "block");
+                    $('#error-message').text("Veuillez entrer le code de double authentification");
                 } else {
                     $('#modalLogin').modal('hide');
                     var loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
                     loginToast.show();
+                    document.getElementById('formLoginId').reset();
                     setTimeout(function () {
                         location.reload();
                     }, 2000);
                 }
-                document.getElementById('formLoginId').reset();
             }
         });
     });
