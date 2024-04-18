@@ -57,7 +57,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivi</button>';
                                 }
                             } else {
-                                echo '<button id="btnFollow" type="submit" class="btn btn-primary">Suivre</button>';
+                                echo '<button id="btnFollow" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Suivre</button>';
                             }
                             ?>
                         </form>
