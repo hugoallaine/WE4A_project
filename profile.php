@@ -57,7 +57,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivi</button>';
                                 }
                             } else {
-                                echo 'Suivre';
+                                echo '<button id="btnFollow" type="submit" class="btn btn-primary">Suivre</button>';
                             }
                             ?>
                         </form>

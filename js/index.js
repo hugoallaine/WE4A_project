@@ -29,6 +29,9 @@ $(document).ready(function () {
             success: function (response) {
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
             }
         });
     });
