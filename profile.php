@@ -41,11 +41,27 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     ?>
                 </h5>
                 <div class="d-flex align-items-center">
-                    <?php
-                    if(isConnected() && $_SESSION['id'] == $userinfo['id']) {
-                        echo '<a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalProfile">Modifier mon profil</a>';
-                    }
-                    ?>
+                    <?php if (isConnected() && $_SESSION['id'] == $userinfo['id']): ?>
+                        <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalProfile">Modifier mon profil</a>
+                    <?php else: ?>
+                        <form id="formFollow" method="POST">
+                            <input type="hidden" name="pseudo" value="<?php echo $userinfo['pseudo'] ?>">
+                            <?php
+                            if (isConnected()) {
+                                $req = $db->prepare('SELECT Count(*) AS follow FROM follows WHERE id_user_following = ? AND id_user_followed = ?');
+                                $req->execute(array($_SESSION['id'], $userinfo['id']));
+                                $follow = $req->fetch();
+                                if($follow['follow'] == 0) {
+                                    echo '<button id="btnFollow" type="submit" class="btn btn-primary">Suivre</button>';
+                                } else {
+                                    echo '<button id="btnFollow" type="submit" class="btn btn-secondary">Ne plus suivre</button>';
+                                }
+                            } else {
+                                echo 'Suivre';
+                            }
+                            ?>
+                        </form>
+                    <?php endif; ?>
                 </div>
             </div>
             <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $followers['followers']; if($followers['followers']>1){echo " abonnés";}else{echo " abonné";}?> - <?php echo $following['following']; if($following['following']>1){echo " abonnements";}else{echo " abonnement";}?></h6>

@@ -28,4 +28,30 @@ $(document).ready(function () {
             }
         });
     });
+
+    /* Suivre un utilisateur */
+    $('#formFollow').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/follow.php',
+            data: formData,
+            success: function (response) {
+                if (response.error) {
+                    $('#error-message').text(response.message);
+                } else {
+                    if (response.message == 'followed') {
+                        $('#btnFollow').text("Ne plus suivre");
+                        $('#btnFollow').removeClass("btn-primary");
+                        $('#btnFollow').addClass("btn-secondary");
+                    } else {
+                        $('#btnFollow').text("Suivre");
+                        $('#btnFollow').removeClass("btn-secondary");
+                        $('#btnFollow').addClass("btn-primary");
+                    }
+                }
+            }
+        });
+    });
 });
