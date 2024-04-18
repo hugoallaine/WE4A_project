@@ -15,7 +15,7 @@ function sendPost($post, $parentId = null) {
     }
 }
 
-if (isset($_POST['textAreaPostId'])) {
+if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {
     $post = SecurizeString_ForSQL($_POST['textAreaPostId']);
     
     if (!empty($post)) {
@@ -28,6 +28,33 @@ if (isset($_POST['textAreaPostId'])) {
     } else {
         $error = "Le message est vide";
     }
+
+    if (isset($_FILES['images']) && $_FILES['images']['error'] === UPLOAD_ERR_OK) {
+        if ($_FILES['images']['size'] <= 2097152) {
+            $filename = $_FILES['images']['name'];
+            $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $newfilename = "image.".$file_extension;
+            $tmp_name = $_FILES['images']['tmp_name'];
+
+            $req = $db->prepare("SELECT id FROM posts WHERE id_user = ? AND created_at = (SELECT MAX(created_at) FROM posts WHERE id_user = ?)");
+            $req->execute(array($_SESSION['id'], $_SESSION['id']));
+            $post_id = $req->fetch();
+
+            if(!file_exists('../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/')) {
+                mkdir('../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/', 0777, true);
+            }
+
+            $upload_directory = '../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/';
+
+            $path = $upload_directory.$newfilename;
+            move_uploaded_file($tmp_name, $path);
+
+            $req = $db->prepare("INSERT INTO pictures (id_post, path) VALUES (?, ?)");
+            $req->execute(array($post_id['id'], $newfilename));
+            
+        }
+    }
+
 }
 
 ?>
