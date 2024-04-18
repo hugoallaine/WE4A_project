@@ -11,15 +11,25 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
 <main>
     <div class="feed-container col-lg-8 col-md-12 p-0 overflow-auto vh-100">
         <?php
-        $req = $db->prepare("
-        SELECT posts.*, users.pseudo, users.avatar, 
-        likes.id as like_id
-        FROM posts
-        INNER JOIN users ON posts.id_user = users.id
-        LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ?
-        LIMIT 10
-        ");
-        $req->execute([$_SESSION['id']]);
+        if (isset($_SESSION['id'])) {
+            $req = $db->prepare("
+            SELECT posts.*, users.pseudo, users.avatar, 
+            likes.id as like_id
+            FROM posts
+            INNER JOIN users ON posts.id_user = users.id
+            LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ?
+            LIMIT 10
+            ");
+            $req->execute([$_SESSION['id']]);
+        } else {
+            $req = $db->query("
+            SELECT posts.*, users.pseudo, users.avatar, 
+            NULL as like_id
+            FROM posts
+            INNER JOIN users ON posts.id_user = users.id
+            LIMIT 10
+            ");
+        }
         $posts = $req->fetchAll();
 
         foreach ($posts as $post) {
