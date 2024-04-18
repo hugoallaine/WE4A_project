@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
+require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 
 require_once dirname(__FILE__).'/db.php';
