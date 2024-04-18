@@ -8,13 +8,17 @@ if (isset($_GET['pseudo'])) {
     $getpseudo = SecurizeString_ForSQL($_GET['pseudo']);
     $req = $db->prepare('SELECT id,pseudo,avatar,banner,bio,isAdmin FROM users WHERE pseudo = ?');
     $req->execute(array($getpseudo));
-    $userinfo = $req->fetch();
-    $req = $db->prepare('SELECT Count(*) AS followers FROM follows WHERE id_user_followed = ?');
-    $req->execute(array($userinfo['id']));
-    $followers = $req->fetch();
-    $req = $db->prepare('SELECT Count(*) AS following FROM follows WHERE id_user_following = ?');
-    $req->execute(array($userinfo['id']));
-    $following = $req->fetch();
+    if ($req->rowCount() > 0) {
+        $userinfo = $req->fetch();
+        $req = $db->prepare('SELECT Count(*) AS followers FROM follows WHERE id_user_followed = ?');
+        $req->execute(array($userinfo['id']));
+        $followers = $req->fetch();
+        $req = $db->prepare('SELECT Count(*) AS following FROM follows WHERE id_user_following = ?');
+        $req->execute(array($userinfo['id']));
+        $following = $req->fetch();
+    } else {
+        header("Location: profile.php");
+    }
 } elseif (isConnected()) {
     header("Location: profile.php?pseudo=".$_SESSION['pseudo']);
 } else {
