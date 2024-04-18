@@ -52,9 +52,9 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                 $req->execute(array($_SESSION['id'], $userinfo['id']));
                                 $follow = $req->fetch();
                                 if($follow['follow'] == 0) {
-                                    echo '<button id="btnFollow" type="submit" class="btn btn-primary">Suivre</button>';
+                                    echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivre</button>';
                                 } else {
-                                    echo '<button id="btnFollow" type="submit" class="btn btn-secondary">Ne plus suivre</button>';
+                                    echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivi</button>';
                                 }
                             } else {
                                 echo 'Suivre';
@@ -64,7 +64,14 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     <?php endif; ?>
                 </div>
             </div>
-            <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $followers['followers']; if($followers['followers']>1){echo " abonnés";}else{echo " abonné";}?> - <?php echo $following['following']; if($following['following']>1){echo " abonnements";}else{echo " abonnement";}?></h6>
+            <div class="d-flex justify-content-start align-items-center">
+                <a href="#" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                    <h6 class="card-subtitle text-body-secondary"><?php echo '<span id="nbFollowers">'.$followers['followers'].'</span>'; if($followers['followers']>1){echo " abonnés";}else{echo " abonné";}?></h6>
+                </a>
+                <h6 class="ms-2 mb-1 me-2">-</h6>
+                <a href="#" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                    <h6 class="card-subtitle text-body-secondary"><?php echo '<span id="nbFollowing">'.$following['following'].'</span>'; if($following['following']>1){echo " abonnements";}else{echo " abonnement";}?></h6>
+                </a>
             <p class="card-text"><?php echo $userinfo['bio']; ?></p>
         </div>
     </div>
