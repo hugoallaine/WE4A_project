@@ -16,6 +16,7 @@ require_once dirname(__FILE__).'/toast.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/WE4A_project/js/template.js" defer></script>
+    <?php if($currentPage == "Accueil"){echo "<script src='/WE4A_project/js/index.js' defer></script>";} ?>
     <?php if($currentPage == "Profil"){echo "<script src='/WE4A_project/js/profile.js' defer></script>";} ?>
     <?php if($currentPage == "Paramètres"){echo "<script src='/WE4A_project/js/settings.js' defer></script>";} ?>
 </head>
@@ -117,7 +118,10 @@ require_once dirname(__FILE__).'/toast.php';
                                     <h5 class="modal-title" id="modalPostLabel">Nouveau message</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder="Saisir un message" required style="resize: none; height:30vh"></textarea>
+                                    <textarea id="textAreaPostId" name="textAreaPostId" class="form-control mb-1" placeholder="Saisir un message" required style="resize: none; height:30vh"></textarea>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+                                    <label for="images" class="form-label">Ajouter des images</label>
+                                    <input type="file" id="images" name="images" class="form-control"/>
                                 </div>
                                 <div class="modal-footer border-top-0">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>                                
