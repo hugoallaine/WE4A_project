@@ -72,7 +72,11 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 <a href="#" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                     <h6 class="card-subtitle text-body-secondary"><?php echo '<span id="nbFollowing">'.$following['following'].'</span>'; if($following['following']>1){echo " abonnements";}else{echo " abonnement";}?></h6>
                 </a>
-            <p class="card-text"><?php echo $userinfo['bio']; ?></p>
+            </div>
+            <?php if (!empty($userinfo['bio'])): ?>
+                <hr>
+                <p class="card-text"><?php echo $userinfo['bio']; ?></p>
+            <?php endif; ?>
         </div>
     </div>
     <?php if(isConnected() && $_SESSION['id'] == $userinfo['id']): ?>
