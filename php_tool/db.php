@@ -20,6 +20,12 @@ function SecurizeString_ForSQL($string){
     return $string;
 }
 
+function RestoreString_FromSQL($string){
+    $string = htmlspecialchars_decode($string);
+    $string = stripslashes($string);
+    return $string;
+}
+
 function generateToken($length) {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=~';
     $chars_length = strlen($chars);

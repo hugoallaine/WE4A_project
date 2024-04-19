@@ -33,58 +33,62 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
         $country = SecurizeString_ForSQL($_POST['country-r']);
         if (!empty($email) && !empty($password) && !empty($password2) && !empty($pseudo) && !empty($name) && !empty($firstname) && !empty($birthdate) && !empty($address) && !empty($city) && !empty($zipcode) && !empty($country)) {
             if (strlen($pseudo) <= 32) {
-                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $req = $db->prepare("SELECT id FROM users WHERE email = ?");
-                    $req->execute(array($email));
-                    $emailexist = $req->rowCount();
-                    if ($emailexist == 0) {
-                        if ($password == $password2) {
-                            if (strlen($password) >= 12 && preg_match('/[A-Z]/', $password) && preg_match('/[a-z]/', $password) && preg_match('/[0-9]/', $password) && preg_match('/[^a-zA-Z0-9]/', $password)) {
-                                if (strlen($zipcode) == 5) {
-                                    $password = password_hash($password, PASSWORD_DEFAULT);
-                                    $key = generateToken(255);
-                                    $token = generateToken(255);
-                                    $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo) VALUES (?,?,?,?,?,?,?)");
-                                    $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo));
-                                    if (isset($_FILES['avatar-r']) && $_FILES['avatar-r']['error'] === UPLOAD_ERR_OK) {
-                                        if ($_FILES['avatar-r']['size'] <= 2097152) {
-                                            $req = $db->prepare("SELECT id FROM users WHERE email = ?");
-                                            $req->execute(array($email));
-                                            $line = $req->fetch();
-                                            $filename = $_FILES['avatar-r']['name'];
-                                            $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
-                                            $newfilename = "avatar.".$file_extension;
-                                            $tmp_name = $_FILES['avatar-r']['tmp_name'];
-                                            $upload_directory = '../img/user/'.$line['id'].'/';
-                                            if (!file_exists($upload_directory)) {
-                                                mkdir($upload_directory, 0777, true);
+                if (strlen($name) <= 32 && strlen($firstname) <= 32) {
+                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $req = $db->prepare("SELECT id FROM users WHERE email = ?");
+                        $req->execute(array($email));
+                        $emailexist = $req->rowCount();
+                        if ($emailexist == 0) {
+                            if ($password == $password2) {
+                                if (strlen($password) >= 12 && preg_match('/[A-Z]/', $password) && preg_match('/[a-z]/', $password) && preg_match('/[0-9]/', $password) && preg_match('/[^a-zA-Z0-9]/', $password)) {
+                                    if (strlen($zipcode) == 5) {
+                                        $password = password_hash($password, PASSWORD_DEFAULT);
+                                        $key = generateToken(255);
+                                        $token = generateToken(255);
+                                        $req = $db->prepare("INSERT INTO users(email,password,token,name,firstname,birth_date,pseudo) VALUES (?,?,?,?,?,?,?)");
+                                        $req->execute(array($email, $password, $token, $name, $firstname, $birthdate, $pseudo));
+                                        if (isset($_FILES['avatar-r']) && $_FILES['avatar-r']['error'] === UPLOAD_ERR_OK) {
+                                            if ($_FILES['avatar-r']['size'] <= 2097152) {
+                                                $req = $db->prepare("SELECT id FROM users WHERE email = ?");
+                                                $req->execute(array($email));
+                                                $line = $req->fetch();
+                                                $filename = $_FILES['avatar-r']['name'];
+                                                $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+                                                $newfilename = "avatar.".$file_extension;
+                                                $tmp_name = $_FILES['avatar-r']['tmp_name'];
+                                                $upload_directory = '../img/user/'.$line['id'].'/';
+                                                if (!file_exists($upload_directory)) {
+                                                    mkdir($upload_directory, 0777, true);
+                                                }
+                                                $path = $upload_directory.$newfilename;
+                                                move_uploaded_file($tmp_name, $path);
+                                                $avatar = $newfilename;
+                                                $req = $db->prepare("UPDATE users SET avatar = ? WHERE email = ?");
+                                                $req->execute(array($avatar, $email));
                                             }
-                                            $path = $upload_directory.$newfilename;
-                                            move_uploaded_file($tmp_name, $path);
-                                            $avatar = $newfilename;
-                                            $req = $db->prepare("UPDATE users SET avatar = ? WHERE email = ?");
-                                            $req->execute(array($avatar, $email));
                                         }
+                                        $req = $db->prepare("INSERT INTO address(id_user,address,city,zip_code,country) VALUES((SELECT id FROM users WHERE email = ?),?,?,?,?)");
+                                        $req->execute(array($email, $address, $city, $zipcode, $country));
+                                        $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
+                                        $req->execute(array($email, $key, $email));
+                                        sendMailConfirm($email, $key);
+                                    } else {
+                                        $error = "Votre code postal doit contenir 5 chiffres.";
                                     }
-                                    $req = $db->prepare("INSERT INTO address(id_user,address,city,zip_code,country) VALUES((SELECT id FROM users WHERE email = ?),?,?,?,?)");
-                                    $req->execute(array($email, $address, $city, $zipcode, $country));
-                                    $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
-                                    $req->execute(array($email, $key, $email));
-                                    sendMailConfirm($email, $key);
                                 } else {
-                                    $error = "Votre code postal doit contenir 5 chiffres.";
+                                    $error = "Votre mot de passe ne satisfait pas les conditions minimums.";
                                 }
                             } else {
-                                $error = "Votre mot de passe ne satisfait pas les conditions minimums.";
+                                $error = "Vos mots de passe ne correspondent pas.";
                             }
                         } else {
-                            $error = "Vos mots de passe ne correspondent pas.";
+                            $error = "Cette adresse email existe déjà.";
                         }
                     } else {
-                        $error = "Cette adresse email existe déjà.";
+                        $error = "Votre adresse email n'est pas valide.";
                     }
                 } else {
-                    $error = "Votre adresse email n'est pas valide.";
+                    $error = "Votre nom et prénom ne doivent pas dépasser 32 caractères !";
                 }
             } else {
                 $error = "Votre nom d'utilisateur ne doit pas dépasser 32 caractères !";

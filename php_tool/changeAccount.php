@@ -7,6 +7,63 @@ use RobThree\Auth\TwoFactorAuth;
 $tfa = new TwoFactorAuth($issuer = 'YGreg');
 
 if (isConnected()) {
+    // Change informations
+    if (isset($_POST['firstname']) && isset($_POST['name']) && isset($_POST['birthdate']) && isset($_POST['address']) && isset($_POST['city']) && isset($_POST['zipcode']) && isset($_POST['country'])) {
+        $firstname = SecurizeString_ForSQL($_POST['firstname']);
+        $name = SecurizeString_ForSQL($_POST['name']);
+        $birthdate = SecurizeString_ForSQL($_POST['birthdate']);
+        $address = SecurizeString_ForSQL($_POST['address']);
+        $city = SecurizeString_ForSQL($_POST['city']);
+        $zipcode = SecurizeString_ForSQL($_POST['zipcode']);
+        $country = SecurizeString_ForSQL($_POST['country']);
+        $req = $db->prepare("SELECT u.name,u.firstname,u.birth_date,a.address,a.city,a.zip_code,a.country FROM users u JOIN address a ON u.id = a.id_user WHERE u.id = ?");
+        $req->execute(array($_SESSION['id']));
+        $oldinfos = $req->fetch();
+        $count = 0;
+        if ($oldinfos['firstname'] != $firstname && !empty($firstname) && strlen($firstname) <= 32) {
+            $req = $db->prepare("UPDATE users SET firstname = ? WHERE id = ?");
+            $req->execute(array($firstname, $_SESSION['id']));
+            $count += 1;
+        }
+        if ($oldinfos['name'] != $name && !empty($name) && strlen($name) <= 32) {
+            $req = $db->prepare("UPDATE users SET name = ? WHERE id = ?");
+            $req->execute(array($name, $_SESSION['id']));
+            $count += 1;
+        }
+        if ($oldinfos['birth_date'] != $birthdate && !empty($birthdate)) {
+            $req = $db->prepare("UPDATE users SET birth_date = ? WHERE id = ?");
+            $req->execute(array($birthdate, $_SESSION['id']));
+            $count += 1;
+        }
+        if ($oldinfos['address'] != $address && !empty($address)) {
+            $req = $db->prepare("UPDATE address SET address = ? WHERE id_user = ?");
+            $req->execute(array($address, $_SESSION['id']));
+            $count += 1;
+        }
+        if ($oldinfos['city'] != $city && !empty($city)) {
+            $req = $db->prepare("UPDATE address SET city = ? WHERE id_user = ?");
+            $req->execute(array($city, $_SESSION['id']));
+            $count += 1;
+        }
+        if ($oldinfos['zip_code'] != $zipcode && !empty($zipcode) && strlen($zipcode) == 5) {
+            $req = $db->prepare("UPDATE address SET zip_code = ? WHERE id_user = ?");
+            $req->execute(array($zipcode, $_SESSION['id']));
+            $count += 1;
+        }
+        if ($oldinfos['country'] != $country && !empty($country)) {
+            $req = $db->prepare("UPDATE address SET country = ? WHERE id_user = ?");
+            $req->execute(array($country, $_SESSION['id']));
+            $count += 1;
+        }
+        if ($count > 0) {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => false));
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(array('error' => true,'message' => "Aucune information n'a été modifiée."));
+        }
+    }
+
     // Change pseudo
     if (isset($_POST['pseudo-f'])) {
         $pseudo = SecurizeString_ForSQL($_POST['pseudo-f']);

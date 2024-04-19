@@ -1,4 +1,24 @@
 $(document).ready(function () {
+    /* Modifier les informations du compte */
+    $('#formChangeInfo').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/changeAccount.php',
+            data: formData,
+            success: function (response) {
+                if (response.error) {
+                    $('#error-message-info').text(response.message);
+                } else {
+                    $('#error-message-info').text('');
+                    var changeInfoToast = new bootstrap.Toast(document.getElementById('changeInfoToast'));
+                    changeInfoToast.show();
+                }
+            }
+        });
+    });
+
     /* Modifier le mot de passe */
     $('#formChangePassword').submit(function (e) {
         e.preventDefault();

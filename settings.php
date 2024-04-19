@@ -6,6 +6,16 @@ redirectIfNotConnected();
 $currentPage = 'Paramètres';
 
 require_once dirname(__FILE__).'/php_tool/db.php';
+$req = $db->prepare('SELECT u.name,u.firstname,u.birth_date,a.address,a.city,a.zip_code,a.country FROM users u JOIN address a ON u.id = a.id_user WHERE email = ?');
+$req->execute([$_SESSION['email']]);
+$userinfo = $req->fetch();
+$formattedFirstname = RestoreString_FromSQL($userinfo['firstname']);
+$formattedName = RestoreString_FromSQL($userinfo['name']);
+$formattedDate = date("Y-m-d", strtotime($userinfo['birth_date']));
+$formattedAddress = RestoreString_FromSQL($userinfo['address']);
+$formattedCity = RestoreString_FromSQL($userinfo['city']);
+$formattedCountry = RestoreString_FromSQL($userinfo['country']);
+
 require_once dirname(__FILE__).'/php_tool/toast.php';
 require_once dirname(__FILE__).'/php_tool/vendor/autoload.php';
 use RobThree\Auth\TwoFactorAuth;
@@ -24,11 +34,60 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
     <div class="accordion" id="accordionSettings">
         <div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
+                    Changer mes informations personnelles
+                </button>
+            </h2>
+            <div id="collapseZero" class="accordion-collapse collapse show" data-bs-parent="#accordionSettings">
+                <div class="accordion-body">
+                    <form id="formChangeInfo" method="POST">
+                        <div class="form-group">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="firstname" class="form-label">Prénom</label>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $formattedFirstname; ?>" autocomplete="given-name">
+                                </div>
+                                <div class="col">
+                                    <label for="name" class="form-label">Nom</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="<?php echo $formattedName; ?>" autocomplete="family-name">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="birthdate" class="form-label">Date de naissance</label>
+                                <input type="date" class="form-control" id="birthdate" name="birthdate" value="<?php echo $formattedDate; ?>" autocomplete="bday">
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-12">
+                                    <label for="inputAddress" class="form-label">Adresse</label>
+                                    <input type="text" class="form-control" id="inputAddress" name="address" value="<?php echo $formattedAddress; ?>" autocomplete="street-address">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCity" class="form-label">Ville</label>
+                                    <input type="text" class="form-control" id="inputCity" name="city" value="<?php echo $formattedCity; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputZip" class="form-label">Code Postal</label>
+                                    <input type="text" class="form-control" id="inputZip" name="zipcode" value="<?php echo $userinfo['zip_code']; ?>" autocomplete="postal-code">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCountry" class="form-label">Pays</label>
+                                    <input type="text" class="form-control" id="inputCountry" name="country" value="<?php echo $formattedCountry; ?>" autocomplete="country-name">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Valider</button>
+                            <div id="error-message-info" class="text-danger text-align-center"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                     Changer de mot de passe
                 </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionSettings">
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionSettings">
                 <div class="accordion-body">
                     <form id="formChangePassword" method="POST">
                         <div class="form-group">
@@ -143,6 +202,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
     } else {
         successToast("La double authentification a bien été désactivée.", "desactivationTfaToast");
     }
+    successToast("Vos informations personnelles ont bien été modifiées.", "changeInfoToast");
     successToast("Votre mot de passe a bien été modifié.", "changePasswordToast");
     successToast("Votre compte a bien été supprimé.", "deleteAccountToast");
     ?>
