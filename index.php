@@ -47,7 +47,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     <div class='card-body'>
                         <div class='row'>
                             <div class='col-md-2 col-3 text-center'>
-                                <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?id=" . $post['id_user'] . "'>
+                                <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?pseudo=" . $post['pseudo'] . "'>
                                 <img src='$avatar' width='32' height='32' alt='Avatar' class='rounded-circle mr-2'>
                                 <h5 class='card-title m-0'>" . $post['pseudo'] . "</h5>
                                 </a>
