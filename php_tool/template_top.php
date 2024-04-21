@@ -48,7 +48,7 @@ require_once dirname(__FILE__).'/toast.php';
                             </a>
                         </li>
                         <li>
-                            <a href="notifications.php" class="nav-link <?php if($currentPage === 'Notifications'){echo 'active';}else{echo 'link-dark';} ?>">
+                            <a href="<?php if(isConnected()){echo "notifications.php";}else{echo '#';} ?>" class="nav-link <?php if($currentPage === 'Notifications'){echo 'active';}else{echo 'link-dark';} ?>"  <?php if(!isConnected()){echo "data-bs-toggle='modal' data-bs-target='#modalLogin'";} ?>>
                                 <img src="img/icon/cloche.png" class="bi me-2" width="16" height="16">
                                 Notifications
                                 <span id="nbNotif" class="badge text-bg-danger"></span>
