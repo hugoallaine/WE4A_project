@@ -1,5 +1,5 @@
 function TogglePassword(checked) {
-    var x = document.getElementById("password");
+    let x = document.getElementById("password");
     if (checked) {
         x.type = "text";
     } else {
@@ -8,8 +8,8 @@ function TogglePassword(checked) {
 }
 
 function TogglePasswordRegister(checked) {
-    var x = document.getElementById("password-r");
-    var y = document.getElementById("password-r-repeat");
+    let x = document.getElementById("password-r");
+    let y = document.getElementById("password-r-repeat");
     if (checked) {
         x.type = "text";
         y.type = "text";
@@ -19,12 +19,36 @@ function TogglePasswordRegister(checked) {
     }
 }
 
+function checkNotificationsNumber() {
+    let nbNotif = document.getElementById("nbNotif");
+    $.ajax({
+        type: 'GET',
+        url: 'php_tool/notificationManager.php?count=true',
+        success: function (response) {
+            if (response.error) {
+                console.log("Récupération des notifications impossible");
+            } else {
+                if (response.count > 0) {
+                    nbNotif.textContent = response.count;
+                    nbNotif.style.display = "inline";
+                } else {
+                    nbNotif.textContent = '';
+                    nbNotif.style.display = "none";
+                }
+            }
+        }
+    });
+}
+
 $(document).ready(function () {
+    /* Notifications */
+    checkNotificationsNumber();
+    setInterval(checkNotificationsNumber, 10000);
 
     /* Login */
     $('#formLoginId').submit(function (e) {
         e.preventDefault();
-        var formData = $(this).serialize();
+        let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             url: 'php_tool/login.php',
@@ -38,7 +62,7 @@ $(document).ready(function () {
                     $('#error-message').text("Veuillez entrer le code de double authentification");
                 } else {
                     $('#modalLogin').modal('hide');
-                    var loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
+                    let loginToast = new bootstrap.Toast(document.getElementById('loginToast'));
                     loginToast.show();
                     document.getElementById('formLoginId').reset();
                     setTimeout(function () {
@@ -52,7 +76,7 @@ $(document).ready(function () {
     /* Register */
     $('#formRegisterId').submit(function (e) {
         e.preventDefault();
-        var formData = new FormData(this);
+        let formData = new FormData(this);
         $.ajax({
             type: 'POST',
             url: 'php_tool/register.php',
@@ -64,7 +88,7 @@ $(document).ready(function () {
                     $('#error-message-r').text(response.message);
                 } else {
                     $('#modalRegister').modal('hide');
-                    var registerToast = new bootstrap.Toast(document.getElementById('registerToast'));
+                    let registerToast = new bootstrap.Toast(document.getElementById('registerToast'));
                     registerToast.show();
                 }
                 document.getElementById('formRegisterId').reset();
@@ -83,6 +107,4 @@ $(document).ready(function () {
             },
         });
     });
-
-
 });

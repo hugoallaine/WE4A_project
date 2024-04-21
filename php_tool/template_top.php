@@ -48,15 +48,10 @@ require_once dirname(__FILE__).'/toast.php';
                             </a>
                         </li>
                         <li>
-                            <a href="messages.php" class="nav-link <?php if($currentPage === 'Messages'){echo 'active';}else{echo 'link-dark';} ?>">
-                                <img src="img/icon/messages.png" class="bi me-2" width="16" height="16">
-                                Messages
-                            </a>
-                        </li>
-                        <li>
-                            <a href="friends.php" class="nav-link <?php if($currentPage === 'Amis'){echo 'active';}else{echo 'link-dark';} ?>">
-                                <img src="img/icon/amis.png" class="bi me-2" width="16" height="16">
-                                Amis
+                            <a href="notifications.php" class="nav-link <?php if($currentPage === 'Notifications'){echo 'active';}else{echo 'link-dark';} ?>">
+                                <img src="img/icon/cloche.png" class="bi me-2" width="16" height="16">
+                                Notifications
+                                <span id="nbNotif" class="badge text-bg-danger"></span>
                             </a>
                         </li>
                     </ul>
