@@ -54,7 +54,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                 <p class='card-subtitle text-muted'>" . $formatted_date . "</p>
                             </div>
                             <div class='col p-0'>
-                                <p>" . $post['content'] . "</p>
+                                <p>" . RestoreString_FromSQL($post['content']) . "</p>
                             </div>
                             <div class='col-1'>
                                 <div class='row'>
