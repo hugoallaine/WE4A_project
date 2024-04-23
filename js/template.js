@@ -41,6 +41,33 @@ function checkNotificationsNumber() {
 }
 
 $(document).ready(function () {
+    $('.textAreaPost').on('keydown', function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+            $('#formPostId').submit();
+        }
+    });
+
+    /* Envoi du formulaire d'ajout de post */
+    $('#formPostId').submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/submit_post.php',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                document.getElementById('formPostId').reset();
+                $('#modalPost').modal('hide');
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }
+        });
+    });
+    
     /* Notifications */
     checkNotificationsNumber();
     setInterval(checkNotificationsNumber, 10000);
