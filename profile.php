@@ -32,7 +32,10 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
         <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top" alt="Banner" height=300>
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <h5 class="card-title"><img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2" width=60 height=60>
+                <h5 class="card-title d-flex align-items-center">
+                    <div class='rounded me-2' style='width: 60px; height: 60px;'>
+                        <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2" style='height:100%; width:100%; object-fit: cover; z-index: 1'>
+                    </div>
                     <?php 
                     echo $userinfo['pseudo'];  
                     if(isset($userinfo['isAdmin']) && $userinfo['isAdmin'] == 1) {
