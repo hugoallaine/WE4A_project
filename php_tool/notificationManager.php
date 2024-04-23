@@ -18,9 +18,9 @@ class NotificationManager {
         $this->db = $db;
     }
 
-    function getNotifications($id_user, $nb_only = false) {
-        $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_read = 0 ORDER BY created_at DESC');
-        $req->execute(array($id_user));
+    function getNotifications($id_user, $nb_only = false, $is_read = 0) {
+        $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_read = ? ORDER BY created_at DESC');
+        $req->execute(array($id_user, $is_read));
         if ($nb_only) {
             return $req->rowCount();
         }

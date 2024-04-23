@@ -4,12 +4,10 @@ session_start_secure();
 redirectIfNotConnected();
 
 require_once dirname(__FILE__).'/php_tool/parser.php';
+require_once dirname(__FILE__).'/php_tool/notificationManager.php';
+$notifications = $notificationManager->getNotifications($_SESSION['id'], false, 1);
 
 $currentPage = 'Notifications';
-
-$req = $db->prepare("SELECT * FROM notifications WHERE user_id = ?");
-$req->execute([$_SESSION['id']]);
-$notifications = $req->fetchAll();
 
 require_once dirname(__FILE__).'/php_tool/template_top.php';
 ?>
