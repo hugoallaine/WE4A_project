@@ -19,6 +19,7 @@ require_once dirname(__FILE__).'/toast.php';
     <?php if($currentPage == "Accueil"){echo "<script src='/WE4A_project/js/index.js' defer></script>";} ?>
     <?php if($currentPage == "Profil"){echo "<script src='/WE4A_project/js/profile.js' defer></script>";} ?>
     <?php if($currentPage == "Paramètres"){echo "<script src='/WE4A_project/js/settings.js' defer></script>";} ?>
+    <?php if($currentPage == "Notifications"){echo "<script src='/WE4A_project/js/notifications.js' defer></script>";} ?>
 </head>
 <body class="overflow-hidden">
     <div class="container-fluid">
@@ -91,7 +92,6 @@ require_once dirname(__FILE__).'/toast.php';
                                 <li><a class="dropdown-item" href="#">Filtre 1</a></li>
                                 <li><a class="dropdown-item" href="#">Filtre 2</a></li>
                                 <li><a class="dropdown-item" href="#">Filtre 3</a></li>
-                                <!-- Ajoutez autant de filtres que vous le souhaitez -->
                             </ul>
                         </div>
                         <form class="d-flex" role="search">

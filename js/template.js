@@ -19,7 +19,7 @@ function TogglePasswordRegister(checked) {
     }
 }
 
-function checkNotificationsNumber() {
+function checkNotificationsNumberUnread() {
     let nbNotif = document.getElementById("nbNotif");
     $.ajax({
         type: 'GET',
@@ -69,8 +69,8 @@ $(document).ready(function () {
     });
     
     /* Notifications */
-    checkNotificationsNumber();
-    setInterval(checkNotificationsNumber, 10000);
+    checkNotificationsNumberUnread();
+    setInterval(checkNotificationsNumberUnread, 10000);
 
     /* Login */
     $('#formLoginId').submit(function (e) {

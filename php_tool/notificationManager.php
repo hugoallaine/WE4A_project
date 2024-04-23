@@ -19,17 +19,17 @@ class NotificationManager {
     }
 
     function getNotifications($id_user, $nb_only = false) {
-        $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ?');
-        $req->execute([$id_user]);
+        $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_read = 0 ORDER BY created_at DESC');
+        $req->execute(array($id_user));
         if ($nb_only) {
             return $req->rowCount();
         }
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function readNotification($id_notification) {
-        $req = $this->db->prepare('UPDATE notifications SET is_read = 1 WHERE id = ?');
-        $req->execute(array($id_notification));
+    function readNotifications($id_user) {
+        $req = $this->db->prepare('UPDATE notifications SET is_read = 1 WHERE user_id = ?');
+        $req->execute(array($id_user));
     }
 }
 
@@ -46,9 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_SESSION['id'])) {
-        if (isset($_POST['id'])) {
-            $notificationManager->readNotification($_POST['id']);
-        }
+        $notificationManager->readNotifications($_SESSION['id']);
     }
 }
 ?>
