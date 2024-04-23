@@ -29,7 +29,9 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
 ?>
 <main>
     <div class="card">
-        <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top" alt="Banner" height=300>
+        <div style='width: auto; height: 300px;'>
+            <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top" alt="Banner" style='height:100%; width:100%; object-fit: cover;'>
+        </div>
         <div class="card-body">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title d-flex align-items-center">
