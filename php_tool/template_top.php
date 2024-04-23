@@ -29,8 +29,7 @@ require_once dirname(__FILE__).'/toast.php';
                 <!-- Sidebar -->
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100">
                     <a href="index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                        <img src="img/logo/YGreg_logo.png" alt="YGreg" width="40" height="40"
-                            class="bi me-2">
+                        <img src="img/logo/YGreg_logo.png" alt="YGreg" width="40" height="40" class="bi me-2">
                         <span class="fs-4">YGreg</span>
                     </a>
                     <hr>
@@ -60,7 +59,7 @@ require_once dirname(__FILE__).'/toast.php';
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                             id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="" width="32" height="32" class="rounded-circle me-3">
+                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;">
                             <strong><?php echo $_SESSION['pseudo']; ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">

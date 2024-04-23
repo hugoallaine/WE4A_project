@@ -34,7 +34,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
             <div class="d-flex justify-content-between">
                 <h5 class="card-title d-flex align-items-center">
                     <div class='rounded me-2' style='width: 60px; height: 60px;'>
-                        <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2" style='height:100%; width:100%; object-fit: cover; z-index: 1'>
+                        <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2" style='height:100%; width:100%; object-fit: cover;'>
                     </div>
                     <?php 
                     echo $userinfo['pseudo'];  
