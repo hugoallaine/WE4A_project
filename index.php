@@ -42,6 +42,14 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 $avatar = "/WE4A_project/img/icon/utilisateur.png";
             }
 
+            $reqPic = $db->prepare("SELECT * FROM pictures WHERE id_post = ?");
+            $reqPic->execute([$post['id']]);
+            $picture = $reqPic->fetch();
+
+            if($picture) {
+                $picture = "/WE4A_project/img/user/".$post['id_user'].'/posts/'.$post['id'].'/'.$picture['path'];
+            }
+
             echo "
                 <div class='card rounded-0 animated-post'>
                     <div class='card-body'>
@@ -55,6 +63,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                             </div>
                             <div class='col p-0'>
                                 <p>" . RestoreString_FromSQL($post['content']) . "</p>
+                                " . ($picture ? "<img src='$picture' class='img-fluid rounded'>" : "") . "
                             </div>
                             <div class='col-1'>
                                 <div class='row'>
