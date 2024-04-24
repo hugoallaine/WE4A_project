@@ -60,7 +60,7 @@ require_once dirname(__FILE__).'/toast.php';
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                             id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;">
+                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Icon User" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;">
                             <strong><?php echo $_SESSION['pseudo']; ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
@@ -74,7 +74,7 @@ require_once dirname(__FILE__).'/toast.php';
                     </div>
                     <?php else: ?>
                     <a href="#" id="login" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
-                        <img src="img/icon/utilisateur.png" alt="" width="32" height="32" class="rounded-circle me-3">
+                        <img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3">
                         <strong>Se connecter</strong>
                     </a>
                     <?php endif; ?>

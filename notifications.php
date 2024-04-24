@@ -12,7 +12,7 @@ $currentPage = 'Notifications';
 require_once dirname(__FILE__).'/php_tool/template_top.php';
 ?>
 <main>
-    <div class="notifications-container col-12 p-0 overflow-auto vh-100 d-flex align-items-center flex-column">
+    <div class="notifications-container col-12 p-0 overflow-auto h-100 d-flex align-items-center flex-column">
         <h1 class="text-primary p-3">Notifications</h1>
         <?php
             foreach ($notifications as $notification) {
