@@ -19,8 +19,13 @@ class NotificationManager {
     }
 
     function getNotifications($id_user, $nb_only = false, $is_read = 0) {
-        $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_read = ? ORDER BY created_at DESC');
-        $req->execute(array($id_user, $is_read));
+        if ($is_read == 2) {
+            $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC');
+            $req->execute(array($id_user));
+        } else {
+            $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_read = ? ORDER BY created_at DESC');
+            $req->execute(array($id_user, $is_read));
+        }
         if ($nb_only) {
             return $req->rowCount();
         }
