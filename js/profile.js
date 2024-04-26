@@ -20,7 +20,7 @@ $(document).ready(function () {
     /* Modifier le profil */
     $('#formProfile').submit(function (e) {
         e.preventDefault();
-        var formData = new FormData(this);
+        let formData = new FormData(this);
         $.ajax({
             type: 'POST',
             url: 'php_tool/changeAccount.php',
@@ -32,7 +32,7 @@ $(document).ready(function () {
                     $('#error-message').text(response.message);
                 } else {
                     $('#modalProfile').modal('hide');
-                    var profileToast = new bootstrap.Toast(document.getElementById('changeProfileToast'));
+                    let profileToast = new bootstrap.Toast(document.getElementById('changeProfileToast'));
                     profileToast.show();
                     setTimeout(function () {
                         if (response.changedpseudo) {
@@ -51,12 +51,12 @@ $(document).ready(function () {
     $('#formFollow').submit(function (e) {
         e.preventDefault();
         if ($('#btnFollow').text() == "Ne plus suivre") {
-            var confirmation = confirm("Êtes-vous sûr de vouloir ne plus suivre cet utilisateur ?");
+            let confirmation = confirm("Êtes-vous sûr de vouloir ne plus suivre cet utilisateur ?");
             if (!confirmation) {
                 return;
             }
         }
-        var formData = $(this).serialize();
+        let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             url: 'php_tool/follow.php',

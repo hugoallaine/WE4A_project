@@ -2,7 +2,7 @@ $(document).ready(function () {
     /* Modifier les informations du compte */
     $('#formChangeInfo').submit(function (e) {
         e.preventDefault();
-        var formData = $(this).serialize();
+        let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             url: 'php_tool/changeAccount.php',
@@ -12,7 +12,7 @@ $(document).ready(function () {
                     $('#error-message-info').text(response.message);
                 } else {
                     $('#error-message-info').text('');
-                    var changeInfoToast = new bootstrap.Toast(document.getElementById('changeInfoToast'));
+                    let changeInfoToast = new bootstrap.Toast(document.getElementById('changeInfoToast'));
                     changeInfoToast.show();
                 }
             }
@@ -22,7 +22,7 @@ $(document).ready(function () {
     /* Modifier le mot de passe */
     $('#formChangePassword').submit(function (e) {
         e.preventDefault();
-        var formData = $(this).serialize();
+        let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             url: 'php_tool/changeAccount.php',
@@ -31,7 +31,7 @@ $(document).ready(function () {
                 if (response.error) {
                     $('#error-message-password').text(response.message);
                 } else {
-                    var changePasswordToast = new bootstrap.Toast(document.getElementById('changePasswordToast'));
+                    let changePasswordToast = new bootstrap.Toast(document.getElementById('changePasswordToast'));
                     changePasswordToast.show();
                 }
                 document.getElementById('formChangePassword').reset();
@@ -42,7 +42,7 @@ $(document).ready(function () {
     /* Activer la 2FA */
     $('#formEnableTfa').submit(function (e) {
         e.preventDefault();
-        var formData = $(this).serialize();
+        let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             url: 'php_tool/changeAccount.php',
@@ -51,7 +51,7 @@ $(document).ready(function () {
                 if (response.error) {
                     $('#error-message').text(response.message);
                 } else {
-                    var activationTfaToast = new bootstrap.Toast(document.getElementById('activationTfaToast'));
+                    let activationTfaToast = new bootstrap.Toast(document.getElementById('activationTfaToast'));
                     activationTfaToast.show();
                     setTimeout(function () {
                         location.reload(true);
@@ -65,7 +65,7 @@ $(document).ready(function () {
     /* Désactiver la 2FA */
     $('#formDisableTfa').submit(function (e) {
         e.preventDefault();
-        var formData = $(this).serialize();
+        let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             url: 'php_tool/changeAccount.php',
@@ -74,7 +74,7 @@ $(document).ready(function () {
                 if (response.error) {
                     $('#error-message').text(response.message);
                 } else {
-                    var desactivationTfaToast = new bootstrap.Toast(document.getElementById('desactivationTfaToast'));
+                    let desactivationTfaToast = new bootstrap.Toast(document.getElementById('desactivationTfaToast'));
                     desactivationTfaToast.show();
                     setTimeout(function () {
                         location.reload(true);
@@ -88,7 +88,7 @@ $(document).ready(function () {
     /* Supprimer le compte */
     $('#formDeleteAccount').submit(function (e) {
         e.preventDefault();
-        var formData = $(this).serialize();
+        let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             url: 'php_tool/changeAccount.php',
@@ -97,7 +97,7 @@ $(document).ready(function () {
                 if (response.error) {
                     $('#error-message').text(response.message);
                 } else {
-                    var deleteAccountToast = new bootstrap.Toast(document.getElementById('deleteAccountToast'));
+                    let deleteAccountToast = new bootstrap.Toast(document.getElementById('deleteAccountToast'));
                     deleteAccountToast.show();
                     setTimeout(function () {
                         location.href = 'index.php';

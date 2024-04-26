@@ -51,7 +51,7 @@ $(document).ready(function () {
     /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function (e) {
         e.preventDefault();
-        var formData = new FormData(this);
+        let formData = new FormData(this);
         $.ajax({
             type: 'POST',
             url: 'php_tool/submit_post.php',
