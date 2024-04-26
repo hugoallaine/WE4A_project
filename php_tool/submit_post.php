@@ -33,28 +33,31 @@ if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {
         if ($_FILES['images']['size'] <= 2097152) {
             $filename = $_FILES['images']['name'];
             $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $newfilename = "image.".$file_extension;
-            $tmp_name = $_FILES['images']['tmp_name'];
+            $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
+            if (in_array($file_extension, $allowed_extensions) === true) {
+                $newfilename = "image.".$file_extension;
+                $tmp_name = $_FILES['images']['tmp_name'];
 
-            $req = $db->prepare("SELECT id FROM posts WHERE id_user = ? AND created_at = (SELECT MAX(created_at) FROM posts WHERE id_user = ?)");
-            $req->execute(array($_SESSION['id'], $_SESSION['id']));
-            $post_id = $req->fetch();
+                $req = $db->prepare("SELECT id FROM posts WHERE id_user = ? AND created_at = (SELECT MAX(created_at) FROM posts WHERE id_user = ?)");
+                $req->execute(array($_SESSION['id'], $_SESSION['id']));
+                $post_id = $req->fetch();
 
-            if(!file_exists('../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/')) {
-                mkdir('../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/', 0777, true);
+                if(!file_exists('../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/')) {
+                    mkdir('../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/', 0777, true);
+                }
+
+                $upload_directory = '../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/';
+
+                $path = $upload_directory.$newfilename;
+                move_uploaded_file($tmp_name, $path);
+
+                $req = $db->prepare("INSERT INTO pictures (id_post, path) VALUES (?, ?)");
+                $req->execute(array($post_id['id'], $newfilename));
+            } else {
+                $error = "Votre image doit être au format jpg, jpeg, png ou gif et ne doit pas dépasser 2 Mo.";
             }
-
-            $upload_directory = '../img/user/'.$_SESSION['id'].'/posts/'.$post_id['id'].'/';
-
-            $path = $upload_directory.$newfilename;
-            move_uploaded_file($tmp_name, $path);
-
-            $req = $db->prepare("INSERT INTO pictures (id_post, path) VALUES (?, ?)");
-            $req->execute(array($post_id['id'], $newfilename));
-            
         }
     }
-
 }
 
 ?>

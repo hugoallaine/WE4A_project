@@ -107,23 +107,28 @@ if (isConnected()) {
         if ($_FILES['avatar-f']['size'] <= 2097152) {
             $filename = $_FILES['avatar-f']['name'];
             $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $newfilename = "avatar.".$file_extension;
-            $tmp_name = $_FILES['avatar-f']['tmp_name'];
-            $upload_directory = '../img/user/'.$_SESSION['id'].'/';
-            if (!file_exists($upload_directory)) {
-                mkdir($upload_directory, 0777, true);
+            $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
+            if (in_array($file_extension, $allowed_extensions) === true) {
+                $newfilename = "avatar.".$file_extension;
+                $tmp_name = $_FILES['avatar-f']['tmp_name'];
+                $upload_directory = '../img/user/'.$_SESSION['id'].'/';
+                if (!file_exists($upload_directory)) {
+                    mkdir($upload_directory, 0777, true);
+                }
+                $path = $upload_directory.$newfilename;
+                $req = $db->prepare("SELECT avatar FROM users WHERE id = ?");
+                $req->execute(array($_SESSION['id']));
+                $oldfilename = $req->fetch();
+                if (!empty($oldfilename['avatar'])) {
+                    unlink($upload_directory.$oldfilename['avatar']);
+                }
+                move_uploaded_file($tmp_name, $path);
+                $req = $db->prepare("UPDATE users SET avatar = ? WHERE id = ?");
+                $req->execute(array($newfilename, $_SESSION['id']));
+                $_SESSION['avatar'] = $newfilename;
+            } else {
+                $error = "L'avatar doit être au format jpg, jpeg, png ou gif.";
             }
-            $path = $upload_directory.$newfilename;
-            $req = $db->prepare("SELECT avatar FROM users WHERE id = ?");
-            $req->execute(array($_SESSION['id']));
-            $oldfilename = $req->fetch();
-            if (!empty($oldfilename['avatar'])) {
-                unlink($upload_directory.$oldfilename['avatar']);
-            }
-            move_uploaded_file($tmp_name, $path);
-            $req = $db->prepare("UPDATE users SET avatar = ? WHERE id = ?");
-            $req->execute(array($newfilename, $_SESSION['id']));
-            $_SESSION['avatar'] = $newfilename;
         } else {
             $error = "L'avatar ne doit pas dépasser 2 Mo.";
         }
@@ -134,22 +139,27 @@ if (isConnected()) {
         if ($_FILES['banner-f']['size'] <= 10485760) {
             $filename = $_FILES['banner-f']['name'];
             $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
-            $newfilename = "banner.".$file_extension;
-            $tmp_name = $_FILES['banner-f']['tmp_name'];
-            $upload_directory = '../img/user/'.$_SESSION['id'].'/';
-            if (!file_exists($upload_directory)) {
-                mkdir($upload_directory, 0777, true);
+            $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
+            if (in_array($file_extension, $allowed_extensions) === true) {
+                $newfilename = "banner.".$file_extension;
+                $tmp_name = $_FILES['banner-f']['tmp_name'];
+                $upload_directory = '../img/user/'.$_SESSION['id'].'/';
+                if (!file_exists($upload_directory)) {
+                    mkdir($upload_directory, 0777, true);
+                }
+                $path = $upload_directory.$newfilename;
+                $req = $db->prepare("SELECT banner FROM users WHERE id = ?");
+                $req->execute(array($_SESSION['id']));
+                $oldfilename = $req->fetch();
+                if (!empty($oldfilename['banner'])) {
+                    unlink($upload_directory.$oldfilename['banner']);
+                }
+                move_uploaded_file($tmp_name, $path);
+                $req = $db->prepare("UPDATE users SET banner = ? WHERE id = ?");
+                $req->execute(array($newfilename, $_SESSION['id']));
+            } else {
+                $error = "La bannière doit être au format jpg, jpeg, png ou gif.";
             }
-            $path = $upload_directory.$newfilename;
-            $req = $db->prepare("SELECT banner FROM users WHERE id = ?");
-            $req->execute(array($_SESSION['id']));
-            $oldfilename = $req->fetch();
-            if (!empty($oldfilename['banner'])) {
-                unlink($upload_directory.$oldfilename['banner']);
-            }
-            move_uploaded_file($tmp_name, $path);
-            $req = $db->prepare("UPDATE users SET banner = ? WHERE id = ?");
-            $req->execute(array($newfilename, $_SESSION['id']));
         } else {
             $error = "La bannière ne doit pas dépasser 10 Mo.";
         }

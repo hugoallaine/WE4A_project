@@ -54,17 +54,22 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                                 $line = $req->fetch();
                                                 $filename = $_FILES['avatar-r']['name'];
                                                 $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
-                                                $newfilename = "avatar.".$file_extension;
-                                                $tmp_name = $_FILES['avatar-r']['tmp_name'];
-                                                $upload_directory = '../img/user/'.$line['id'].'/';
-                                                if (!file_exists($upload_directory)) {
-                                                    mkdir($upload_directory, 0777, true);
+                                                $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
+                                                if (in_array($file_extension, $allowed_extensions) === true) {
+                                                    $newfilename = "avatar.".$file_extension;
+                                                    $tmp_name = $_FILES['avatar-r']['tmp_name'];
+                                                    $upload_directory = '../img/user/'.$line['id'].'/';
+                                                    if (!file_exists($upload_directory)) {
+                                                        mkdir($upload_directory, 0777, true);
+                                                    }
+                                                    $path = $upload_directory.$newfilename;
+                                                    move_uploaded_file($tmp_name, $path);
+                                                    $avatar = $newfilename;
+                                                    $req = $db->prepare("UPDATE users SET avatar = ? WHERE email = ?");
+                                                    $req->execute(array($avatar, $email));
+                                                } else {
+                                                    $info = "Votre avatar doit être au format jpg, jpeg, png ou gif et ne doit pas dépasser 2 Mo.";
                                                 }
-                                                $path = $upload_directory.$newfilename;
-                                                move_uploaded_file($tmp_name, $path);
-                                                $avatar = $newfilename;
-                                                $req = $db->prepare("UPDATE users SET avatar = ? WHERE email = ?");
-                                                $req->execute(array($avatar, $email));
                                             }
                                         }
                                         $req = $db->prepare("INSERT INTO address(id_user,address,city,zip_code,country) VALUES((SELECT id FROM users WHERE email = ?),?,?,?,?)");
@@ -104,6 +109,9 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
 if (isset($error)) {
     header('Content-Type: application/json');
     echo json_encode(array('error' => true,'message' => $error));
+} elseif (isset($info)) {
+    header('Content-Type: application/json');
+    echo json_encode(array('error' => false,'info' => true,'message' => $info));
 } else {
     header('Content-Type: application/json');
     echo json_encode(array('error' => false));

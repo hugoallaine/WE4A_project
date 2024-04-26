@@ -114,6 +114,11 @@ $(document).ready(function () {
                 if (response.error) {
                     $('#error-message-r').text(response.message);
                 } else {
+                    if (response.info) {
+                        console.log("Info: " + response.message);
+                        let avatarToast = new bootstrap.Toast(document.getElementById('avatarToast'));
+                        avatarToast.show();
+                    }
                     $('#modalRegister').modal('hide');
                     let registerToast = new bootstrap.Toast(document.getElementById('registerToast'));
                     registerToast.show();

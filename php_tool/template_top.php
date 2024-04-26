@@ -270,6 +270,7 @@ require_once dirname(__FILE__).'/toast.php';
                 if (!isConnected()) {
                     successToast('Connexion réussie','loginToast');
                     successToast('Inscription réussie. Vérifier votre adresse email.','registerToast');
+                    errorToast("Votre avatar ne respecte pas les conditions requises et n'a pas été enregistré.",'avatarToast');
                 }
                 ?>
                 <!-- Main -->
