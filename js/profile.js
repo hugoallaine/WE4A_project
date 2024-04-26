@@ -29,7 +29,7 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 if (response.error) {
-                    $('#error-message-r').text(response.message);
+                    $('#error-message').text(response.message);
                 } else {
                     $('#modalProfile').modal('hide');
                     var profileToast = new bootstrap.Toast(document.getElementById('changeProfileToast'));
