@@ -80,7 +80,7 @@ require_once dirname(__FILE__).'/toast.php';
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="col-10 p-0">
+            <div class="col-10 p-0 vh-100">
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid d-flex justify-content-space-around">
