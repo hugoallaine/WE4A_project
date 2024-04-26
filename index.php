@@ -20,7 +20,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     FROM posts
                     INNER JOIN users ON posts.id_user = users.id
                     LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ?
-                    ORDER BY created_at DESC LIMIT 10
+                    ORDER BY created_at DESC LIMIT 15
                     ");
                     $req->execute([$_SESSION['id']]);
                 } else {
@@ -29,7 +29,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     NULL as like_id
                     FROM posts
                     INNER JOIN users ON posts.id_user = users.id
-                    ORDER BY created_at DESC LIMIT 10
+                    ORDER BY created_at DESC LIMIT 15
                     ");
                 }
                 $posts = $req->fetchAll();
@@ -53,7 +53,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     }
 
                     echo "
-                        <div class='card rounded-0'>
+                        <div class='card rounded-0' data-post-id='" . $post['id'] . "'>
                             <div class='card-body'>
                                 <div class='row'>
                                     <div class='col-md-2 col-3 text-center'>
@@ -90,6 +90,16 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
             </div>
             <div class="col-lg-4 p-0">
                 <h5>Statistiques</h5>
+            </div>
+        </div>
+        <!-- Response modal -->
+        <div class="modal fade" id="modalResponses" tabindex="-1" role="dialog" aria-labelledby="modalReponsesLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                   
+                    </div>
+                </div>
             </div>
         </div>
     </div>

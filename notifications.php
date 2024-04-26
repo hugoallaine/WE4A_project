@@ -20,11 +20,16 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 $date = date_create_from_format('Y-m-d H:i:s', $notification['created_at']);
                 $formatted_date = $date->format('d/m/Y H:i:s');
                 $content = parsePseudoForProfile($notification['content']);
+                if ($notification['is_read'] == 0) {
+                    $new = "<span class='badge badge-pill badge-danger'>Nouveau</span>";
+                } else {
+                    $new = "";
+                }
 
                 echo "<div class='card col-lg-8 col-md-12 mb-1'>
                         <div class='card-body d-flex justify-content-between align-items-center'>
                             <div>
-                                <h5 class='card-title'>".$formatted_date."</h5>
+                                <h5 class='card-title'>".$formatted_date.$new."</h5>
                                 <p class='card-text'>".$content."</p>
                             </div>
                             <div>";
