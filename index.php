@@ -63,7 +63,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                         </a>
                                         <p class='card-subtitle text-muted'>" . $formatted_date . "</p>
                                     </div>
-                                    <div class='col p-0'>
+                                    <div class='col p-0 post'>
                                         <p>" . RestoreString_FromSQL($post['content']) . "</p>
                                         " . ($picture ? "<a href='$picture'><img src='$picture' class='rounded' width='400' height='320' style='object-fit: cover;'></a>" : "") . "
                                     </div>

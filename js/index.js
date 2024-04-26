@@ -44,7 +44,7 @@ function insertPost(post, element) {
 
 
 var buttons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#modalPost"]');
-var allPosts = document.querySelectorAll('.card');
+var allPosts = document.querySelectorAll('.post');
 
 buttons.forEach(function (button) {
     button.addEventListener('click', function () {
