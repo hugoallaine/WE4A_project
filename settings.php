@@ -197,6 +197,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
         </div>
     </div>
     <?php 
+    echo '<div class="toast-container position-fixed bottom-0 end-0 m-3">';
     if (!isTfaEnabled()) {
         successToast("La double authentification a bien été activée.", "activationTfaToast");
     } else {
@@ -205,6 +206,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
     successToast("Vos informations personnelles ont bien été modifiées.", "changeInfoToast");
     successToast("Votre mot de passe a bien été modifié.", "changePasswordToast");
     successToast("Votre compte a bien été supprimé.", "deleteAccountToast");
+    echo '</div>';
     ?>
 </main>
 <?php

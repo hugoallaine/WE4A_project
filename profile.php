@@ -125,7 +125,9 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
     </div>
     <!-- Toast - Modifier le profil -->
     <?php
-    successToast("Profil modifié avec succès !", "changeProfileToast");
+    echo '<div class="toast-container position-fixed bottom-0 end-0 m-3">';
+        successToast("Profil modifié avec succès !", "changeProfileToast");
+    echo '</div>';
     endif;
     ?>
 </main>

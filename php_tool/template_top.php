@@ -268,9 +268,11 @@ require_once dirname(__FILE__).'/toast.php';
                 <!-- Toast -->
                 <?php 
                 if (!isConnected()) {
-                    successToast('Connexion réussie','loginToast');
-                    successToast('Inscription réussie. Vérifier votre adresse email.','registerToast');
-                    errorToast("Votre avatar ne respecte pas les conditions requises et n'a pas été enregistré.",'avatarToast');
+                    echo '<div class="toast-container position-fixed bottom-0 end-0 m-3">';
+                        successToast('Connexion réussie','loginToast');
+                        successToast('Inscription réussie. Vérifier votre adresse email.','registerToast');
+                        errorToast("Votre avatar ne respecte pas les conditions requises et n'a pas été enregistré.",'avatarToast');
+                    echo '</div>';
                 }
                 ?>
                 <!-- Main -->
