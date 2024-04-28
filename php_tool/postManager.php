@@ -6,7 +6,7 @@ session_start_secure();
 function echoPost($post) {
     global $db;
     $date = date_create_from_format('Y-m-d H:i:s', $post['created_at']);
-    $formatted_date = $date->format('d/m/Y');
+    $formatted_date = $date->format('d/m/Y H:i:s');
     $like_image = !is_null($post['like_id']) ? "/WE4A_project/img/icon/liked.png" : "/WE4A_project/img/icon/like.png";
     $avatar = !empty($post['avatar']) ? "/WE4A_project/img/user/".$post['id_user'].'/'.$post['avatar'] : "/WE4A_project/img/icon/utilisateur.png";
 
@@ -35,13 +35,24 @@ function echoPost($post) {
 
 function echoPostById($postId) {
     global $db;
-    $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id
-    FROM posts
-    INNER JOIN users ON posts.id_user = users.id
-    LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ?
-    WHERE posts.id = ?");
-    $req->execute([$_SESSION['id'], $postId]);
-    $post = $req->fetch();
+    
+    if (isset($_SESSION['id'])) {
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id
+        FROM posts
+        INNER JOIN users ON posts.id_user = users.id
+        LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ?
+        WHERE posts.id = ?");
+        $req->execute([$_SESSION['id'], $postId]);
+        $post = $req->fetch();
+    } else {
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id
+        FROM posts
+        INNER JOIN users ON posts.id_user = users.id
+        WHERE posts.id = ?");
+        $req->execute([$postId]);
+        $post = $req->fetch();
+    }
+    
 
     echo json_encode(echoPost($post));
 }
@@ -49,14 +60,23 @@ function echoPostById($postId) {
 
 function echoResponses($postId) {
     global $db;
-    $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id 
-    FROM posts 
-    INNER JOIN users ON posts.id_user = users.id 
-    LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ? 
-    WHERE posts.id_parent = ?");
-    $req->execute([$_SESSION['id'], $postId]);
-    $responses = $req->fetchAll();
 
+    if (isset($_SESSION['id'])) {
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id 
+        FROM posts 
+        INNER JOIN users ON posts.id_user = users.id 
+        LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ? 
+        WHERE posts.id_parent = ?");
+        $req->execute([$_SESSION['id'], $postId]);
+        $responses = $req->fetchAll();
+    } else {
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id 
+        FROM posts 
+        INNER JOIN users ON posts.id_user = users.id 
+        WHERE posts.id_parent = ?");
+        $req->execute([$postId]);
+        $responses = $req->fetchAll();
+    }
 
     $listResponses = array();
     foreach ($responses as $response) {
