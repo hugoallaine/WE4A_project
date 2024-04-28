@@ -1,4 +1,5 @@
 function insertPost(post, element) {
+
     let pictureHtml = "";
     if (post.picture) {
         pictureHtml = `<a href='${post.picture}'><img src='${post.picture}' class='rounded' width='400' height='320' style='object-fit: cover;'></a>`;
@@ -22,14 +23,14 @@ function insertPost(post, element) {
                     <div class='col-1'>
                         <div class='row'>
                             <div class='col-12 p-0'>
-                                <button class='btn like-button' data-post-id='${post.id}'>
+                                <button class='btn like-button' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
                                     <img src='${post.like_image}' alt='like button' class='img-fluid' >
                                 </button>
                             </div>
                             <div class='col-12 p-0'>
-                            <button class='btn' type='button' data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'>
-                                <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
-                            </button>
+                                <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
+                                    <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -40,8 +41,6 @@ function insertPost(post, element) {
     
     element.innerHTML = html + element.innerHTML;
 }
-
-
 
 $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-target="#modalPost"]', function () {
     var postId = $(this).data('post-id');
@@ -91,4 +90,19 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
         var input = $('input[name="id_parent"]');
         input.val(tweetId);
     }
+});
+
+$(document).ready(function () {
+    $.ajax({
+        url: "php_tool/checkSession.php",
+        type: 'GET',
+        success: function (response) {
+            console.log(response.status);
+            if (response.status === true) {
+                isConnected = true;
+            } else {    
+                isConnected = false;
+            }
+        }
+    });
 });
