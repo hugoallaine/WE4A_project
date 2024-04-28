@@ -53,7 +53,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     }
 
                     echo "
-                        <div class='card rounded-0' data-post-id='" . $post['id'] . "'>
+                        <div class='card rounded-0'>
                             <div class='card-body'>
                                 <div class='row'>
                                     <div class='col-md-2 col-3 text-center'>
@@ -63,7 +63,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                         </a>
                                         <p class='card-subtitle text-muted'>" . $formatted_date . "</p>
                                     </div>
-                                    <div class='col p-0 post'>
+                                    <div class='col p-0 post' data-post-id='" . $post['id'] . "'>
                                         <p>" . RestoreString_FromSQL($post['content']) . "</p>
                                         " . ($picture ? "<a href='$picture'><img src='$picture' class='rounded' width='400' height='320' style='object-fit: cover;'></a>" : "") . "
                                     </div>
