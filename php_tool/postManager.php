@@ -52,6 +52,7 @@ function echoPostById($postId) {
         $req->execute([$postId]);
         $post = $req->fetch();
     }
+    $post['content'] = RestoreString_FromSQL($post['content']);
     
 
     echo json_encode(echoPost($post));
@@ -80,27 +81,30 @@ function echoResponses($postId) {
 
     $listResponses = array();
     foreach ($responses as $response) {
+        $response['content'] = RestoreString_FromSQL($response['content']);
         $listResponses[] = echoPost($response);
     }
 
     echo json_encode($listResponses);
 }
 
-function echoListRandomPosts($start){
+function echoListRandomPosts($start, $token){
     global $db;
     $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id 
     FROM posts 
     INNER JOIN users ON posts.id_user = users.id 
     LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = :id 
-    ORDER BY RAND() 
+    ORDER BY RAND(:seed)
     LIMIT 10 OFFSET :offset");
     $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+    $req->bindValue(':seed', $token);
     $req->bindValue(':offset', $start, PDO::PARAM_INT);
     $req->execute();
     $posts = $req->fetchAll();
 
     $listPosts = array();
     foreach ($posts as $post) {
+        $post['content'] = RestoreString_FromSQL($post['content']);
         $listPosts[] = echoPost($post);
     }
 
@@ -121,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
     if (isset($_GET['echoListRandomPosts'])) {
         if (isset($_GET['start'])) {
-            echoListRandomPosts($_GET['start']);
+            echoListRandomPosts($_GET['start'], $_GET['token']);
         }
     }
 }
