@@ -46,14 +46,20 @@ function echoPostById($postId) {
 
 function echoResponses($postId) {
     global $db;
-    $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar FROM posts INNER JOIN users ON posts.id_user = users.id WHERE posts.id_parent = ?");
-    $req->execute([$postId]);
+    $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id 
+    FROM posts 
+    INNER JOIN users ON posts.id_user = users.id 
+    LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ? 
+    WHERE posts.id_parent = ?");
+    $req->execute([$_SESSION['id'], $postId]);
     $responses = $req->fetchAll();
+
 
     $listResponses = array();
     foreach ($responses as $response) {
         $listResponses[] = echoPost($response);
     }
+
     echo json_encode($listResponses);
 }
 
