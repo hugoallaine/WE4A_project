@@ -5,15 +5,17 @@ session_start_secure();
 
 function echoPost($post) {
     global $db;
+
     $date = date_create_from_format('Y-m-d H:i:s', $post['created_at']);
     $formatted_date = $date->format('d/m/Y H:i:s');
     $like_image = !is_null($post['like_id']) ? "/WE4A_project/img/icon/liked.png" : "/WE4A_project/img/icon/like.png";
     $avatar = !empty($post['avatar']) ? "/WE4A_project/img/user/".$post['id_user'].'/'.$post['avatar'] : "/WE4A_project/img/icon/utilisateur.png";
 
-
     $reqPic = $db->prepare("SELECT * FROM pictures WHERE id_post = ?");
     $reqPic->execute([$post['id']]);
     $picture = $reqPic->fetch();
+
+    
 
     if($picture) {
         $picture = "/WE4A_project/img/user/".$post['id_user'].'/posts/'.$post['id'].'/'.$picture['path'];
@@ -27,7 +29,9 @@ function echoPost($post) {
         'content' => $post['content'],
         'date' => $formatted_date,
         'like_image' => $like_image,
-        'picture' => $picture
+        'picture' => $picture,
+        'like_count' => $post['like_count'],
+        'comment_count' => $post['comment_count']
     ];
     
     return $postInfo;
@@ -63,7 +67,9 @@ function echoResponses($postId) {
     global $db;
 
     if (isset($_SESSION['id'])) {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id 
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
         FROM posts 
         INNER JOIN users ON posts.id_user = users.id 
         LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ? 
@@ -71,7 +77,9 @@ function echoResponses($postId) {
         $req->execute([$_SESSION['id'], $postId]);
         $responses = $req->fetchAll();
     } else {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id 
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
         FROM posts 
         INNER JOIN users ON posts.id_user = users.id 
         WHERE posts.id_parent = ?");
@@ -90,7 +98,9 @@ function echoResponses($postId) {
 
 function echoListRandomPosts($start, $token){
     global $db;
-    $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id 
+    $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
     FROM posts 
     INNER JOIN users ON posts.id_user = users.id 
     LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = :id 
@@ -101,7 +111,7 @@ function echoListRandomPosts($start, $token){
     $req->bindValue(':offset', $start, PDO::PARAM_INT);
     $req->execute();
     $posts = $req->fetchAll();
-
+    
     $listPosts = array();
     foreach ($posts as $post) {
         $post['content'] = RestoreString_FromSQL($post['content']);
@@ -110,7 +120,6 @@ function echoListRandomPosts($start, $token){
 
     echo json_encode($listPosts);
 }
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['echoResponses'])) {
