@@ -93,6 +93,8 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
 });
 
 $(document).ready(function () {
+
+    /* Check if user is connected */
     $.ajax({
         url: "php_tool/checkSession.php",
         type: 'GET',
@@ -105,4 +107,9 @@ $(document).ready(function () {
             }
         }
     });
+
+    /* Load posts */
+
+    
+
 });
