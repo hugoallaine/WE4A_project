@@ -11,7 +11,7 @@ function insertPost(post, element) {
                 <div class='row'>
                     <div class='col-md-2 col-3 text-center'>
                         <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?pseudo=${post.pseudo}'>
-                        <img src='${post.avatar}' width='32' height='32' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'>
+                        <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'>
                         <h5 class='card-title m-0'>${post.pseudo}</h5>
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
@@ -39,7 +39,7 @@ function insertPost(post, element) {
         </div>
     `;
 
-    element.innerHTML = html + element.innerHTML;
+    element.innerHTML = element.innerHTML + html;
 }
 
 $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-target="#modalPost"]', function () {
@@ -94,6 +94,7 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
 
 $(document).ready(function () {
 
+    var $token = Math.floor(Math.random() * 100000);
     /* Check if user is connected */
     $.ajax({
         url: "php_tool/checkSession.php",
@@ -112,6 +113,32 @@ $(document).ready(function () {
                 data: {
                     echoListRandomPosts: true,
                     start: 0,
+                    token: $token
+                },
+                success: function (response) {
+                    var responses = JSON.parse(response);
+                    for (rep of responses) {
+                        var element = document.querySelector('#posts-container');
+                        insertPost(rep, element);
+                    }
+                }
+            });
+        }
+    });
+
+    /* Load more posts */
+
+    $('#posts-container').on('scroll', function() {
+        if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            var start = $('#posts-container .post').length;
+            $.ajax({
+                url: "php_tool/postManager.php",
+                type: 'GET',
+                data: {
+                    echoListRandomPosts: true,
+                    start: start,
+                    token: $token
+
                 },
                 success: function (response) {
                     var responses = JSON.parse(response);
