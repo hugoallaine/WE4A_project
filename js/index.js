@@ -5,7 +5,7 @@ function insertPost(post, element) {
     }
 
     var html = `
-        <div class='card rounded-0' data-post-id='${post.id}'>
+        <div class='card rounded-0'>
             <div class='card-body'>
                 <div class='row'>
                     <div class='col-md-2 col-3 text-center'>
@@ -15,7 +15,7 @@ function insertPost(post, element) {
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
                     </div>
-                    <div class='col p-0'>
+                    <div class='col p-0 post' data-post-id='${post.id}'>
                         <p>${post.content}</p>
                         ${pictureHtml}    
                     </div>
@@ -43,34 +43,22 @@ function insertPost(post, element) {
 
 
 
-var buttons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#modalPost"]');
-var allPosts = document.querySelectorAll('.post');
+$(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-target="#modalPost"]', function () {
+    var postId = $(this).data('post-id');
 
-buttons.forEach(function (button) {
-    button.addEventListener('click', function () {
-        var tweetId = button.getAttribute('data-tweet-id');
-        var input = document.querySelector('input[name="id_parent"]');
-        input.value = tweetId;
-    });
-});
-
-/* Echo response of a post */
-allPosts.forEach(function(post) {
-    post.addEventListener('click', function() {
-
-        var postId = post.getAttribute('data-post-id');
+    if ($(this).hasClass('post')) {
+        /* Open modal with responses */
         $('#modalResponses .modal-body').empty();
 
         $.ajax({
-            url: "php_tool/postManager.php?echoResponses=true&postId="+postId,
+            url: "php_tool/postManager.php",
             type: 'GET',
             data: {
-                id: postId
+                echoResponses: true,
+                postId: postId
             },
-            success: function(response) {
-                //Decode le json
+            success: function (response) {
                 var responses = JSON.parse(response);
-                console.log(responses);
                 for (rep of responses) {
                     var element = document.querySelector('#modalResponses .modal-body');
                     insertPost(rep, element);
@@ -79,16 +67,10 @@ allPosts.forEach(function(post) {
         });
 
         $('#modalResponses').modal('show');
-
-    });
-});
-
-
-$(document).ready(function () {
-    /* Like post */
-    $('.like-button').click(function () {
-        var postId = $(this).data('post-id');
+    } else if ($(this).hasClass('like-button')) {
+        /* Like button */
         var likeImage = $(this).find('img');
+
         $.ajax({
             url: 'php_tool/like_post.php',
             type: 'POST',
@@ -103,5 +85,10 @@ $(document).ready(function () {
                 }
             }
         });
-    });
+    } else if ($(this).is('[data-bs-toggle="modal"][data-bs-target="#modalPost"]')) {
+        /* Button that triggers the modal */
+        var tweetId = $(this).data('tweet-id');
+        var input = $('input[name="id_parent"]');
+        input.val(tweetId);
+    }
 });
