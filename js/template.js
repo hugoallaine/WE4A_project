@@ -41,12 +41,6 @@ function checkNotificationsNumberUnread() {
 }
 
 $(document).ready(function () {
-    $('.textAreaPost').on('keydown', function (e) {
-        if (e.which == 13) {
-            e.preventDefault();
-            $('#formPostId').submit();
-        }
-    });
 
     /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function (e) {
