@@ -38,7 +38,7 @@ function insertPost(post, element) {
             </div>
         </div>
     `;
-    
+
     element.innerHTML = html + element.innerHTML;
 }
 
@@ -99,17 +99,28 @@ $(document).ready(function () {
         url: "php_tool/checkSession.php",
         type: 'GET',
         success: function (response) {
-            console.log(response.status);
             if (response.status === true) {
                 isConnected = true;
-            } else {    
+            } else {
                 isConnected = false;
             }
+            /* Load posts */
+
+            $.ajax({
+                url: "php_tool/postManager.php",
+                type: 'GET',
+                data: {
+                    echoListRandomPosts: true,
+                    start: 0,
+                },
+                success: function (response) {
+                    var responses = JSON.parse(response);
+                    for (rep of responses) {
+                        var element = document.querySelector('#posts-container');
+                        insertPost(rep, element);
+                    }
+                }
+            });
         }
     });
-
-    /* Load posts */
-
-    
-
 });
