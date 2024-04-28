@@ -65,7 +65,7 @@ require_once dirname(__FILE__).'/toast.php';
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                             <li><a class="dropdown-item" href="settings.php">Paramètres</a></li>
-                            <li><a class="dropdown-item" href="#">Support</a></li>
+                            <li><a class="dropdown-item" href="mailto:admin@allaine.cc">Support</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
