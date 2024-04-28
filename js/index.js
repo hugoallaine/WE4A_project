@@ -27,10 +27,16 @@ function insertPost(post, element) {
                                     <img src='${post.like_image}' alt='like button' class='img-fluid' >
                                 </button>
                             </div>
+                            <div class='col-12 p-0 mb-2 text-center'>
+                                <strong>${post.like_count}</strong>
+                            </div>
                             <div class='col-12 p-0'>
                                 <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
                                     <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
                                 </button>
+                            </div>
+                            <div class='col-12 p-0 mb-2 text-center'>
+                                <strong>${post.comment_count}</strong>
                             </div>
                         </div>
                     </div>
@@ -40,6 +46,27 @@ function insertPost(post, element) {
     `;
 
     element.innerHTML = element.innerHTML + html;
+}
+
+function ListRandomPosts(token) {
+    start = $('#posts-container .post').length;
+    $.ajax({
+        url: "php_tool/postManager.php",
+        type: 'GET',
+        data: {
+            echoListRandomPosts: true,
+            start: start,
+            token: token
+        },
+        success: function (response) {
+            var responses = JSON.parse(response);
+            for (rep of responses) {
+                console.log(rep);
+                var element = document.querySelector('#posts-container');
+                insertPost(rep, element);
+            }
+        }
+    });
 }
 
 $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-target="#modalPost"]', function () {
@@ -58,9 +85,15 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
             },
             success: function (response) {
                 var responses = JSON.parse(response);
-                for (rep of responses) {
+                if (responses.length === 0) {
                     var element = document.querySelector('#modalResponses .modal-body');
-                    insertPost(rep, element);
+                    element.innerHTML = "<h5 class='text-center'>Pas encore de réponse, soyez le premier à répondre !</h5>";
+                }
+                else {
+                    for (rep of responses) {
+                        var element = document.querySelector('#modalResponses .modal-body');
+                        insertPost(rep, element);
+                    }
                 }
             }
         });
@@ -94,7 +127,7 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
 
 $(document).ready(function () {
 
-    var $token = Math.floor(Math.random() * 100000);
+    const token = Math.floor(Math.random() * 100000);
     /* Check if user is connected */
     $.ajax({
         url: "php_tool/checkSession.php",
@@ -106,48 +139,15 @@ $(document).ready(function () {
                 isConnected = false;
             }
             /* Load posts */
-
-            $.ajax({
-                url: "php_tool/postManager.php",
-                type: 'GET',
-                data: {
-                    echoListRandomPosts: true,
-                    start: 0,
-                    token: $token
-                },
-                success: function (response) {
-                    var responses = JSON.parse(response);
-                    for (rep of responses) {
-                        var element = document.querySelector('#posts-container');
-                        insertPost(rep, element);
-                    }
-                }
-            });
+            ListRandomPosts(token);
         }
     });
 
     /* Load more posts */
 
-    $('#posts-container').on('scroll', function() {
-        if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-            var start = $('#posts-container .post').length;
-            $.ajax({
-                url: "php_tool/postManager.php",
-                type: 'GET',
-                data: {
-                    echoListRandomPosts: true,
-                    start: start,
-                    token: $token
-
-                },
-                success: function (response) {
-                    var responses = JSON.parse(response);
-                    for (rep of responses) {
-                        var element = document.querySelector('#posts-container');
-                        insertPost(rep, element);
-                    }
-                }
-            });
+    $('#posts-container').on('scroll', function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            ListRandomPosts(token);
         }
     });
 });
