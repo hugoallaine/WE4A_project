@@ -3,6 +3,7 @@ require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 
 require_once dirname(__FILE__).'/db.php';
+require_once dirname(__FILE__).'/postManager.php';
 
 function sendPost($post, $parentId = null) {
     global $db;
@@ -13,6 +14,7 @@ function sendPost($post, $parentId = null) {
         $req = $db->prepare("INSERT INTO posts (id_user, content) VALUES (?, ?)");
         $req->execute(array($_SESSION['id'], $post));
     }
+    return $db->lastInsertId();
 }
 
 if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {
@@ -24,7 +26,9 @@ if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {
         } else {
             $parentId = null;
         }
-        sendPost($post, $parentId);
+        $postId = sendPost($post, $parentId);
+        echoPostById($postId);
+
     } else {
         $error = "Le message est vide";
     }

@@ -53,11 +53,12 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
+                response = JSON.parse(response);
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
+                if (window.location.pathname.includes('index')) {
+                    insertPost(response, document.querySelector('#posts-container'));
+                }
             }
         });
     });
