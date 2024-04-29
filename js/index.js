@@ -1,6 +1,8 @@
 function insertPost(post, element) {
 
     let pictureHtml = "";
+    console.log(post.picture);
+    
     if (post.picture) {
         pictureHtml = `<a href='${post.picture}'><img src='${post.picture}' class='rounded' width='400' height='320' style='object-fit: cover;'></a>`;
     }
@@ -45,7 +47,7 @@ function insertPost(post, element) {
         </div>
     `;
 
-    element.innerHTML = element.innerHTML + html;
+    element.innerHTML = html + element.innerHTML;
 }
 
 function ListRandomPosts(token) {
@@ -56,7 +58,7 @@ function ListRandomPosts(token) {
         data: {
             echoListRandomPosts: true,
             start: start,
-            token: token
+            token: sessionStorage.getItem('token')
         },
         success: function (response) {
             var responses = JSON.parse(response);
@@ -127,7 +129,15 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
 
 $(document).ready(function () {
 
-    const token = Math.floor(Math.random() * 100000);
+    let token;
+
+    if (sessionStorage.getItem('token')) {
+        token = sessionStorage.getItem('token');
+    } else {
+        token = Math.floor(Math.random() * 100000);
+        sessionStorage.setItem('token', token);
+    }
+
     /* Check if user is connected */
     $.ajax({
         url: "php_tool/checkSession.php",
