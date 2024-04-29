@@ -41,7 +41,9 @@ function echoPostById($postId) {
     global $db;
     
     if (isset($_SESSION['id'])) {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
         FROM posts
         INNER JOIN users ON posts.id_user = users.id
         LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ?
@@ -49,7 +51,9 @@ function echoPostById($postId) {
         $req->execute([$_SESSION['id'], $postId]);
         $post = $req->fetch();
     } else {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id
+        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
         FROM posts
         INNER JOIN users ON posts.id_user = users.id
         WHERE posts.id = ?");
