@@ -54,6 +54,14 @@ require_once dirname(__FILE__).'/toast.php';
                                 <span id="nbNotif" class="badge text-bg-danger"></span>
                             </a>
                         </li>
+                        <?php if(isConnected() && $_SESSION['isAdmin'] == 1): ?>
+                        <li>
+                            <a href="admin.php" class="nav-link <?php if($currentPage === 'Admin'){echo 'active';}else{echo 'link-dark';} ?>">
+                                <img src="img/icon/admin.png" class="bi me-2" width="16" height="16">
+                                Administration
+                            </a>
+                        </li>
+                        <?php endif; ?>
                     </ul>
                     <hr>
                     <?php if(isConnected()): ?>
