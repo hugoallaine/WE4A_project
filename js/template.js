@@ -48,7 +48,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         $.ajax({
             type: 'POST',
-            url: 'php_tool/submit_post.php',
+            url: 'php_tool/postManager.php',
             data: formData,
             contentType: false,
             processData: false,

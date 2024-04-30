@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
-session_start_secure();
-require_once dirname(__FILE__).'/php_tool/submit_post.php';
 require_once dirname(__FILE__).'/php_tool/db.php';
+require_once dirname(__FILE__).'/php_tool/postManager.php';
+session_start_secure();
 
 $currentPage = 'Accueil';
 
