@@ -1,7 +1,6 @@
 function insertPost(post, element) {
 
     let pictureHtml = "";
-    console.log(post.picture);
     
     if (post.picture) {
         pictureHtml = `<a href='${post.picture}'><img src='${post.picture}' class='rounded' width='400' height='320' style='object-fit: cover;'></a>`;
@@ -63,7 +62,6 @@ function ListRandomPosts(token) {
         success: function (response) {
             var responses = JSON.parse(response);
             for (rep of responses) {
-                console.log(rep);
                 var element = document.querySelector('#posts-container');
                 insertPost(rep, element);
             }
