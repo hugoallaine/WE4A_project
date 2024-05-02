@@ -66,17 +66,14 @@ require_once dirname(__FILE__).'/toast.php';
                     <hr>
                     <?php if(isConnected()): ?>
                     <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
-                            id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Icon User" width="48" height="48" class="rounded-circle me-3" style="object-fit: cover;">
                             <strong class="fs-5"><?php echo $_SESSION['pseudo']; ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                             <li><a class="dropdown-item" href="settings.php">Paramètres</a></li>
                             <li><a class="dropdown-item" href="mailto:admin@allaine.cc">Support</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a id="logout-button" class="dropdown-item" href="#">Se déconnecter</a></li>       
                         </ul>
                     </div>
@@ -93,9 +90,9 @@ require_once dirname(__FILE__).'/toast.php';
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid d-flex justify-content-space-around">
                         <div class="dropdown">
-                        <button class="btn btn-light dropdown" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="img/icon/filtre.png" class="img-fluid d-block mx-auto" width="30">
-                        </button>
+                            <button class="btn btn-light dropdown" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="img/icon/filtre.png" class="img-fluid d-block mx-auto" width="30">
+                            </button>
                             <ul class="dropdown-menu" aria-labelledby="filterDropdown">
                                 <li><a class="dropdown-item" href="#">Filtre 1</a></li>
                                 <li><a class="dropdown-item" href="#">Filtre 2</a></li>
@@ -104,8 +101,7 @@ require_once dirname(__FILE__).'/toast.php';
                         </div>
                         <form class="d-flex" role="search">
                             <input class="form-control me-2" type="search" name="searchbar" placeholder="Rechercher" aria-label="Search">
-                            <button class="btn btn-outline-primary" type="submit"><img src="img/icon/loupe.png"
-                                    class="img-fluid d-block mx-auto" width="30"></button>
+                            <button class="btn btn-outline-primary" type="submit"><img src="img/icon/loupe.png" class="img-fluid d-block mx-auto" width="30"></button>
                         </form>
                         <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#<?php if(isConnected()){echo "modalPost";}else{echo "modalLogin";} ?>'>Écrire un Greg</button>
                     </div>
