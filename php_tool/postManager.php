@@ -143,7 +143,6 @@ function sendPost(){
             $req->execute(array($_SESSION['id'], $post));
         }
         $postId = $db->lastInsertId();
-        echoPostById($postId);
 
     } else {
         $error = "Le message est vide";
@@ -178,8 +177,9 @@ function sendPost(){
             }
         } else {
             $error = "Le fichier est trop lourd";
-        }
+        } 
     }
+    echoPostById($postId);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
