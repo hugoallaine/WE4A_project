@@ -29,7 +29,7 @@ function insertPost(post, element) {
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
-                                <strong>${post.like_count}</strong>
+                                <strong data-like-count-for-post='${post.id}'>${post.like_count}</strong>
                             </div>
                             <div class='col-12 p-0'>
                                 <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
@@ -102,6 +102,8 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
     } else if ($(this).hasClass('like-button')) {
         /* Like button */
         var likeImage = $(this).find('img');
+        var likeCountElement = $(`[data-like-count-for-post='${postId}']`);
+        var likeCount = parseInt(likeCountElement.text()) || 0;
 
         $.ajax({
             url: 'php_tool/like_post.php',
@@ -112,8 +114,12 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
             success: function (response) {
                 if (response === 'liked') {
                     likeImage.attr('src', '/WE4A_project/img/icon/liked.png');
+                    likeCountElement.text(likeCount + 1);
                 } else {
                     likeImage.attr('src', '/WE4A_project/img/icon/like.png');
+                    if (likeCount > 0) {
+                        likeCountElement.text(likeCount - 1); // Décrémente et met à jour l'affichage si le tweet était déjà liké
+                    }
                 }
             }
         });
