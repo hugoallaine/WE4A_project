@@ -16,6 +16,11 @@ if (isset($_GET['pseudo'])) {
         $req = $db->prepare('SELECT Count(*) AS following FROM follows WHERE id_user_following = ?');
         $req->execute(array($userinfo['id']));
         $following = $req->fetch();
+        if (isConnected() && $_SESSION['id'] == $userinfo['id']) {
+            $req = $db->prepare('SELECT * FROM user_statistics WHERE id_user = ?');
+            $req->execute(array($userinfo['id']));
+            $stats = $req->fetch();
+        }
     } else {
         header("Location: profile.php");
     }
@@ -28,59 +33,133 @@ if (isset($_GET['pseudo'])) {
 require_once dirname(__FILE__).'/php_tool/template_top.php';
 ?>
 <main>
-    <div class="card">
-        <div style='width: auto; height: 300px;'>
-            <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top" alt="Banner" style='height:100%; width:100%; object-fit: cover;'>
-        </div>
-        <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <h5 class="card-title d-flex align-items-center">
-                    <div class='rounded me-2' style='width: 60px; height: 60px;'>
-                        <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2" style='height:100%; width:100%; object-fit: cover;'>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col p-0 vh-100 overflow-auto" id="posts-container">
+                <div class="card">
+                    <div style='width: auto; height: 300px;'>
+                        <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top" alt="Banner" style='height:100%; width:100%; object-fit: cover;'>
                     </div>
-                    <?php 
-                    echo $userinfo['pseudo'];  
-                    if(isset($userinfo['isAdmin']) && $userinfo['isAdmin'] == 1) {
-                        echo '<span class="badge bg-danger m-2">Admin</span>';
-                    }
-                    ?>
-                </h5>
-                <div class="d-flex align-items-center">
-                    <?php if (isConnected() && $_SESSION['id'] == $userinfo['id']): ?>
-                        <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalProfile">Modifier mon profil</a>
-                    <?php else: ?>
-                        <form id="formFollow" method="POST">
-                            <input type="hidden" name="pseudo" value="<?php echo $userinfo['pseudo'] ?>">
-                            <?php
-                            if (isConnected()) {
-                                $req = $db->prepare('SELECT Count(*) AS follow FROM follows WHERE id_user_following = ? AND id_user_followed = ?');
-                                $req->execute(array($_SESSION['id'], $userinfo['id']));
-                                $follow = $req->fetch();
-                                if($follow['follow'] == 0) {
-                                    echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivre</button>';
-                                } else {
-                                    echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivi</button>';
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h1 class="card-title d-flex align-items-center fs-4">
+                                <div class='rounded me-2' style='width: 60px; height: 60px;'>
+                                    <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2" style='height:100%; width:100%; object-fit: cover;'>
+                                </div>
+                                <?php 
+                                echo $userinfo['pseudo'];  
+                                if(isset($userinfo['isAdmin']) && $userinfo['isAdmin'] == 1) {
+                                    echo '<span class="badge bg-danger m-2">Admin</span>';
                                 }
-                            } else {
-                                echo '<button id="btnFollow" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Suivre</button>';
-                            }
-                            ?>
-                        </form>
-                    <?php endif; ?>
+                                ?>
+                            </h1>
+                            <div class="d-flex align-items-center">
+                                <?php if (isConnected() && $_SESSION['id'] == $userinfo['id']): ?>
+                                    <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalProfile">Modifier mon profil</a>
+                                <?php else: ?>
+                                    <form id="formFollow" method="POST">
+                                        <input type="hidden" name="pseudo" value="<?php echo $userinfo['pseudo'] ?>">
+                                        <?php
+                                        if (isConnected()) {
+                                            $req = $db->prepare('SELECT Count(*) AS follow FROM follows WHERE id_user_following = ? AND id_user_followed = ?');
+                                            $req->execute(array($_SESSION['id'], $userinfo['id']));
+                                            $follow = $req->fetch();
+                                            if($follow['follow'] == 0) {
+                                                echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivre</button>';
+                                            } else {
+                                                echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivi</button>';
+                                            }
+                                        } else {
+                                            echo '<button id="btnFollow" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Suivre</button>';
+                                        }
+                                        ?>
+                                    </form>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center">
+                            <a href="#" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                <h6 class="card-subtitle text-body-secondary"><?php echo '<span id="nbFollowers">'.$followers['followers'].'</span>'; if($followers['followers']>1){echo " abonnés";}else{echo " abonné";}?></h6>
+                            </a>
+                            <h6 class="ms-2 mb-1 me-2">-</h6>
+                            <a href="#" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                <h6 class="card-subtitle text-body-secondary"><?php echo '<span id="nbFollowing">'.$following['following'].'</span>'; if($following['following']>1){echo " abonnements";}else{echo " abonnement";}?></h6>
+                            </a>
+                        </div>
+                        <?php if (!empty($userinfo['bio'])): ?>
+                            <hr>
+                            <p class="card-text"><?php echo $userinfo['bio']; ?></p>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-start align-items-center">
-                <a href="#" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                    <h6 class="card-subtitle text-body-secondary"><?php echo '<span id="nbFollowers">'.$followers['followers'].'</span>'; if($followers['followers']>1){echo " abonnés";}else{echo " abonné";}?></h6>
-                </a>
-                <h6 class="ms-2 mb-1 me-2">-</h6>
-                <a href="#" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                    <h6 class="card-subtitle text-body-secondary"><?php echo '<span id="nbFollowing">'.$following['following'].'</span>'; if($following['following']>1){echo " abonnements";}else{echo " abonnement";}?></h6>
-                </a>
-            </div>
-            <?php if (!empty($userinfo['bio'])): ?>
+            <?php if(isConnected() && $_SESSION['id'] == $userinfo['id'] && isset($stats)): ?>
+            <div class="col-3 p-3 bg-light">
+                <h4 class="text-center">Statistiques</h4>
                 <hr>
-                <p class="card-text"><?php echo $userinfo['bio']; ?></p>
+                <div class="d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-around">
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Abonnés</h5>
+                            <h6><?php echo $stats['followers_count']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Abonnements</h5>
+                            <h6><?php echo $stats['following_count']; ?></h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Gregs originaux publiés</h5>
+                            <h6><?php echo ($stats['total_posts']-$stats['responses']); ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Réponses publiées</h5>
+                            <h6><?php echo $stats['responses']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Total de publications</h5>
+                            <h6><?php echo $stats['total_posts']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Moyenne de publication / semaine</h5>
+                            <h6><?php echo $stats['avg_posts_per_week']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Moyenne de publication / mois</h5>
+                            <h6><?php echo $stats['avg_posts_per_month']; ?></h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Nombre de likes donnés</h5>
+                            <h6><?php echo $stats['likes_given_count']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Nombre de likes reçus</h5>
+                            <h6><?php echo $stats['likes_received_count']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Moyenne des likes donnés / semaine</h5>
+                            <h6><?php echo $stats['avg_likes_given_per_week']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Moyenne des likes donnés / mois</h5>
+                            <h6><?php echo $stats['avg_likes_given_per_month']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Moyenne des likes reçus / semaine</h5>
+                            <h6><?php echo $stats['avg_likes_received_per_week']; ?></h6>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5>Moyenne des likes reçus / mois</h5>
+                            <h6><?php echo $stats['avg_likes_received_per_month']; ?></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?php endif; ?>
         </div>
     </div>
