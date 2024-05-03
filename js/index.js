@@ -103,8 +103,7 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
         /* Like button */
         var likeImage = $(this).find('img');
         var likeCountElement = $(`[data-like-count-for-post='${postId}']`);
-        var likeCount = parseInt(likeCountElement.text()) || 0;
-
+    
         $.ajax({
             url: 'php_tool/like_post.php',
             type: 'POST',
@@ -112,15 +111,15 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
                 post_id: postId
             },
             success: function (response) {
-                if (response === 'liked') {
+                var data = JSON.parse(response);
+    
+                if (data.status === 'liked') {
                     likeImage.attr('src', '/WE4A_project/img/icon/liked.png');
-                    likeCountElement.text(likeCount + 1);
-                } else {
+                } else if (data.status === 'unliked') {
                     likeImage.attr('src', '/WE4A_project/img/icon/like.png');
-                    if (likeCount > 0) {
-                        likeCountElement.text(likeCount - 1); // Décrémente et met à jour l'affichage si le tweet était déjà liké
-                    }
                 }
+    
+                likeCountElement.text(data.likeCount);
             }
         });
     } else if ($(this).is('[data-bs-toggle="modal"][data-bs-target="#modalPost"]')) {
