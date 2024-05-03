@@ -54,10 +54,9 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response);
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
-                if (window.location.pathname.includes('index')) {
+                if (document.title.includes("Accueil")) {
                     insertPost(response, document.querySelector('#posts-container'));
                 }
             }
