@@ -25,4 +25,17 @@ if (isset($_POST['pseudo']) && isset($_SESSION['id'])) {
         }
     }
 }
+
+if (isset($_POST['id']) && isset($_SESSION['id'])) {
+    $id = SecurizeString_ForSQL($_POST['id']);
+    $req = $db->prepare('SELECT Count(*) AS follow FROM follows WHERE id_user_following = ? AND id_user_followed = ?');
+    $req->execute(array($_SESSION['id'], $id));
+    $follow = $req->fetch();
+    if ($follow['follow'] == 1) {
+        $req = $db->prepare('DELETE FROM follows WHERE id_user_following = ? AND id_user_followed = ?');
+        $req->execute(array($_SESSION['id'], $id));
+        header('Content-Type: application/json');
+        echo json_encode(array('error' => false, 'message' => 'unfollowed'));
+    }
+}
 ?>

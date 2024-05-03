@@ -76,4 +76,22 @@ $(document).ready(function () {
             }
         });
     });
+
+    /* Gestion follow */
+    $('.btnUnfollow').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/follow.php',
+            data: {
+                id: $(this).attr('user-id'),
+            },
+            success: function (response) {
+                if (response.error) {
+                    $('#error-message').text(response.message);
+                } else {
+                    $('#btnUnfollow').text("Suivre");
+                }
+            }
+        });
+    });
 });
