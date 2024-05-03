@@ -94,9 +94,14 @@ require_once dirname(__FILE__).'/toast.php';
                                 <img src="img/icon/filtre.png" class="img-fluid d-block mx-auto" width="30">
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                                <li><a class="dropdown-item" href="#">Filtre 1</a></li>
-                                <li><a class="dropdown-item" href="#">Filtre 2</a></li>
-                                <li><a class="dropdown-item" href="#">Filtre 3</a></li>
+                                <?php if("Profil" == $currentPage): ?>
+                                <li><a class="dropdown-item" href="#">Gregs</a></li>
+                                <li><a class="dropdown-item" href="#">Réponses</a></li>
+                                <?php else: ?>
+                                <li><a class="dropdown-item" href="#">Récents</a></li>
+                                <li><a class="dropdown-item" href="#">Populaires</a></li>
+                                <li><a class="dropdown-item" href="#">Suivis</a></li>
+                                <?php endif; ?>
                             </ul>
                         </div>
                         <form class="d-flex" role="search">

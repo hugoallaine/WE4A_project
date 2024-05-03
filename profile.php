@@ -191,7 +191,6 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                             <textarea id="bio-f" name="bio-f" class="form-control" style="resize: none; height:30vh"><?php echo $userinfo['bio']; ?></textarea>
                             <label for="bio-f" class="form-label">Bio</label>
                         </div>
-                        
                         <div id="error-message" class="text-danger"></div>
                     </div>
                     <div class="modal-footer">
@@ -199,6 +198,29 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                         <input type="submit" class="btn btn-primary" name="formProfile" value="Valider"/>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal - Followers -->
+    <div class="modal fade" id="modalFollows" tabindex="-1" role="dialog" aria-labelledby="modalFollowsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalFollowsLabel">Gérer les follows</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Abonnés</h5>
+                            <div id="followers-list" class="list-group"></div>
+                        </div>
+                        <div class="col-6">
+                            <h5>Abonnements</h5>
+                            <div id="following-list" class="list-group"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
