@@ -1,7 +1,5 @@
 function insertPost(post, element, isOrginalPost = false){
 
-    console.log("insertPost", post);
-
     let pictureHtml = "";
 
     if (post.picture) {
@@ -64,7 +62,6 @@ function ListRandomPosts(token) {
         success: function (response) {
             var responses = JSON.parse(response);
             for (rep of responses) {
-                console.log("ListRandomPosts", rep);
                 var element = document.querySelector('#posts-container');
                 insertPost(rep, element);
             }
@@ -81,7 +78,6 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
 
         var isOriginalPost = $(this).data('is-original-post') === true;
         var postParentId = $(this).data('post-id-parent');
-        console.log(isOriginalPost);
         if (isOriginalPost && postParentId !== null) {
             postId = postParentId;
         }
