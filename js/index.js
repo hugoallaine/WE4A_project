@@ -37,7 +37,7 @@ function insertPost(post, element, isOrginalPost = false){
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
-                                <strong data-response-count-for-post='${post.id}'>${post.response_count}</strong>
+                                <strong data-response-count-for-post='${post.id}'>${post.comment_count}</strong>
                             </div>
                         </div>
                     </div>
