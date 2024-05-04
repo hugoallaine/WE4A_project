@@ -79,6 +79,7 @@ $(document).ready(function () {
 
     /* Gestion follow */
     $('.btnUnfollow').click(function () {
+        var btn = $(this);
         $.ajax({
             type: 'POST',
             url: 'php_tool/follow.php',
@@ -89,7 +90,17 @@ $(document).ready(function () {
                 if (response.error) {
                     $('#error-message').text(response.message);
                 } else {
-                    $('#btnUnfollow').text("Suivre");
+                    if (response.message == 'followed') {
+                        btn.text("Se désabonner");
+                        btn.removeClass("btn-primary");
+                        btn.addClass("btn-secondary");
+                        $('#nbFollowing').text(parseInt($('#nbFollowing').text()) + 1);
+                    } else {
+                        btn.text("Suivre");
+                        btn.removeClass("btn-secondary");
+                        btn.addClass("btn-primary");
+                        $('#nbFollowing').text(parseInt($('#nbFollowing').text()) - 1);
+                    }
                 }
             }
         });

@@ -211,8 +211,9 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col">
-                            <h5 class="text-center p-3">Abonnés</h5>
+                        <div class="col overflow-auto">
+                            <h5 class="text-center p-2">Abonnés</h5>
+                            <hr>
                             <div id="followers-list" class="list-group">
                                 <?php
                                 $req = $db->prepare('SELECT id_user_following FROM follows WHERE id_user_followed = ?');
@@ -221,14 +222,15 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
                                     $req2->execute(array($follower['id_user_following']));
                                     $follower = $req2->fetch();
-                                    echo '<a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;"/>'.$follower['pseudo'].'</a>';
+                                    echo '<div class="d-flex justify-content-center"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;"/>'.$follower['pseudo'].'</a></div>';
                                 }
                                 ?>
                             </div>
                         </div>
                         <div class="vr"></div>
-                        <div class="col">
-                            <h5 class="text-center p-3">Abonnements</h5>
+                        <div class="col overflow-auto">
+                            <h5 class="text-center p-2">Abonnements</h5>
+                            <hr>
                             <div id="following-list" class="list-group">
                                 <?php
                                 $req = $db->prepare('SELECT id_user_followed FROM follows WHERE id_user_following = ?');
@@ -238,7 +240,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     $req2->execute(array($following['id_user_followed']));
                                     $following = $req2->fetch();
                                     echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;"/>'.$following['pseudo'].'</a>';
-                                    echo '<button class="btnUnfollow btn btn-primary" user-id="'.$following['id'].'" type="button">Se désabonner</button></div>';
+                                    echo '<button class="btnUnfollow btn btn-secondary" user-id="'.$following['id'].'" type="button">Se désabonner</button></div>';
                                 }
                                 ?>
                             </div>

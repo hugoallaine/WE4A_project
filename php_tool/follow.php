@@ -36,6 +36,11 @@ if (isset($_POST['id']) && isset($_SESSION['id'])) {
         $req->execute(array($_SESSION['id'], $id));
         header('Content-Type: application/json');
         echo json_encode(array('error' => false, 'message' => 'unfollowed'));
+    } else {
+        $req = $db->prepare('INSERT INTO follows (id_user_following, id_user_followed) VALUES (?, ?)');
+        $req->execute(array($_SESSION['id'], $id));
+        header('Content-Type: application/json');
+        echo json_encode(array('error' => false, 'message' => 'followed'));
     }
 }
 ?>
