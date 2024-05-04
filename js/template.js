@@ -46,6 +46,20 @@ $(document).ready(function () {
     $('#formPostId').submit(function (e) {
         e.preventDefault();
         let formData = new FormData(this);
+
+        let text = formData.get('textAreaPostId');
+
+        if (text.length > 290) {
+            let errorDiv = $('.modal-body').find('.alert-danger');
+            if (errorDiv.length === 0) {
+                errorDiv = document.createElement('div');
+                errorDiv.className = 'alert alert-danger mt-2 mb-0';
+                errorDiv.textContent = 'Le texte ne peut pas dépasser 290 caractères.';
+                $('.modal-body').append(errorDiv);
+            }
+            return;
+        }
+
         $.ajax({
             type: 'POST',
             url: 'php_tool/postManager.php',

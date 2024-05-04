@@ -24,6 +24,7 @@ function echoPost($post) {
     $postInfo = [
         'id' => $post['id'],
         'id_user' => $post['id_user'],
+        'id_parent' => $post['id_parent'],
         'pseudo' => $post['pseudo'],
         'avatar' => $avatar,
         'content' => $post['content'],
@@ -41,22 +42,22 @@ function echoPostById($postId) {
     global $db;
     
     if (isset($_SESSION['id'])) {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id,
-        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
-        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
-        FROM posts
-        INNER JOIN users ON posts.id_user = users.id
-        LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ?
-        WHERE posts.id = ?");
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = ?
+        WHERE p.id = ?");
         $req->execute([$_SESSION['id'], $postId]);
         $post = $req->fetch();
     } else {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id,
-        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
-        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
-        FROM posts
-        INNER JOIN users ON posts.id_user = users.id
-        WHERE posts.id = ?");
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, NULL as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        WHERE p.id = ?");
         $req->execute([$postId]);
         $post = $req->fetch();
     }
@@ -70,23 +71,36 @@ function echoPostById($postId) {
 function echoResponses($postId) {
     global $db;
 
+    // Récupérer le post original
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id 
+    LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = ? 
+    WHERE p.id = ?");
+    $req->execute([$_SESSION['id'], $postId]);
+    $originalPost = $req->fetch();
+    $originalPost['content'] = RestoreString_FromSQL($originalPost['content']);
+
+    // Récupérer les réponses
     if (isset($_SESSION['id'])) {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id,
-        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
-        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
-        FROM posts 
-        INNER JOIN users ON posts.id_user = users.id 
-        LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = ? 
-        WHERE posts.id_parent = ?");
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id 
+        LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = ? 
+        WHERE p.id_parent = ?");
         $req->execute([$_SESSION['id'], $postId]);
         $responses = $req->fetchAll();
     } else {
-        $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, NULL as like_id,
-        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
-        (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
-        FROM posts 
-        INNER JOIN users ON posts.id_user = users.id 
-        WHERE posts.id_parent = ?");
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, NULL as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id 
+        WHERE p.id_parent = ?");
         $req->execute([$postId]);
         $responses = $req->fetchAll();
     }
@@ -97,17 +111,21 @@ function echoResponses($postId) {
         $listResponses[] = echoPost($response);
     }
 
+    // Ajouter le post original au début de la liste
+    array_unshift($listResponses, echoPost($originalPost));
+
     echo json_encode($listResponses);
 }
 
 function echoListRandomPosts($start, $token){
     global $db;
-    $req = $db->prepare("SELECT posts.*, users.pseudo, users.avatar, likes.id as like_id,
-    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = posts.id) as comment_count,
-    (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
-    FROM posts 
-    INNER JOIN users ON posts.id_user = users.id 
-    LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = :id 
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id 
+    LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id 
+    WHERE p.id_parent IS NULL
     ORDER BY RAND(:seed)
     LIMIT 10 OFFSET :offset");
     $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
