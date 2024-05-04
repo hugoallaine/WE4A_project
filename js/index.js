@@ -46,7 +46,7 @@ function insertPost(post, element, isOrginalPost = false){
         </div>
     `;
 
-    element.innerHTML = html + element.innerHTML;
+    element.innerHTML = element.innerHTML + html;
 }
 
 function ListRandomPosts(token) {
