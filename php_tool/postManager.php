@@ -117,6 +117,56 @@ function echoResponses($postId) {
     echo json_encode($listResponses);
 }
 
+function echoLatestPosts($start){
+    global $db;
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id 
+    LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id 
+    WHERE p.id_parent IS NULL
+    ORDER BY p.created_at DESC
+    LIMIT 10 OFFSET :offset");
+    $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+    $req->bindValue(':offset', $start, PDO::PARAM_INT);
+    $req->execute();
+    $posts = $req->fetchAll();
+    
+    $listPosts = array();
+    foreach ($posts as $post) {
+        $post['content'] = RestoreString_FromSQL($post['content']);
+        $listPosts[] = echoPost($post);
+    }
+
+    echo json_encode($listPosts);
+}
+
+function echoPopularPosts($start){
+    global $db;
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id 
+    LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id 
+    WHERE p.id_parent IS NULL
+    ORDER BY like_count DESC
+    LIMIT 10 OFFSET :offset");
+    $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+    $req->bindValue(':offset', $start, PDO::PARAM_INT);
+    $req->execute();
+    $posts = $req->fetchAll();
+    
+    $listPosts = array();
+    foreach ($posts as $post) {
+        $post['content'] = RestoreString_FromSQL($post['content']);
+        $listPosts[] = echoPost($post);
+    }
+
+    echo json_encode($listPosts);
+}
+
 function echoListRandomPosts($start, $token){
     global $db;
     $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
@@ -130,6 +180,32 @@ function echoListRandomPosts($start, $token){
     LIMIT 10 OFFSET :offset");
     $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
     $req->bindValue(':seed', $token);
+    $req->bindValue(':offset', $start, PDO::PARAM_INT);
+    $req->execute();
+    $posts = $req->fetchAll();
+    
+    $listPosts = array();
+    foreach ($posts as $post) {
+        $post['content'] = RestoreString_FromSQL($post['content']);
+        $listPosts[] = echoPost($post);
+    }
+
+    echo json_encode($listPosts);
+}
+
+function echoFollowedPosts($start){
+    global $db;
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, likes.id as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id 
+    INNER JOIN follows ON p.id_user = follows.id_user_followed
+    LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id 
+    WHERE p.id_parent IS NULL AND follows.id_user_following = :id
+    ORDER BY p.created_at DESC
+    LIMIT 10 OFFSET :offset");
+    $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
     $req->bindValue(':offset', $start, PDO::PARAM_INT);
     $req->execute();
     $posts = $req->fetchAll();
@@ -214,6 +290,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['echoListRandomPosts'])) {
         if (isset($_GET['start'])) {
             echoListRandomPosts($_GET['start'], $_GET['token']);
+        }
+    }
+    if (isset($_GET['echoLatestPosts'])) {
+        if (isset($_GET['start'])) {
+            echoLatestPosts($_GET['start']);
+        }
+    }
+    if (isset($_GET['echoPopularPosts'])) {
+        if (isset($_GET['start'])) {
+            echoPopularPosts($_GET['start']);
+        }
+    }
+    if (isset($_GET['echoFollowedPosts'])) {
+        if (isset($_GET['start'])) {
+            echoFollowedPosts($_GET['start']);
         }
     }
 

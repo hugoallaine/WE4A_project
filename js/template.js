@@ -40,6 +40,8 @@ function checkNotificationsNumberUnread() {
     });
 }
 
+
+
 $(document).ready(function () {
 
     /* Envoi du formulaire d'ajout de post */
