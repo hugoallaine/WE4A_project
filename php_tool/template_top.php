@@ -97,9 +97,11 @@ require_once dirname(__FILE__).'/toast.php';
                                 <?php if("Profil" == $currentPage): ?>
                                 <li><a class="dropdown-item" href="#">Gregs</a></li>
                                 <li><a class="dropdown-item" href="#">Réponses</a></li>
-                                <?php else: ?>
+                                <li><a class="dropdown-item" href="#">Likes</a></li>
+                                <?php elseif ("Accueil" == $currentPage): ?>
                                 <li><a class="dropdown-item" href="#">Récents</a></li>
                                 <li><a class="dropdown-item" href="#">Populaires</a></li>
+                                <li><a class="dropdown-item" href="#">Découvertes</a></li>
                                 <li><a class="dropdown-item" href="#">Suivis</a></li>
                                 <?php endif; ?>
                             </ul>

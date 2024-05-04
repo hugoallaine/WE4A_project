@@ -46,7 +46,11 @@ function insertPost(post, element, isOrginalPost = false){
         </div>
     `;
 
-    element.innerHTML = element.innerHTML + html;
+    element.innerHTML = html + element.innerHTML;
+}
+
+function ListLatestPosts() {
+    start = $('#posts-container .post').length;
 }
 
 function ListRandomPosts(token) {
@@ -171,7 +175,23 @@ $(document).ready(function () {
 
     $('#posts-container').on('scroll', function () {
         if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-            ListRandomPosts(token);
+            let FilterValue = getFilterValue();
+            console.log(FilterValue);
+            if (FilterValue === 'Récent') {
+                ListLatestPosts();
+            }
+            else if (FilterValue === 'Populaires') {
+                ListRandomPosts(token);
+            }
+            else if (FilterValue === 'Découvertes') {
+                ListRandomPosts(token);
+            }
+            else if (FilterValue === 'Suivis') {
+                ListRandomPosts(token);
+            }
+            else {
+                ListRandomPosts(token);
+            }
         }
     });
 });

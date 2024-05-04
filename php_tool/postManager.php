@@ -81,6 +81,7 @@ function echoResponses($postId) {
     WHERE p.id = ?");
     $req->execute([$_SESSION['id'], $postId]);
     $originalPost = $req->fetch();
+    $originalPost['content'] = RestoreString_FromSQL($originalPost['content']);
 
     // Récupérer les réponses
     if (isset($_SESSION['id'])) {
@@ -124,6 +125,7 @@ function echoListRandomPosts($start, $token){
     FROM posts p
     INNER JOIN users ON p.id_user = users.id 
     LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id 
+    WHERE p.id_parent IS NULL
     ORDER BY RAND(:seed)
     LIMIT 10 OFFSET :offset");
     $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
