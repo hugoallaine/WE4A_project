@@ -25,7 +25,7 @@ function insertPost(post, element) {
                         <div class='row'>
                             <div class='col-12 p-0'>
                                 <button class='btn like-button' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img src='${post.like_image}' alt='like button' class='img-fluid' >
+                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid' >
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
@@ -101,7 +101,7 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
         $('#modalResponses').modal('show');
     } else if ($(this).hasClass('like-button')) {
         /* Like button */
-        var likeImage = $(this).find('img');
+        var likeImage = $(`[data-like-image-for-post='${postId}']`);
         var likeCountElement = $(`[data-like-count-for-post='${postId}']`);
     
         $.ajax({
