@@ -13,3 +13,6 @@ Authentification à deux facteurs :
 
 Envoi de mail par authentification SMTP :   
 - https://github.com/PHPMailer/PHPMailer   
+
+ReCaptcha :
+- https://github.com/google/recaptcha
