@@ -18,19 +18,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 <h5>Statistiques</h5>
             </div> -->
         </div>
-        <!-- Response modal -->
-        <div class="modal fade" id="modalResponses" tabindex="-1" role="dialog" aria-labelledby="modalReponsesLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-                    </div>
-                    <div class="modal-body">
-                    <!-- Responses -->
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </main>
 <?php
