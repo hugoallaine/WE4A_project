@@ -90,21 +90,23 @@ require_once dirname(__FILE__).'/toast.php';
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid d-flex justify-content-space-around">
                         <div class="dropdown">
-                            <button class="btn btn-light dropdown" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="img/icon/filtre.png" class="img-fluid d-block mx-auto" width="30">
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                                <?php if("Profil" == $currentPage): ?>
-                                <li><a class="dropdown-item" href="#">Gregs</a></li>
-                                <li><a class="dropdown-item" href="#">Réponses</a></li>
-                                <li><a class="dropdown-item" href="#">Likes</a></li>
-                                <?php elseif ("Accueil" == $currentPage): ?>
-                                <li><a class="dropdown-item" href="#">Récents</a></li>
-                                <li><a class="dropdown-item" href="#">Populaires</a></li>
-                                <li><a class="dropdown-item" href="#">Découvertes</a></li>
-                                <li><a class="dropdown-item" href="#">Suivis</a></li>
-                                <?php endif; ?>
-                            </ul>
+                            <?php if($currentPage == "Accueil" || $currentPage == "Profil"): ?>
+                                <button class="btn btn-light dropdown" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="img/icon/filtre.png" class="img-fluid d-block mx-auto" width="30">
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                    <?php if("Profil" == $currentPage): ?>
+                                        <li><a class="dropdown-item" href="#">Gregs</a></li>
+                                        <li><a class="dropdown-item" href="#">Réponses</a></li>
+                                        <li><a class="dropdown-item" href="#">Likes</a></li>
+                                    <?php elseif ("Accueil" == $currentPage): ?>
+                                        <li><a class="dropdown-item" href="#">Récents</a></li>
+                                        <li><a class="dropdown-item" href="#">Populaires</a></li>
+                                        <li><a class="dropdown-item" href="#">Découvertes</a></li>
+                                        <li><a class="dropdown-item" href="#">Suivis</a></li>
+                                    <?php endif; ?>
+                                </ul>
+                            <?php endif; ?>
                         </div>
                         <div class="search-container position-relative top">
                             <input class="form-control me-2" type="search" id="search-bar" name="searchbar" placeholder="Rechercher" aria-label="Search">
