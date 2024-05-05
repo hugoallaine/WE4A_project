@@ -55,7 +55,8 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
 }
 
 function ListLatestPosts() {
-    start = $('#posts-container .post').length;
+    var start = $('#posts-container .post').length;
+    console.log(start);
     $.ajax({
         url: "php_tool/postManager.php",
         type: 'GET',
@@ -74,7 +75,8 @@ function ListLatestPosts() {
 }
 
 function ListPopularPosts() {
-    start = $('#posts-container .post').length;
+    var start = $('#posts-container .post').length;
+    console.log(start);
     $.ajax({
         url: "php_tool/postManager.php",
         type: 'GET',
@@ -93,7 +95,8 @@ function ListPopularPosts() {
 }
 
 function ListRandomPosts(token) {
-    start = $('#posts-container .post').length;
+    var start = $('#posts-container .post').length;
+    console.log(start);
     $.ajax({
         url: "php_tool/postManager.php",
         type: 'GET',
@@ -113,7 +116,7 @@ function ListRandomPosts(token) {
 }
 
 function ListFollowedPosts() {
-    start = $('#posts-container .post').length;
+    var start = $('#posts-container .post').length;
     $.ajax({
         url: "php_tool/postManager.php",
         type: 'GET',
@@ -136,7 +139,7 @@ function ListFollowedPosts() {
 }
 
 function ListPostByFilter(filter) {
-    token = sessionStorage.getItem('token');
+    var token = sessionStorage.getItem('token');
     switch (filter) {
         case 'Récents':
             ListLatestPosts();
@@ -160,78 +163,6 @@ function clearPosts() {
     $('#posts-container').empty();
 }
 
-$(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-target="#modalPost"]', function () {
-    var postId = $(this).data('post-id');
-
-    if ($(this).hasClass('post')) {
-        /* Open modal with responses */
-        $('#modalResponses .modal-body').empty();
-
-        var isOriginalPost = $(this).data('is-original-post') === true;
-        var postParentId = $(this).data('post-id-parent');
-        if (isOriginalPost && postParentId !== null) {
-            postId = postParentId;
-        }
-
-        $.ajax({
-            url: "php_tool/postManager.php",
-            type: 'GET',
-            data: {
-                echoResponses: true,
-                postId: postId,
-            },
-            success: function (response) {
-                var responses = JSON.parse(response);
-                var body_element = document.querySelector('#modalResponses .modal-body');
-                var header_element = document.querySelector('#modalResponses .modal-header');
-                header_element.innerHTML = '';
-                insertPost(responses[0], header_element, true);
-
-                if (responses[1] === undefined) {
-                    body_element.innerHTML = "<h5 class='text-center'>Pas encore de réponse, soyez le premier à répondre !</h5>";
-                }
-                else {
-                    for (var i = 1; i < responses.length; i++) {
-                        insertPost(responses[i], body_element);
-                    }
-                }
-            }
-        });
-
-        $('#modalResponses').modal('show');
-
-    } else if ($(this).hasClass('like-button')) {
-        /* Like button */
-        var likeImage = $(`[data-like-image-for-post='${postId}']`);
-        var likeCountElement = $(`[data-like-count-for-post='${postId}']`);
-
-        $.ajax({
-            url: 'php_tool/like_post.php',
-            type: 'POST',
-            data: {
-                post_id: postId
-            },
-            success: function (response) {
-                var data = JSON.parse(response);
-
-                if (data.status === 'liked') {
-                    likeImage.attr('src', '/WE4A_project/img/icon/liked.png');
-                } else if (data.status === 'unliked') {
-                    likeImage.attr('src', '/WE4A_project/img/icon/like.png');
-                }
-
-                likeCountElement.text(data.likeCount);
-            }
-        });
-    } else if ($(this).is('[data-bs-toggle="modal"][data-bs-target="#modalPost"]')) {
-        /* Button that triggers the modal */
-        var tweetId = $(this).data('tweet-id');
-        var input = $('input[name="id_parent"]');
-        input.val(tweetId);
-    }
-});
-
-
 $(document).ready(function () {
 
     let token;
@@ -246,11 +177,12 @@ $(document).ready(function () {
     }
 
     $('.dropdown-menu .dropdown-item').click(function() {
-        let newSelectedFilter = $(this).text();
+        var newSelectedFilter = $(this).text();
         if (newSelectedFilter !== selectedFilter) {
             clearPosts();
-            ListPostByFilter(newSelectedFilter);
             selectedFilter = newSelectedFilter;
+            localStorage.setItem('selectedFilter', selectedFilter);
+            ListPostByFilter(selectedFilter);
         }
     });
 
@@ -266,14 +198,14 @@ $(document).ready(function () {
                 isConnected = false;
             }
             /* Load posts */
-            ListRandomPosts(token);
+            ListPostByFilter(selectedFilter);
         }
     });
 
     /* Load more posts */
 
     $('#posts-container').on('scroll', function () {
-        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight && $('#posts-container .post').length > 0){
             let selectedFilter = localStorage.getItem('selectedFilter');
             ListPostByFilter(selectedFilter);
         }
