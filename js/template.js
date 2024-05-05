@@ -1,3 +1,72 @@
+
+/**
+ * Insert a post in the DOM
+ * @param {*} post 
+ * @param {*} element 
+ * @param {*} isOrginalPost 
+ * @param {*} insertAfter 
+ */
+function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
+
+    let pictureHtml = "";
+    let isConnected = sessionStorage.getItem('isConnected');
+
+    if (post.picture) {
+        pictureHtml = `<a href='${post.picture}'><img src='${post.picture}' class='rounded' width='400' height='320' style='object-fit: cover;'></a>`;
+    }
+
+    var html = `
+        <div class='card rounded-0'>
+            <div class='card-body'>
+                <div class='row'>
+                    <div class='col-md-2 col-3 text-center'>
+                        <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?pseudo=${post.pseudo}'>
+                        <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'>
+                        <h5 class='card-title m-0'>${post.pseudo}</h5>
+                        </a>
+                        <p class='card-subtitle text-muted'>${post.date}</p>
+                    </div>
+                    <div class='col p-0 post' style='cursor: pointer;' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOrginalPost ? "data-is-original-post='true'" : ""}>
+                        <p>${post.content}</p>
+                        ${pictureHtml}    
+                    </div>
+                    <div class='col-1'>
+                        <div class='row'>
+                            <div class='col-12 p-0'>
+                                <button class='btn like-button' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
+                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid' >
+                                </button>
+                            </div>
+                            <div class='col-12 p-0 mb-2 text-center'>
+                                <strong data-like-count-for-post='${post.id}'>${post.like_count}</strong>
+                            </div>
+                            <div class='col-12 p-0'>
+                                <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
+                                    <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
+                                </button>
+                            </div>
+                            <div class='col-12 p-0 mb-2 text-center'>
+                                <strong data-response-count-for-post='${post.id}'>${post.comment_count}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    if (insertAfter) {
+        element.innerHTML = element.innerHTML + html;
+    }
+    else {
+        element.innerHTML = html + element.innerHTML;
+    }
+}
+
+/**
+ * Toggle password visibility in login form
+ * @param {*} checked 
+ */
 function TogglePassword(checked) {
     let x = document.getElementById("password");
     if (checked) {
@@ -7,6 +76,10 @@ function TogglePassword(checked) {
     }
 }
 
+/**
+ * Toggle password visibility in register form
+ * @param {*} checked 
+ */
 function TogglePasswordRegister(checked) {
     let x = document.getElementById("password-r");
     let y = document.getElementById("password-r-repeat");
@@ -19,6 +92,9 @@ function TogglePasswordRegister(checked) {
     }
 }
 
+/**
+ * Display the number of unread notifications
+ */
 function checkNotificationsNumberUnread() {
     let nbNotif = document.getElementById("nbNotif");
     $.ajax({
@@ -40,6 +116,10 @@ function checkNotificationsNumberUnread() {
     });
 }
 
+/**
+ * Display search results
+ * @param {*} query 
+ */
 function displayResults(query) {
     $('#search-results').empty();
     if (query.users.length > 0) {
@@ -59,6 +139,9 @@ function displayResults(query) {
     $('#search-results').show();
 }
 
+/**
+ * Search bar
+ */
 $('#search-bar').on('input', function() {
     let searchTerm = $(this).val();
     if (searchTerm.length >= 3) {
@@ -82,6 +165,9 @@ $('#search-bar').on('input', function() {
     }
 });
 
+/**
+ * Hide search results when clicking outside the search bar
+ */
 $(document).on('click', function(e) {
     if (!$(e.target).closest('.search-container').length) {
         $('#search-results').hide();
@@ -89,6 +175,22 @@ $(document).on('click', function(e) {
 });
 
 $(document).ready(function () {
+    
+    /* Check if user is connected */
+    $.ajax({
+        url: "php_tool/checkSession.php",
+        type: 'GET',
+        success: function (response) {
+            if (response.status === true) {
+                sessionStorage.setItem('isConnected', true);
+            } else {
+                sessionStorage.setItem('isConnected', false);
+            }
+        }
+    });
+
+
+
     /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function (e) {
         e.preventDefault();
@@ -194,6 +296,9 @@ $(document).ready(function () {
     });
 });
 
+/**
+ * Manage the display of responses, display of likes and add trigger to the modal
+ */
 $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-target="#modalPost"]', function () {
     var postId = $(this).data('post-id');
 

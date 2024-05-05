@@ -1,58 +1,3 @@
-function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
-
-    let pictureHtml = "";
-
-    if (post.picture) {
-        pictureHtml = `<a href='${post.picture}'><img src='${post.picture}' class='rounded' width='400' height='320' style='object-fit: cover;'></a>`;
-    }
-
-    var html = `
-        <div class='card rounded-0'>
-            <div class='card-body'>
-                <div class='row'>
-                    <div class='col-md-2 col-3 text-center'>
-                        <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?pseudo=${post.pseudo}'>
-                        <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'>
-                        <h5 class='card-title m-0'>${post.pseudo}</h5>
-                        </a>
-                        <p class='card-subtitle text-muted'>${post.date}</p>
-                    </div>
-                    <div class='col p-0 post' style='cursor: pointer;' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOrginalPost ? "data-is-original-post='true'" : ""}>
-                        <p>${post.content}</p>
-                        ${pictureHtml}    
-                    </div>
-                    <div class='col-1'>
-                        <div class='row'>
-                            <div class='col-12 p-0'>
-                                <button class='btn like-button' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid' >
-                                </button>
-                            </div>
-                            <div class='col-12 p-0 mb-2 text-center'>
-                                <strong data-like-count-for-post='${post.id}'>${post.like_count}</strong>
-                            </div>
-                            <div class='col-12 p-0'>
-                                <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
-                                </button>
-                            </div>
-                            <div class='col-12 p-0 mb-2 text-center'>
-                                <strong data-response-count-for-post='${post.id}'>${post.comment_count}</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    if (insertAfter) {
-        element.innerHTML = element.innerHTML + html;
-    }
-    else {
-        element.innerHTML = html + element.innerHTML;
-    }
-}
 
 function ListLatestPosts() {
     var start = $('#posts-container .post').length;
@@ -138,6 +83,10 @@ function ListFollowedPosts() {
     });
 }
 
+/**
+ * List posts by filter
+ * @param {*} filter 
+ */
 function ListPostByFilter(filter) {
     var token = sessionStorage.getItem('token');
     switch (filter) {
@@ -159,6 +108,9 @@ function ListPostByFilter(filter) {
     }
 }
 
+/**
+ * Clear posts
+ */
 function clearPosts() {
     $('#posts-container').empty();
 }
@@ -166,9 +118,9 @@ function clearPosts() {
 $(document).ready(function () {
 
     let token;
-    let selectedFilter = localStorage.getItem('selectedFilter');
+    let selectedFilter = sessionStorage.getItem('selectedFilter');
 
-
+    /* Generate token or get it from session storage */
     if (sessionStorage.getItem('token')) {
         token = sessionStorage.getItem('token');
     } else {
@@ -181,32 +133,18 @@ $(document).ready(function () {
         if (newSelectedFilter !== selectedFilter) {
             clearPosts();
             selectedFilter = newSelectedFilter;
-            localStorage.setItem('selectedFilter', selectedFilter);
+            sessionStorage.setItem('selectedFilter', selectedFilter);
             ListPostByFilter(selectedFilter);
         }
     });
 
-
-    /* Check if user is connected */
-    $.ajax({
-        url: "php_tool/checkSession.php",
-        type: 'GET',
-        success: function (response) {
-            if (response.status === true) {
-                isConnected = true;
-            } else {
-                isConnected = false;
-            }
-            /* Load posts */
-            ListPostByFilter(selectedFilter);
-        }
-    });
+    /* Load posts */
+    ListPostByFilter(selectedFilter);
 
     /* Load more posts */
-
     $('#posts-container').on('scroll', function () {
         if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight && $('#posts-container .post').length > 0){
-            let selectedFilter = localStorage.getItem('selectedFilter');
+            let selectedFilter = sessionStorage.getItem('selectedFilter');
             ListPostByFilter(selectedFilter);
         }
     });
