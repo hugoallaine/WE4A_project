@@ -17,7 +17,7 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
                     </div>
-                    <div class='col p-0 post' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOrginalPost ? "data-is-original-post='true'" : ""}>
+                    <div class='col p-0 post' style='cursor: pointer;' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOrginalPost ? "data-is-original-post='true'" : ""}>
                         <p>${post.content}</p>
                         ${pictureHtml}    
                     </div>

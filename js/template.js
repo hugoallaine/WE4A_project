@@ -45,15 +45,14 @@ function displayResults(query) {
     if (query.users.length > 0) {
         $('#search-results').append('<h6 class="text-center">Utilisateurs</h6>');
         $.each(query.users, function(index, user) {
-            var resultElement = $('<div>').text('ID: ' + user.id + ', Pseudo: ' + user.pseudo);
+            var resultElement = ('<div><a href="profile.php?pseudo='+ user.pseudo +'" class="link link-primary link-underline-opacity-0 ms-3"><img src="img/user/'+ user.id +'/'+ user.avatar +'" alt="Icon User" class="rounded-circle object-fit-cover me-2 mb-2" width="32" height="32"/>'+ user.pseudo +'</a></div>');
             $('#search-results').append(resultElement);
         });
-        $('#search-results').append('<hr>');
     }
     if (query.posts.length > 0) {
-        $('#search-results').append('<h6 class="text-center">Posts</h6>');
+        $('#search-results').append('<h6 class="text-center">Gregs</h6>');
         $.each(query.posts, function(index, post) {
-            var resultElement = $('<div>').text('ID: ' + post.id + ', Content: ' + post.content);
+            var resultElement = ('<div class="post" data-post-id="'+ post.id +'" style="cursor: pointer;"><p class="ms-3 me-3"><a href="profile.php?pseudo='+ post.pseudo +'" class="link link-primary link-underline-opacity-0">'+ post.pseudo +'</a> : '+ post.content +'</p></div>');
             $('#search-results').append(resultElement);
         });
     }
@@ -73,6 +72,7 @@ $('#search-bar').on('input', function() {
                 if (response.error) {
                     console.log(response.message);
                 } else {
+                    
                     displayResults(response.query);
                 }
             }
