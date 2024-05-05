@@ -106,10 +106,10 @@ require_once dirname(__FILE__).'/toast.php';
                                 <?php endif; ?>
                             </ul>
                         </div>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" name="searchbar" placeholder="Rechercher" aria-label="Search">
-                            <button class="btn btn-outline-primary" type="submit"><img src="img/icon/loupe.png" class="img-fluid d-block mx-auto" width="30"></button>
-                        </form>
+                        <div class="search-container position-relative top">
+                            <input class="form-control me-2" type="search" id="search-bar" name="searchbar" placeholder="Rechercher" aria-label="Search">
+                            <div id="search-results" class="position-absolute w-100 bg-white border rounded border-top-5 border-primary" style="display:none;z-index:2;"></div>
+                        </div>
                         <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#<?php if(isConnected()){echo "modalPost";}else{echo "modalLogin";} ?>'>Écrire un Greg</button>
                     </div>
                 </nav>
