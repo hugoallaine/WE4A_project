@@ -6,12 +6,12 @@ Developed by :
 - Hugo Allainé
 - Léo Angonnet
 
-### Module utilisé :
+### Module used :
 
-Authentification à deux facteurs :   
+Two-factor authentication :   
 - https://github.com/RobThree/TwoFactorAuth
 
-Envoi de mail par authentification SMTP :   
+Sending mail using SMTP authentication :   
 - https://github.com/PHPMailer/PHPMailer   
 
 ReCaptcha :
