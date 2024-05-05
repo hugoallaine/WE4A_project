@@ -23,8 +23,11 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 if ($notification['type'] == 'like' || $notification['type'] == 'comment' || $notification['type'] == 'new_post_follower') {
                     $req = $db->prepare('SELECT content FROM posts WHERE id = ?');
                     $req->execute(array($notification['id_post']));
+                    $class = ' post';
+                    $idpost = 'data-post-id='.$notification['id_post'];
                     $post = "<p class='card-text'>".RestoreString_FromSQL($req->fetch()['content'])."</p>";
                 } else {
+                    $class = '';
                     $post = "";
                 }
                 if ($notification['is_read'] == 0) {
@@ -33,8 +36,8 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                     $new = "";
                 }
 
-                echo "<div class='card col-lg-8 col-md-12 mb-1'>
-                        <div class='card-body d-flex justify-content-between align-items-center'>
+                echo "<div class='card col-lg-8 col-md-12 mb-1".$class."' ".$idpost.">";
+                echo    "<div class='card-body d-flex justify-content-between align-items-center'>
                             <div>
                                 <h5 class='card-title'>".$content."</h5>
                                 ".$post."
