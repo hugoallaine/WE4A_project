@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
 <main>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8 col-md-12 p-0 vh-100 overflow-auto" id="posts-container">
+            <div class="col-lg-9 col-md-12 p-0 vh-100 overflow-auto" id="posts-container">
                 <!-- Posts -->
             </div>
             <!-- <div class="col-lg-4 p-0">

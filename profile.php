@@ -38,13 +38,13 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
             <div class="col p-0 vh-100 overflow-auto" id="posts-container">
                 <div class="card">
                     <div style='width: auto; height: 300px;'>
-                        <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top" alt="Banner" style='height:100%; width:100%; object-fit: cover;'>
+                        <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top object-fit-cover" alt="Banner" style='height:100%; width:100%;'>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h1 class="card-title d-flex align-items-center fs-4">
                                 <div class='rounded me-2' style='width: 60px; height: 60px;'>
-                                    <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2" style='height:100%; width:100%; object-fit: cover;'>
+                                    <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2 object-fit-cover" style='height:100%; width:100%;'>
                                 </div>
                                 <?php 
                                 echo $userinfo['pseudo'];  
@@ -222,7 +222,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
                                     $req2->execute(array($follower['id_user_following']));
                                     $follower = $req2->fetch();
-                                    echo '<div class="d-flex justify-content-center"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;"/>'.$follower['pseudo'].'</a></div>';
+                                    echo '<div class="d-flex justify-content-center"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
                                 }
                                 ?>
                             </div>
@@ -239,7 +239,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
                                     $req2->execute(array($following['id_user_followed']));
                                     $following = $req2->fetch();
-                                    echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3" style="object-fit: cover;"/>'.$following['pseudo'].'</a>';
+                                    echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
                                     echo '<button class="btnUnfollow btn btn-secondary" user-id="'.$following['id'].'" type="button">Se désabonner</button></div>';
                                 }
                                 ?>

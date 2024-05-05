@@ -40,17 +40,60 @@ function checkNotificationsNumberUnread() {
     });
 }
 
+function displayResults(query) {
+    $('#search-results').empty();
+    if (query.users.length > 0) {
+        $('#search-results').append('<h6 class="text-center">Utilisateurs</h6>');
+        $.each(query.users, function(index, user) {
+            var resultElement = ('<div><a href="profile.php?pseudo='+ user.pseudo +'" class="link link-primary link-underline-opacity-0 ms-3"><img src="img/user/'+ user.id +'/'+ user.avatar +'" alt="Icon User" class="rounded-circle object-fit-cover me-2 mb-2" width="32" height="32"/>'+ user.pseudo +'</a></div>');
+            $('#search-results').append(resultElement);
+        });
+    }
+    if (query.posts.length > 0) {
+        $('#search-results').append('<h6 class="text-center">Gregs</h6>');
+        $.each(query.posts, function(index, post) {
+            var resultElement = ('<div class="post" data-post-id="'+ post.id +'" style="cursor: pointer;"><p class="ms-3 me-3"><a href="profile.php?pseudo='+ post.pseudo +'" class="link link-primary link-underline-opacity-0">'+ post.pseudo +'</a> : '+ post.content +'</p></div>');
+            $('#search-results').append(resultElement);
+        });
+    }
+    $('#search-results').show();
+}
 
+$('#search-bar').on('input', function() {
+    let searchTerm = $(this).val();
+    if (searchTerm.length >= 3) {
+        $.ajax({
+            type: 'GET',
+            url: 'php_tool/search.php',
+            data: { 
+                q: searchTerm 
+            },
+            success: function(response) {
+                if (response.error) {
+                    console.log(response.message);
+                } else {
+                    
+                    displayResults(response.query);
+                }
+            }
+        });
+    } else {
+        $('#search-results').empty();
+    }
+});
+
+$(document).on('click', function(e) {
+    if (!$(e.target).closest('.search-container').length) {
+        $('#search-results').hide();
+    }
+});
 
 $(document).ready(function () {
-
     /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function (e) {
         e.preventDefault();
         let formData = new FormData(this);
-
         let text = formData.get('textAreaPostId');
-
         if (text.length > 290) {
             let errorDiv = $('.modal-body').find('.alert-danger');
             if (errorDiv.length === 0) {
@@ -61,7 +104,6 @@ $(document).ready(function () {
             }
             return;
         }
-
         $.ajax({
             type: 'POST',
             url: 'php_tool/postManager.php',

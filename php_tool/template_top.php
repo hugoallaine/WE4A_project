@@ -67,7 +67,7 @@ require_once dirname(__FILE__).'/toast.php';
                     <?php if(isConnected()): ?>
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Icon User" width="48" height="48" class="rounded-circle me-3" style="object-fit: cover;">
+                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Icon User" width="48" height="48" class="rounded-circle me-3 object-fit-cover">
                             <strong class="fs-5"><?php echo $_SESSION['pseudo']; ?></strong>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
@@ -79,7 +79,7 @@ require_once dirname(__FILE__).'/toast.php';
                     </div>
                     <?php else: ?>
                     <a href="#" id="login" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
-                        <img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3">
+                        <img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover">
                         <strong>Se connecter</strong>
                     </a>
                     <?php endif; ?>
@@ -108,10 +108,10 @@ require_once dirname(__FILE__).'/toast.php';
                                 </ul>
                             <?php endif; ?>
                         </div>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" name="searchbar" placeholder="Rechercher" aria-label="Search">
-                            <button class="btn btn-outline-primary" type="submit"><img src="img/icon/loupe.png" class="img-fluid d-block mx-auto" width="30"></button>
-                        </form>
+                        <div class="search-container position-relative top">
+                            <input class="form-control me-2" type="search" id="search-bar" name="searchbar" placeholder="Rechercher" aria-label="Search">
+                            <div id="search-results" class="position-absolute w-100 bg-white border rounded border-top-5 border-primary" style="display:none;z-index:2;"></div>
+                        </div>
                         <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#<?php if(isConnected()){echo "modalPost";}else{echo "modalLogin";} ?>'>Écrire un Greg</button>
                     </div>
                 </nav>

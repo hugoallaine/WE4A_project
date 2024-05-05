@@ -1,6 +1,9 @@
 <?php
 require_once dirname(__FILE__).'/db.php';
 
+/**
+ * Start a session if it's not already started
+ */
 function session_start_secure() {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
@@ -9,6 +12,10 @@ function session_start_secure() {
 
 session_start_secure();
 
+/**
+ * Check if the token is valid for the user
+ * @return bool
+ */
 function isConnected() {
     global $db;
     if (isset($_SESSION['token']) && isset($_SESSION['id'])) {
@@ -19,18 +26,30 @@ function isConnected() {
     return false;
 }
 
+/**
+ * Redirect the user to a page if he is connected
+ * @param string $url (default: profile.php)
+ */
 function redirectIfConnected($url = "profile.php") {
     if (isConnected()) {
         header("Location: $url");
     }
 }
 
+/**
+ * Redirect the user to a page if he is not connected
+ * @param string $url (default: index.php)
+ */
 function redirectIfNotConnected($url = "index.php") {
     if (!isConnected()) {
         header("Location: $url");
     }
 }
 
+/**
+ * Check if the tfa is enabled for the user
+ * @return bool
+ */
 function isTfaEnabled() {
     global $db;
     $req = $db->prepare("SELECT tfaKey FROM users WHERE id = ? AND tfaKey IS NULL");
