@@ -222,7 +222,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
                                     $req2->execute(array($follower['id_user_following']));
                                     $follower = $req2->fetch();
-                                    echo '<div class="d-flex justify-content-center"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
+                                    echo '<div class="d-flex justify-content-center p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
                                 }
                                 ?>
                             </div>
