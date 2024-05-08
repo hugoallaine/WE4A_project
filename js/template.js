@@ -21,8 +21,8 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                 <div class='row'>
                     <div class='col-md-2 col-3 text-center'>
                         <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?pseudo=${post.pseudo}'>
-                        <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'>
-                        <h5 class='card-title m-0'>${post.pseudo}</h5>
+                        <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'/>
+                        <h5 class='card-title m-0'>${post.pseudo} ${post.isAdmin ? `<span class="badge bg-danger m-2">Admin</span>`: ``}</h5>
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
                     </div>
@@ -34,7 +34,7 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                         <div class='row'>
                             <div class='col-12 p-0'>
                                 <button class='btn like-button' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid' >
+                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid'/>
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
@@ -42,7 +42,7 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                             </div>
                             <div class='col-12 p-0'>
                                 <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'>
+                                    <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'/>
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
