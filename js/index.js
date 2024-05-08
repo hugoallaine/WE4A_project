@@ -1,7 +1,6 @@
 
 function ListLatestPosts() {
     var start = $('#posts-container .post').length;
-    console.log(start);
     $.ajax({
         url: "php_tool/postManager.php",
         type: 'GET',
@@ -21,7 +20,6 @@ function ListLatestPosts() {
 
 function ListPopularPosts() {
     var start = $('#posts-container .post').length;
-    console.log(start);
     $.ajax({
         url: "php_tool/postManager.php",
         type: 'GET',
@@ -41,7 +39,6 @@ function ListPopularPosts() {
 
 function ListRandomPosts(token) {
     var start = $('#posts-container .post').length;
-    console.log(start);
     $.ajax({
         url: "php_tool/postManager.php",
         type: 'GET',
@@ -130,7 +127,9 @@ $(document).ready(function () {
 
     $('.dropdown-menu .dropdown-item').click(function() {
         var newSelectedFilter = $(this).text();
-        if (newSelectedFilter !== selectedFilter) {
+        if (newSelectedFilter === 'Suivis' && sessionStorage.getItem('isConnected') === 'false') {
+            $('#modalLogin').modal('show');
+        } else if (newSelectedFilter !== selectedFilter) {
             clearPosts();
             selectedFilter = newSelectedFilter;
             sessionStorage.setItem('selectedFilter', selectedFilter);

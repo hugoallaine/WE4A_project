@@ -73,6 +73,8 @@ function echoResponses($postId) {
     global $db;
 
     // Récupérer le post original
+    if (isset($_SESSION['id'])) {
+        
     $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes.id as like_id,
     (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
     (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
@@ -83,6 +85,19 @@ function echoResponses($postId) {
     $req->execute([$_SESSION['id'], $postId]);
     $originalPost = $req->fetch();
     $originalPost['content'] = RestoreString_FromSQL($originalPost['content']);
+    
+        } else {
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, NULL as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id 
+    WHERE p.id = ?");
+    $req->execute([$postId]);
+    $originalPost = $req->fetch();
+    $originalPost['content'] = RestoreString_FromSQL($originalPost['content']);
+    }
+    
 
     // Récupérer les réponses
     if (isset($_SESSION['id'])) {
@@ -120,6 +135,9 @@ function echoResponses($postId) {
 
 function echoLatestPosts($start){
     global $db;
+
+    if (isset($_SESSION['id'])) {
+        
     $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes.id as like_id,
     (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
     (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
@@ -134,6 +152,21 @@ function echoLatestPosts($start){
     $req->execute();
     $posts = $req->fetchAll();
     
+        } else {
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, NULL as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id
+    ORDER BY p.created_at DESC
+    LIMIT 10 OFFSET :offset");
+    $req->bindValue(':offset', $start, PDO::PARAM_INT);
+    $req->execute();
+    $posts = $req->fetchAll();
+
+    }
+
+    
     $listPosts = array();
     foreach ($posts as $post) {
         $post['content'] = RestoreString_FromSQL($post['content']);
@@ -145,20 +178,36 @@ function echoLatestPosts($start){
 
 function echoPopularPosts($start){
     global $db;
-    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes.id as like_id,
+
+    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, 
     (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
-    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
-    FROM posts p
-    INNER JOIN users ON p.id_user = users.id 
-    LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id 
-    WHERE p.id_parent IS NULL
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count";
+
+    if (isset($_SESSION['id'])) {
+        $sql .= ", likes.id as like_id ";
+        $sql .= "FROM posts p
+        INNER JOIN users ON p.id_user = users.id 
+        LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id ";
+    } else {
+        $sql .= ", NULL as like_id ";
+        $sql .= "FROM posts p
+        INNER JOIN users ON p.id_user = users.id ";
+    }
+
+    $sql .= "WHERE p.id_parent IS NULL
     ORDER BY like_count DESC
-    LIMIT 10 OFFSET :offset");
-    $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+    LIMIT 10 OFFSET :offset";
+
+    $req = $db->prepare($sql);
+
+    if (isset($_SESSION['id'])) {
+        $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+    }
+
     $req->bindValue(':offset', $start, PDO::PARAM_INT);
     $req->execute();
     $posts = $req->fetchAll();
-    
+
     $listPosts = array();
     foreach ($posts as $post) {
         $post['content'] = RestoreString_FromSQL($post['content']);
@@ -170,6 +219,8 @@ function echoPopularPosts($start){
 
 function echoListRandomPosts($start, $token){
     global $db;
+
+    if (isset($_SESSION['id'])) {
     $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes.id as like_id,
     (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
     (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
@@ -184,6 +235,20 @@ function echoListRandomPosts($start, $token){
     $req->bindValue(':offset', $start, PDO::PARAM_INT);
     $req->execute();
     $posts = $req->fetchAll();
+
+    } else {
+    $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, NULL as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    FROM posts p
+    INNER JOIN users ON p.id_user = users.id
+    ORDER BY RAND(:seed)
+    LIMIT 10 OFFSET :offset");
+    $req->bindValue(':seed', $token);
+    $req->bindValue(':offset', $start, PDO::PARAM_INT);
+    $req->execute();
+    $posts = $req->fetchAll();
+    }
     
     $listPosts = array();
     foreach ($posts as $post) {

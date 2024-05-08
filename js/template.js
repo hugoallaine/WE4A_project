@@ -10,6 +10,7 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
 
     let pictureHtml = "";
     let isConnected = sessionStorage.getItem('isConnected');
+    isConnected == 'true' ? isConnected = true : isConnected = false;
 
     if (post.picture) {
         pictureHtml = `<a href='${post.picture}'><img src='${post.picture}' class='rounded' width='400' height='320' style='object-fit: cover;'></a>`;
@@ -34,9 +35,9 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                     <div class='col-1'>
                         <div class='row'>
                             <div class='col-12 p-0'>
-                                <button class='btn like-button' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
+                                <button class='btn ${isConnected ? `like-button' data-post-id='${post.id}` : `' data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
                                     <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid'/>
-                                </button>
+                                </button>                         
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
                                 <strong data-like-count-for-post='${post.id}'>${post.like_count}</strong>
