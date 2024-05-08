@@ -4,7 +4,6 @@ $(document).on('click', '.delete-btn', function() {
         return;
     }
     let idNotification = $(this).closest('.card').data('notification-id');
-    console.log(idNotification);
     let divNotification = $(this).closest('.card');
     $.ajax({
         type: 'POST',
@@ -13,7 +12,6 @@ $(document).on('click', '.delete-btn', function() {
             idNotification: idNotification 
         },
         success: function(response) {
-            console.log('Notification supprimée avec succès');
             divNotification.remove();
         }
     });

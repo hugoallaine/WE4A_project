@@ -3,14 +3,6 @@ require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 require_once dirname(__FILE__).'/db.php';
 
-class Notification {
-    function __construct($id_user, $type, $content) {
-        $this->id_user = $id_user;
-        $this->type = $type;
-        $this->content = $content;
-    }
-}
-
 class NotificationManager {
     private $db;
     function __construct() {
@@ -40,6 +32,11 @@ class NotificationManager {
     function deleteNotification($id_user, $id_notification) {
         $req = $this->db->prepare('UPDATE notifications SET is_delete = 1 WHERE id = ? AND user_id = ?');
         $req->execute(array(SecurizeString_ForSQL($id_notification), SecurizeString_ForSQL($id_user)));
+    }
+
+    function deleteOldNotifications() {
+        $req = $this->db->prepare('UPDATE notifications SET is_delete = 1 WHERE is_read = 1 AND created_at < NOW() - INTERVAL 2 WEEK');
+        $req->execute();
     }
 }
 

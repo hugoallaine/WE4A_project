@@ -5,6 +5,7 @@ redirectIfNotConnected();
 
 require_once dirname(__FILE__).'/php_tool/parser.php';
 require_once dirname(__FILE__).'/php_tool/notificationManager.php';
+$notificationManager->deleteOldNotifications();
 $notifications = $notificationManager->getNotifications($_SESSION['id'], false, 2);
 
 $currentPage = 'Notifications';
