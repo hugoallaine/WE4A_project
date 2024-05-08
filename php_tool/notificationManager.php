@@ -18,13 +18,13 @@ class NotificationManager {
         $this->db = $db;
     }
 
-    function getNotifications($id_user, $nb_only = false, $is_read = 0) {
+    function getNotifications($id_user, $nb_only = false, $is_read = 0, $is_delete = 0) {
         if ($is_read == 2) {
-            $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC');
-            $req->execute(array($id_user));
+            $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_delete = 0 ORDER BY created_at DESC');
+            $req->execute(array(SecurizeString_ForSQL($id_user)));
         } else {
-            $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_read = ? ORDER BY created_at DESC');
-            $req->execute(array($id_user, $is_read));
+            $req = $this->db->prepare('SELECT * FROM notifications WHERE user_id = ? AND is_read = ? AND is_delete = ? ORDER BY created_at DESC');
+            $req->execute(array(SecurizeString_ForSQL($id_user), SecurizeString_ForSQL($is_read), SecurizeString_ForSQL($is_delete)));
         }
         if ($nb_only) {
             return $req->rowCount();
@@ -34,7 +34,12 @@ class NotificationManager {
 
     function readNotifications($id_user) {
         $req = $this->db->prepare('UPDATE notifications SET is_read = 1 WHERE user_id = ?');
-        $req->execute(array($id_user));
+        $req->execute(array(SecurizeString_ForSQL($id_user)));
+    }
+
+    function deleteNotification($id_user, $id_notification) {
+        $req = $this->db->prepare('UPDATE notifications SET is_delete = 1 WHERE id = ? AND user_id = ?');
+        $req->execute(array(SecurizeString_ForSQL($id_notification), SecurizeString_ForSQL($id_user)));
     }
 }
 
@@ -50,7 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_SESSION['id'])) {
+    if (isset($_POST['idNotification']) && isset($_SESSION['id'])) {
+        $notificationManager->deleteNotification($_SESSION['id'], $_POST['idNotification']);
+    } elseif (isset($_SESSION['id'])) {
         $notificationManager->readNotifications($_SESSION['id']);
     }
 }
