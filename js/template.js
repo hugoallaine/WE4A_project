@@ -35,9 +35,9 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                     <div class='col-1'>
                         <div class='row'>
                             <div class='col-12 p-0'>
-                                <button class='btn ${isConnected ? `like-button' data-post-id='${post.id}` : `' data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid'/>
-                                </button>                         
+                                <button class='btn ${isConnected ? `like-button` : ``}' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
+                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid' >
+                                </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
                                 <strong data-like-count-for-post='${post.id}'>${post.like_count}</strong>
