@@ -27,7 +27,7 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                         ${post.isAdmin ? `<span class="badge bg-danger m-2">Admin</span>`: ``}
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
-                        ${post.isAdmin ? `<button class='btn dropdown-toggle pt-3' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
+                        ${(sessionStorage.getItem('isAdmin') === 'true') ? `<button class='btn dropdown-toggle pt-3' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
                                         <img src='/WE4A_project/img/icon/administrateur.png' width='48' height='48' alt='admin button' class='img-fluid'/>
                                       </button>
                                       <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
@@ -187,15 +187,20 @@ $(document).on('click', function(e) {
 
 $(document).ready(function () {
     
-    /* Check if user is connected */
+    /* Check if user is connected and if is an admin */
     $.ajax({
         url: "php_tool/checkSession.php",
         type: 'GET',
         success: function (response) {
             if (response.status === true) {
                 sessionStorage.setItem('isConnected', true);
+                if (response.isAdmin === 1) {
+                    sessionStorage.setItem('isAdmin', true);
+                }
             } else {
                 sessionStorage.setItem('isConnected', false);
+                sessionStorage.setItem('isAdmin', false);
+                
             }
         }
     });
