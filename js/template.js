@@ -27,6 +27,15 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                         ${post.isAdmin ? `<span class="badge bg-danger m-2">Admin</span>`: ``}
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
+                        ${post.isAdmin ? `<button class='btn dropdown-toggle pt-3' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
+                                        <img src='/WE4A_project/img/icon/administrateur.png' width='48' height='48' alt='admin button' class='img-fluid'/>
+                                      </button>
+                                      <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
+                                        <li><a class='dropdown-item' href='#'>Envoyer un avertissement</a></li>
+                                        <li><a class='dropdown-item' href='#'>Marquer comme choquant</a></li>
+                                        <li><a class='dropdown-item' href='#'>Supprimer le Greg</a></li>
+                                        <li><a class='dropdown-item' href='#'>Bannir l'utilisateur</a></li>
+                                      </ul>` : ``}
                     </div>
                     <div class='col p-0 post' style='cursor: pointer;' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOrginalPost ? "data-is-original-post='true'" : ""}>
                         <p>${post.content}</p>
