@@ -22,7 +22,8 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                     <div class='col-md-2 col-3 text-center'>
                         <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?pseudo=${post.pseudo}'>
                         <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'/>
-                        <h5 class='card-title m-0'>${post.pseudo} ${post.isAdmin ? `<span class="badge bg-danger m-2">Admin</span>`: ``}</h5>
+                        <h5 class='card-title m-0'>${post.pseudo}</h5>
+                        ${post.isAdmin ? `<span class="badge bg-danger m-2">Admin</span>`: ``}
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
                     </div>
