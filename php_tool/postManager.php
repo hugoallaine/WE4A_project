@@ -97,7 +97,7 @@ function echoResponses($postId) {
     $originalPost = $req->fetch();
     $originalPost['content'] = RestoreString_FromSQL($originalPost['content']);
     }
-    
+
 
     // Récupérer les réponses
     if (isset($_SESSION['id'])) {
@@ -285,6 +285,47 @@ function echoFollowedPosts($start){
     echo json_encode($listPosts);
 }
 
+function echoProfileAllGreg($start){
+    global $db;
+    if (isset($_SESSION['id'])) {
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id
+        WHERE p.id_user = :userIdOfProfileViewed
+        ORDER BY p.created_at DESC
+        LIMIT 10 OFFSET :offset");
+        $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+        $req->bindValue(':offset', $start, PDO::PARAM_INT);
+        $req->bindValue(':userIdOfProfileViewed', $_GET['userIdOfProfileViewed'], PDO::PARAM_INT);
+        $req->execute();
+        $posts = $req->fetchAll();
+    } else {
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, NULL as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        WHERE p.id_user = :userIdOfProfileViewed
+        ORDER BY p.created_at DESC
+        LIMIT 10 OFFSET :offset");
+        $req->bindValue(':offset', $start, PDO::PARAM_INT);
+        $req->bindValue(':userIdOfProfileViewed', $_GET['userIdOfProfileViewed'], PDO::PARAM_INT);
+        $req->execute();
+        $posts = $req->fetchAll();
+    }
+
+    $listPosts = array();
+    foreach ($posts as $post) {
+        $post['content'] = RestoreString_FromSQL($post['content']);
+        $listPosts[] = echoPost($post);
+    }
+
+    echo json_encode($listPosts);
+}
+
 function sendPost(){
     $post = SecurizeString_ForSQL($_POST['textAreaPostId']);
         
@@ -371,6 +412,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['echoFollowedPosts'])) {
         if (isset($_GET['start'])) {
             echoFollowedPosts($_GET['start']);
+        }
+    }
+    if (isset($_GET['echoProfileAllGreg'])) {
+        if (isset($_GET['start'])) {
+            echoProfileAllGreg($_GET['start']);
         }
     }
 

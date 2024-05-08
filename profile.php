@@ -33,9 +33,9 @@ if (isset($_GET['pseudo'])) {
 require_once dirname(__FILE__).'/php_tool/template_top.php';
 ?>
 <main>
-    <div class="container-fluid">
+    <div class="container-fluid ">
         <div class="row">
-            <div class="col p-0 vh-100 overflow-auto" id="posts-container">
+            <div class="col p-0 vh-100 overflow-auto">
                 <div class="card">
                     <div style='width: auto; height: 300px;'>
                         <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top object-fit-cover" alt="Banner" style='height:100%; width:100%;'>
@@ -47,7 +47,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                                     <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2 object-fit-cover" style='height:100%; width:100%;'>
                                 </div>
                                 <?php 
-                                echo $userinfo['pseudo'];  
+                                echo '<span data-user-id="'.$userinfo['id'].'" id="pseudo">'.$userinfo['pseudo'].'</span>';
                                 if(isset($userinfo['isAdmin']) && $userinfo['isAdmin'] == 1) {
                                     echo '<span class="badge bg-danger m-2">Admin</span>';
                                 }
@@ -92,7 +92,10 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                         <?php endif; ?>
                     </div>
                 </div>
+                <div class="" id="posts-container">
+                </div>
             </div>
+
             <?php if(isConnected() && $_SESSION['id'] == $userinfo['id'] && isset($stats)): ?>
             <div class="col-3 p-3 bg-light">
                 <h4 class="text-center">Statistiques</h4>

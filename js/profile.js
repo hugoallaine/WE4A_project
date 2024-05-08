@@ -16,7 +16,33 @@ function resetText() {
     }
 }
 
+function ListOnProfileAllGreg() {
+    var start = $('#posts-container .post').length;
+    $.ajax({
+        url: "php_tool/postManager.php",
+        type: 'GET',
+        data: {
+            echoProfileAllGreg: true,
+            start: start,
+            userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
+        },
+        success: function (response) {
+            var responses = JSON.parse(response);
+            for (rep of responses) {
+                var element = document.querySelector('#posts-container');
+                insertPost(rep, element, false, true);
+            }
+        }
+    });
+}
+
 $(document).ready(function () {
+    /* Get ID of the user viewed */
+    var userId = $('span#pseudo').data('user-id');
+    sessionStorage.setItem('userIdOfProfileViewed', userId);
+
+    ListOnProfileAllGreg();
+
     /* Modifier le profil */
     $('#formProfile').submit(function (e) {
         e.preventDefault();

@@ -3,10 +3,10 @@
  * Insert a post in the DOM
  * @param {*} post 
  * @param {*} element 
- * @param {*} isOrginalPost 
+ * @param {*} isOriginalPost 
  * @param {*} insertAfter 
  */
-function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
+function insertPost(post, element, isOriginalPost = false, insertAfter = false) {
 
     let pictureHtml = "";
     let isConnected = sessionStorage.getItem('isConnected');
@@ -37,7 +37,7 @@ function insertPost(post, element, isOrginalPost = false, insertAfter = false) {
                                         <li><a class='dropdown-item' href='#'>Bannir l'utilisateur</a></li>
                                       </ul>` : ``}
                     </div>
-                    <div class='col p-0 post' style='cursor: pointer;' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOrginalPost ? "data-is-original-post='true'" : ""}>
+                    <div class='col p-0 post' style='cursor: pointer;' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOriginalPost ? "data-is-original-post='true'" : ""}>
                         <p>${post.content}</p>
                         ${pictureHtml}    
                     </div>
