@@ -4,6 +4,10 @@ require_once dirname(__FILE__).'/mails.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 require_once dirname(__FILE__).'/json.php';
 
+/**
+ * Function to get the real IP of the user even if he is behind a proxy
+ * @return string
+ */
 function getIp() {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         $ip = $_SERVER['HTTP_CLIENT_IP'];

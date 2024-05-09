@@ -9,18 +9,16 @@ function echoPost($post) {
 
     $date = date_create_from_format('Y-m-d H:i:s', $post['created_at']);
     $formatted_date = $date->format('d/m/Y H:i:s');
-    $like_image = !is_null($post['like_id']) ? "/WE4A_project/img/icon/liked.png" : "/WE4A_project/img/icon/like.png";
-    $avatar = !empty($post['avatar']) ? "/WE4A_project/img/user/".$post['id_user'].'/'.$post['avatar'] : "/WE4A_project/img/icon/utilisateur.png";
+    $like_image = !is_null($post['like_id']) ? "img/icon/liked.png" : "img/icon/like.png";
+    $avatar = !empty($post['avatar']) ? "img/user/".$post['id_user'].'/'.$post['avatar'] : "img/icon/utilisateur.png";
 
     $reqPic = $db->prepare("SELECT * FROM pictures WHERE id_post = ?");
     $reqPic->execute([$post['id']]);
 
     $picture = $reqPic->fetch();
     if($picture) {
-        $picture = "/WE4A_project/img/user/".$post['id_user'].'/posts/'.$post['id'].'/'.$picture['path'];
+        $picture = "img/user/".$post['id_user'].'/posts/'.$post['id'].'/'.$picture['path'];
     }
-
-    
 
     $postInfo = [
         'id' => $post['id'],
@@ -301,7 +299,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 break;
         }
     }
-
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {
         sendPost();
