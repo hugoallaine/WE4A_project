@@ -14,9 +14,6 @@ function echoPost($post) {
     $reqPic = $db->prepare("SELECT * FROM pictures WHERE id_post = ?");
     $reqPic->execute([$post['id']]);
     $picture = $reqPic->fetch();
-
-    
-
     if($picture) {
         $picture = "/WE4A_project/img/user/".$post['id_user'].'/posts/'.$post['id'].'/'.$picture['path'];
     }
