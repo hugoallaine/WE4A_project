@@ -16,7 +16,7 @@ require_once dirname(__FILE__).'/toast.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="/WE4A_project/js/template.js" defer></script>
-    <link href="css/scrollbar.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
     <?php if($currentPage == "Accueil"){echo "<script src='/WE4A_project/js/index.js' defer></script>";} ?>
     <?php if($currentPage == "Profil"){echo "<script src='/WE4A_project/js/profile.js' defer></script>";} ?>
     <?php if($currentPage == "Paramètres"){echo "<script src='/WE4A_project/js/settings.js' defer></script>";} ?>
