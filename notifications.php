@@ -39,26 +39,27 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
                 }
 
                 echo "<div class='card col-lg-8 col-md-12 mb-1' data-notification-id='".$id."'>";
-                echo    "<div class='card-body d-flex justify-content-between align-items-center'>
-                            <div class='d-flex'>
-                                <div class='d-flex align-items-center me-3'>";
-                                if ($notification['type'] == 'follow') {
-                                    echo "<img src='img/icon/amis.png' alt='follow' class='icon' width=50 height=50>";
-                                } else if ($notification['type'] == 'like') {
-                                    echo "<img src='img/icon/like.png' alt='like' class='icon' width=50 height=50>";
-                                } else if ($notification['type'] == 'comment') {
-                                    echo "<img src='img/icon/response.png' alt='comment' class='icon' width=50 height=50>";
-                                } else if ($notification['type'] == 'new_post_follower') {
-                                    echo "<img src='img/icon/messages.png' alt='post' class='icon' width=50 height=50>";
-                                }
-                echo            "</div>
-                                <div class='".$class."' data-post-id='".$idpost."'>
-                                    <h5 class='card-title'>".$content."</h5>
-                                    ".$post."
-                                    <p class='card-text'>".$formatted_date.$new."</p>
-                                </div>
+                echo    "<div class='card-body d-flex justify-content-between align-items-center row'>
+                    
+                            <div class='d-flex align-items-center me-0 col-1'>";
+                            if ($notification['type'] == 'follow') {
+                                echo "<img src='img/icon/amis.png' alt='follow' class='icon' width=50 height=50>";
+                            } else if ($notification['type'] == 'like') {
+                                echo "<img src='img/icon/like.png' alt='like' class='icon' width=50 height=50>";
+                            } else if ($notification['type'] == 'comment') {
+                                echo "<img src='img/icon/response.png' alt='comment' class='icon' width=50 height=50>";
+                            } else if ($notification['type'] == 'new_post_follower') {
+                                echo "<img src='img/icon/messages.png' alt='post' class='icon' width=50 height=50>";
+                            }
+            echo            "</div>
+            
+                            <div class='".$class." col' data-post-id='".$idpost."' style='cursor: pointer;'>
+                                <h5 class='card-title'>".$content."</h5>
+                                ".$post."
+                                <p class='card-text'>".$formatted_date.$new."</p>
                             </div>
-                            <div>
+                
+                            <div class='col-2'>
                                 <a href='#' class='delete-btn btn btn-danger'>Supprimer</a>
                             </div>
                         </div>
