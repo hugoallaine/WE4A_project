@@ -34,7 +34,7 @@ function echoPost($post) {
         'picture' => $picture,
         'like_count' => $post['like_count'],
         'comment_count' => $post['comment_count'],
-        'isSensible' => $post['isSensible']
+        'is_sensible' => $post['isSensible']
     ];
     if ($post['isRemoved'] === 0) {
         return $postInfo;
