@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/php_tool/db.php';
+require_once dirname(__FILE__).'/db.php';
 
 /**
  * Vérification de l'adresse email utilisateur pour la validation du compte
@@ -21,9 +21,9 @@ if (isset($_GET['email']) && isset($_GET['key'])) {
                 $req->execute(array($email));
                 $req = $db->prepare("DELETE FROM emailsnonverifies WHERE email = ?");
                 $req->execute(array($email));
-                header('Location: index.php');
+                header('Location: ../index.php');
             } else {
-                header('Location: index.php');
+                header('Location: ../index.php');
             }
         } else {
             echo "Echec de vérification.";

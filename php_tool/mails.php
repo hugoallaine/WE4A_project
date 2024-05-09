@@ -21,7 +21,7 @@ function sendMail($destinataire, $sujet, $message) {
         $mail->addAddress($destinataire);
         $mail->addReplyTo($json['SMTP_noreply'],'No-Reply');
         $mail->isHTML(true);
-        $mail->Subject = $sujet;
+        $mail->Subject = mb_encode_mimeheader($sujet, 'UTF-8');
         $mail->Body = $message;
         $mail->send();
     } catch (Exception $e) {
@@ -30,6 +30,9 @@ function sendMail($destinataire, $sujet, $message) {
 }
 
 function sendMailConfirm($destinataire, $confirmkey) {
+    $parent_folder = dirname($_SERVER['SCRIPT_NAME']);
+    $validator_path = ($parent_folder === '/') ? 'validator.php' : $parent_folder . '/validator.php';
+    $confirm_link = 'http://' . $_SERVER['HTTP_HOST'] . $validator_path;
     $sujet = "Confirmation de votre compte YGreg";
     $message = '
     <html>
@@ -39,7 +42,7 @@ function sendMailConfirm($destinataire, $confirmkey) {
     </head>
     <body>
         <h1>V&eacute;rification de votre adresse email - YGreg</h1>
-        <p>Bonjour, veuillez confirmer votre compte en cliquant sur le lien suivant : <a href="http://y.allaine.cc/validator.php?email='.urlencode($destinataire).'&key='.urlencode($confirmkey).'">Confirmer</a></p>
+        <p>Bonjour, veuillez confirmer votre compte en cliquant sur le lien suivant : <a href="'.$confirm_link.'?email='.urlencode($destinataire).'&key='.urlencode($confirmkey).'">Confirmer</a></p>
         <p>Si vous n\'&ecirc;tes pas &agrave; l\'origine de cette action, merci d\'ignorer ce mail.</p>
     </body>
     </html>
@@ -49,6 +52,9 @@ function sendMailConfirm($destinataire, $confirmkey) {
 
 // A voir plus tard
 function sendMailReset($destinataire, $resetkey) {
+    $parent_folder = dirname($_SERVER['SCRIPT_NAME']);
+    $validator_path = ($parent_folder === '/') ? 'validator.php' : $parent_folder . '/validator.php';
+    $confirm_link = 'http://' . $_SERVER['HTTP_HOST'] . $validator_path;
     $sujet = "Réinitialisation de votre mot de passe YGreg";
     $message = '
     <html>
@@ -58,7 +64,7 @@ function sendMailReset($destinataire, $resetkey) {
     </head>
     <body>
         <h1>R&eacute;initialisation de votre mot de passe - YGreg</h1>
-        <p>Bonjour, veuillez r&eacute;initialiser votre mot de passe en cliquant sur le lien suivant : <a href="http://y.allaine.cc/reset_password.php?email='.urlencode($destinataire).'&key='.urlencode($resetkey).'">Réinitialiser</a></p>
+        <p>Bonjour, veuillez r&eacute;initialiser votre mot de passe en cliquant sur le lien suivant : <a href="'.$confirm_link.'?email='.urlencode($destinataire).'&key='.urlencode($resetkey).'">Réinitialiser</a></p>
         <p>Si vous n\'&ecirc;tes pas &agrave; l\'origine de cette action, merci d\'ignorer ce mail.</p>
     </body>
     </html>

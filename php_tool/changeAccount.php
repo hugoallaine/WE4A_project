@@ -2,6 +2,7 @@
 require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 require_once dirname(__FILE__).'/db.php';
+require_once dirname(__FILE__).'/mails.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 use RobThree\Auth\TwoFactorAuth;
 $tfa = new TwoFactorAuth($issuer = 'YGreg');
@@ -201,6 +202,7 @@ if (isConnected()) {
             if ($tfa->verifyCode($tfa_secret, $tfa_code)) {
                 $req = $db->prepare('UPDATE users SET tfaKey = ? WHERE id = ?');
                 $req->execute(array($tfa_secret, $_SESSION['id']));
+                sendMailTfaEnabled($_SESSION['email']);
             } else {
                 $error = 'Code invalide';
             }
@@ -218,6 +220,7 @@ if (isConnected()) {
         if (password_verify($password_check, $user['password'])) {
             $req = $db->prepare('UPDATE users SET tfaKey = NULL WHERE id = ?');
             $req->execute(array($_SESSION['id']));
+            sendMailTfaDisabled($_SESSION['email']);
         } else {
             $error = 'Mot de passe incorrect';
         }
