@@ -72,6 +72,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
         }
         ?>
     </div>
+    <!-- Modal delete notification -->
     <div class="modal fade" id="deleteNotificationModal" tabindex="-1" aria-labelledby="deleteNotificationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

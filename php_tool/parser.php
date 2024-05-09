@@ -11,7 +11,7 @@ function parsePseudoForProfile($string) {
         $req->execute([$username]);
         $exist = $req->rowCount();
         if ($exist == 1) {
-            return '<a href="profile.php?pseudo='.$username.'" class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">'.$username.'</a>';
+            return '<a href="profile.php?pseudo='.$username.'" class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"><strong>'.$username.'</strong></a>';
         }
         return "@".$username;
     }, $string);

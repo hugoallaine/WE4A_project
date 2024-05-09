@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/db.php';
 require_once dirname(__FILE__).'/alreadyConnected.php';
+require_once dirname(__FILE__).'/parser.php';
 session_start_secure();
 
 function echoPost($post) {
@@ -13,13 +14,13 @@ function echoPost($post) {
 
     $reqPic = $db->prepare("SELECT * FROM pictures WHERE id_post = ?");
     $reqPic->execute([$post['id']]);
+
     $picture = $reqPic->fetch();
-
-    
-
     if($picture) {
         $picture = "/WE4A_project/img/user/".$post['id_user'].'/posts/'.$post['id'].'/'.$picture['path'];
     }
+
+    
 
     $postInfo = [
         'id' => $post['id'],
@@ -28,7 +29,7 @@ function echoPost($post) {
         'pseudo' => $post['pseudo'],
         'avatar' => $avatar,
         'isAdmin' => $post['isAdmin'],
-        'content' => $post['content'],
+        'content' => parsePseudoForProfile($post['content']),
         'date' => $formatted_date,
         'like_image' => $like_image,
         'picture' => $picture,
