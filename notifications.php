@@ -71,6 +71,24 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
         }
         ?>
     </div>
+    <div class="modal fade" id="deleteNotificationModal" tabindex="-1" aria-labelledby="deleteNotificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteNotificationModalLabel">Supprimer la notification</h5>
+                </div>
+                <div class="modal-body"
+                    <p>Êtes-vous sûr de vouloir supprimer cette notification ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="deleteNotificationBtn">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </main>
 <?php
 require_once dirname(__FILE__).'/php_tool/template_bot.php';

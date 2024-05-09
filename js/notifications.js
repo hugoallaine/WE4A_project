@@ -1,23 +1,30 @@
-$(document).on('click', '.delete-btn', function() {
-    let confirmation = confirm('Voulez-vous vraiment supprimer cette notification ?');
-    if (!confirmation) {
-        return;
+$(document).on({
+    'click': function () {
+        $('#deleteNotificationModal').modal('show');
+        let idNotification = $(this).closest('.card').data('notification-id');
+        let divNotification = $(this).closest('.card');
+        $('#deleteNotificationBtn').data('idNotification', idNotification);
+        $('#deleteNotificationBtn').data('divNotification', divNotification);
     }
-    let idNotification = $(this).closest('.card').data('notification-id');
-    let divNotification = $(this).closest('.card');
-    $.ajax({
-        type: 'POST',
-        url: 'php_tool/notificationManager.php',
-        data: {
-            idNotification: idNotification 
-        },
-        success: function(response) {
-            divNotification.remove();
-        }
-    });
-});
+}, '.delete-btn').on({
+    'click': function () {
+        $('#deleteNotificationModal').modal('hide');
+        let idNotification = $(this).data('idNotification');
+        let divNotification = $(this).data('divNotification');
+        $.ajax({
+            type: 'POST',
+            url: 'php_tool/notificationManager.php',
+            data: {
+                idNotification: idNotification
+            },
+            success: function (response) {
+                divNotification.remove();
+            }
+        });
+    }
+}, '#deleteNotificationBtn');
 
-$(document).ready(function() {
+$(document).ready(function () {
     let formData = new FormData();
     $.ajax({
         type: 'POST',
