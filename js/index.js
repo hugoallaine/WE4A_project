@@ -70,7 +70,7 @@ function ListFollowedPosts() {
             var responses = JSON.parse(response);
             var element = document.querySelector('#posts-container');
             if (responses.length === 0) {
-                element.innerHTML = "<p>T'as pas d'amis sale merde.</p>";
+                element.innerHTML = "<h2 class='text-center'>Vous ne suivez personne</h2>";
             } else {
                 for (rep of responses) {
                     insertPost(rep, element, false, true);
