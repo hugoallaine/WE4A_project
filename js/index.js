@@ -5,7 +5,7 @@ function ListLatestPosts() {
         url: "php_tool/postManager.php",
         type: 'GET',
         data: {
-            echoLatestPosts: true,
+            command: 'echoLatestPosts',
             start: start,
         },
         success: function (response) {
@@ -24,7 +24,7 @@ function ListPopularPosts() {
         url: "php_tool/postManager.php",
         type: 'GET',
         data: {
-            echoPopularPosts: true,
+            command: 'echoPopularPosts',
             start: start,
         },  
         success: function (response) {
@@ -43,7 +43,7 @@ function ListRandomPosts(token) {
         url: "php_tool/postManager.php",
         type: 'GET',
         data: {
-            echoListRandomPosts: true,
+            command: 'echoRandomPosts',
             start: start,
             token: sessionStorage.getItem('token')
         },
@@ -63,7 +63,7 @@ function ListFollowedPosts() {
         url: "php_tool/postManager.php",
         type: 'GET',
         data: {
-            echoFollowedPosts: true,
+            command: 'echoFollowedPosts',
             start: start,
         },
         success: function (response) {

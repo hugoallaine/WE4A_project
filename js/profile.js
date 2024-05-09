@@ -22,7 +22,7 @@ function ListOnProfileAllGreg() {
         url: "php_tool/postManager.php",
         type: 'GET',
         data: {
-            echoProfileAllGreg: true,
+            command : 'echoProfileAllGreg',
             start: start,
             userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
         },
@@ -42,7 +42,7 @@ function ListOnProfileAllResponse() {
         url: "php_tool/postManager.php",
         type: 'GET',
         data: {
-            echoProfileAllResponse: true,
+            command: 'echoProfileAllResponse',
             start: start,
             userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
         },
@@ -62,7 +62,7 @@ function ListOnProfileAllLikes() {
         url: "php_tool/postManager.php",
         type: 'GET',
         data: {
-            echoProfileAllLikes: true,
+            command : 'echoProfileAllLikes',
             start: start,
             userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
         },

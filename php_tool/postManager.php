@@ -264,52 +264,40 @@ function sendPost(){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_GET['echoResponses'])) {
-        if (isset($_GET['postId'])) {
-            echoResponses($_GET['postId']);
+    if (isset($_GET['command'])) {
+        switch ($_GET['command']) {
+            case 'echoLatestPosts':
+                echoLatestPosts($_GET['start']);
+                break;
+            case 'echoPopularPosts':
+                echoPopularPosts($_GET['start']);
+                break;
+            case 'echoRandomPosts':
+                echoListRandomPosts($_GET['start'], $_GET['token']);
+                break;
+            case 'echoFollowedPosts':
+                echoFollowedPosts($_GET['start']);
+                break;
+            case 'echoProfileAllGreg':
+                echoProfileAllGreg($_GET['start']);
+                break;
+            case 'echoProfileAllResponse':
+                echoProfileAllResponse($_GET['start']);
+                break;
+            case 'echoProfileAllLikes':
+                echoProfileAllLikes($_GET['start']);
+                break;
+            case 'echoResponses':
+                echoResponses($_GET['postId']);
+                break;
+            default:
+                echo "Commande inconnue : ".$_GET['command'];
+                break;
         }
     }
-    if (isset($_GET['echoPostById'])) {
-        if (isset($_GET['postId'])) {
-            echoPostById($_GET['postId']);
-        }
+    else {
+        echo "No provided command for GET request";
     }
-    if (isset($_GET['echoListRandomPosts'])) {
-        if (isset($_GET['start'])) {
-            echoListRandomPosts($_GET['start'], $_GET['token']);
-        }
-    }
-    if (isset($_GET['echoLatestPosts'])) {
-        if (isset($_GET['start'])) {
-            echoLatestPosts($_GET['start']);
-        }
-    }
-    if (isset($_GET['echoPopularPosts'])) {
-        if (isset($_GET['start'])) {
-            echoPopularPosts($_GET['start']);
-        }
-    }
-    if (isset($_GET['echoFollowedPosts'])) {
-        if (isset($_GET['start'])) {
-            echoFollowedPosts($_GET['start']);
-        }
-    }
-    if (isset($_GET['echoProfileAllGreg'])) {
-        if (isset($_GET['start'])) {
-            echoProfileAllGreg($_GET['start']);
-        }
-    }
-    if (isset($_GET['echoProfileAllResponse'])) {
-        if (isset($_GET['start'])) {
-            echoProfileAllResponse($_GET['start']);
-        }
-    }
-    if (isset($_GET['echoProfileAllLikes'])) {
-        if (isset($_GET['start'])) {
-            echoProfileAllLikes($_GET['start']);
-        }
-    }
-    
 
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {

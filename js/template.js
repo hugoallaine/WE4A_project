@@ -332,7 +332,7 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
             url: "php_tool/postManager.php",
             type: 'GET',
             data: {
-                echoResponses: true,
+                command: 'echoResponses',
                 postId: postId,
             },
             success: function (response) {
