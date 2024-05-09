@@ -294,7 +294,7 @@ function echoProfileAllGreg($start){
         FROM posts p
         INNER JOIN users ON p.id_user = users.id
         LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id
-        WHERE p.id_user = :userIdOfProfileViewed
+        WHERE p.id_user = :userIdOfProfileViewed AND p.id_parent IS NULL
         ORDER BY p.created_at DESC
         LIMIT 5 OFFSET :offset");
         $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
@@ -308,7 +308,7 @@ function echoProfileAllGreg($start){
         (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
         FROM posts p
         INNER JOIN users ON p.id_user = users.id
-        WHERE p.id_user = :userIdOfProfileViewed
+        WHERE p.id_user = :userIdOfProfileViewed AND p.id_parent IS NULL
         ORDER BY p.created_at DESC
         LIMIT 5 OFFSET :offset");
         $req->bindValue(':offset', $start, PDO::PARAM_INT);
