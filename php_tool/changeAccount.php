@@ -7,6 +7,19 @@ require_once dirname(__FILE__).'/vendor/autoload.php';
 use RobThree\Auth\TwoFactorAuth;
 $tfa = new TwoFactorAuth($issuer = 'YGreg');
 
+function rrmdir($dir) { 
+    if (is_dir($dir)) { 
+      $objects = scandir($dir); 
+      foreach ($objects as $object) { 
+        if ($object != "." && $object != "..") { 
+          if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+        } 
+      } 
+      reset($objects); 
+      rmdir($dir); 
+    } 
+  } 
+
 if (isConnected()) {
     // Change informations
     if (isset($_POST['firstname']) && isset($_POST['name']) && isset($_POST['birthdate']) && isset($_POST['address']) && isset($_POST['city']) && isset($_POST['zipcode']) && isset($_POST['country'])) {
@@ -250,6 +263,9 @@ if (isConnected()) {
                 $req->execute(array($_SESSION['id']));
                 $req = $db->prepare('DELETE FROM users WHERE id = ?');
                 $req->execute(array($_SESSION['id']));
+                // delete directory
+                $dir = '../img/user/'.$_SESSION['id'].'/';
+                rrmdir($dir);
                 $_SESSION = array();
                 session_destroy();
             } else {

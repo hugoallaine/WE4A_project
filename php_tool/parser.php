@@ -19,15 +19,4 @@ function parsePseudoForProfile($string) {
     return $parsedString;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['content'])) {
-        $parsedString = parsePseudoForProfile($_POST['content']);
-        header('Content-Type: application/json');
-        echo json_encode(array('error' => false, 'content' => $parsedString));
-    } else {
-        header('Content-Type: application/json');
-        echo json_encode(array('error' => true, 'message' => 'Missing content'));
-    }
-}
-
 ?>
