@@ -33,10 +33,12 @@ function echoPost($post) {
         'like_image' => $like_image,
         'picture' => $picture,
         'like_count' => $post['like_count'],
-        'comment_count' => $post['comment_count']
+        'comment_count' => $post['comment_count'],
+        'isSensible' => $post['isSensible']
     ];
-    
-    return $postInfo;
+    if ($post['isRemoved'] === 0) {
+        return $postInfo;
+    }
 }
 
 function echoPostById($postId) {
@@ -139,7 +141,10 @@ function echoPosts($start, $condition, $order, $params = []){
     $listPosts = array();
     foreach ($posts as $post) {
         $post['content'] = RestoreString_FromSQL($post['content']);
-        $listPosts[] = echoPost($post);
+        $postResult = echoPost($post);
+        if ($postResult !== null) {
+            $listPosts[] = $postResult;
+        }
     }
 
     echo json_encode($listPosts);
