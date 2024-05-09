@@ -27,6 +27,23 @@ function isConnected() {
 }
 
 /**
+ * Check if the user is an administrator
+ * @return bool
+ */
+function isAdmin() {
+    global $db;
+    if (isset($_SESSION['token']) && isset($_SESSION['id'])) {
+        $req = $db->prepare("SELECT isAdmin FROM users WHERE id = ?");
+        $req->execute(array($_SESSION['id']));
+        $isAdmin = $req->fetch();
+        if ($isAdmin['isAdmin'] == 1 && $isAdmin['isAdmin'] == $_SESSION['isAdmin']) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Redirect the user to a page if he is connected
  * @param string $url (default: profile.php)
  */

@@ -1,4 +1,3 @@
-
 /**
  * Insert a post in the DOM
  * @param {*} post 
@@ -7,11 +6,9 @@
  * @param {*} insertAfter 
  */
 function insertPost(post, element, isOriginalPost = false, insertAfter = false) {
-
     let pictureHtml = "";
     let isConnected = sessionStorage.getItem('isConnected');
     isConnected == 'true' ? isConnected = true : isConnected = false;
-
     if (post.picture) {
         pictureHtml = `<a href='${post.picture}'><img src='${post.picture}' class='rounded' width='400' height='320' style='object-fit: cover;'></a>`;
     }
@@ -31,10 +28,10 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
                                         <img src='img/icon/administrateur.png' width='48' height='48' alt='admin button' class='img-fluid'/>
                                       </button>
                                       <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                        <li><a class='dropdown-item' href='#'>Envoyer un avertissement</a></li>
-                                        <li><a class='dropdown-item' href='#'>Marquer comme choquant</a></li>
-                                        <li><a class='dropdown-item' href='#'>Supprimer le Greg</a></li>
-                                        <li><a class='dropdown-item' href='#'>Bannir l'utilisateur</a></li>
+                                        <li><a class='dropdown-item' href='#' onclick='setAdminModal("warning",${post.id})' data-bs-toggle='modal' data-bs-target='#modalAdmin'>Envoyer un avertissement</a></li>
+                                        <li><a class='dropdown-item' href='#' onclick='setAdminModal("shock",${post.id})' data-bs-toggle='modal' data-bs-target='#modalAdmin'>Marquer comme choquant</a></li>
+                                        <li><a class='dropdown-item' href='#' onclick='setAdminModal("delete",${post.id})' data-bs-toggle='modal' data-bs-target='#modalAdmin'>Supprimer le Greg</a></li>
+                                        <li><a class='dropdown-item' href='#' onclick='setAdminModal("ban",${post.id})' data-bs-toggle='modal' data-bs-target='#modalAdmin'>Bannir l'utilisateur</a></li>
                                       </ul>` : ``}
                     </div>
                     <div class='col p-0 post' style='cursor: pointer; ${post.is_sensible && !sessionStorage.getItem(post.id) ? "filter: blur(16px);" : "" } ' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOriginalPost ? "data-is-original-post='true'" : ""} ${post.is_sensible ? "onclick='removeBlur(this)'" : ""}>
@@ -155,6 +152,27 @@ function removeBlur(element) {
     sessionStorage.setItem(element.dataset.postId, 'true');
 }
 
+function setAdminModal(type, postId) {
+    if (type === 'warning') {
+        $('#modalAdminLabel').text("Envoyer un avertissement");
+        $('#notif-message').val('Vous avez reçu un avertissement d\'un administrateur pour le message suivant : ');
+        $('#admin-action-type').val('warning');
+    } else if (type === 'shock') {
+        $('#modalAdminLabel').text("Marquer comme choquant");
+        $('#notif-message').val('Le message suivant a été marqué comme choquant par un administrateur : ');
+        $('#admin-action-type').val('shock');
+    } else if (type === 'delete') {
+        $('#modalAdminLabel').text("Supprimer le Greg");
+        $('#notif-message').val('Le message suivant a été supprimé par un administrateur : ');
+        $('#admin-action-type').val('delete');
+    } else if (type === 'ban') {
+        $('#modalAdminLabel').text("Bannir l'utilisateur");
+        $('#notif-message').val('Vous avez été banni par un administrateur pour le message suivant : ');
+        $('#admin-action-type').val('ban');
+    }
+    $('#admin-post-control-id').val(postId);
+}
+
 /**
  * Search bar
  */
@@ -191,7 +209,6 @@ $(document).on('click', function(e) {
 });
 
 $(document).ready(function () {
-    
     /* Check if user is connected and if is an admin */
     $.ajax({
         url: "php/checkSession.php",
@@ -209,8 +226,6 @@ $(document).ready(function () {
             }
         }
     });
-
-
 
     /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function (e) {
@@ -313,6 +328,31 @@ $(document).ready(function () {
             success: function () {
                 location.reload();
             },
+        });
+    });
+
+    /* Advertissement */
+    $('#formAdmin').submit(function (e) {
+        e.preventDefault();
+        if ($('#notif-message').val().length === 0) {
+            $('#error-message-admin').text('Veuillez entrer un message.');
+            return;
+        }
+        let formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'php/administrator.php',
+            data: formData,
+            success: function (response) {
+                if (response.error) {
+                    $('#error-message-admin').text(response.message);
+                } else {
+                    $('#modalAdmin').modal('hide');
+                    let warningToast = new bootstrap.Toast(document.getElementById('sendNotifToast'));
+                    warningToast.show();
+                }
+                document.getElementById('formAdmin').reset();
+            }
         });
     });
 });

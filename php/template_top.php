@@ -292,6 +292,33 @@ require_once dirname(__FILE__).'/toast.php';
                         </div>
                     </div>
                 </div>
+                <?php if(isConnected() && isAdmin()): ?>
+                <!-- Modal - Admin Template -->
+                <div class="modal fade" id="modalAdmin" tabindex="-1" role="dialog" aria-labelledby="modalAdminLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form id="formAdmin" class="formAdmin" method="POST" action="">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title" id="modalAdminLabel"></h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="notif-message">Contenu de la notification</label>
+                                        <textarea class="form-control" id="notif-message" name="notifMessage" rows="3" required></textarea>
+                                    </div>
+                                    <input type="hidden" id="admin-post-control-id" name="adminPostControlId" value=""/>
+                                    <input type="hidden" id="admin-action-type" name="adminActionType" value=""/>
+                                    <div id="error-message-admin" class="text-danger text-align-center"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>                                
+                                    <input type="submit" class="btn btn-primary" name="formAdmin" value="Valider"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
                 <!-- Toast -->
                 <?php 
                 if (!isConnected()) {
@@ -299,6 +326,10 @@ require_once dirname(__FILE__).'/toast.php';
                         successToast('Connexion réussie','loginToast');
                         successToast('Inscription réussie. Vérifier votre adresse email.','registerToast');
                         errorToast("Votre avatar ne respecte pas les conditions requises et n'a pas été enregistré.",'avatarToast');
+                    echo '</div>';
+                } elseif (isConnected() && isAdmin()) {
+                    echo '<div class="toast-container position-fixed bottom-0 end-0 m-3">';
+                        successToast('La notification a été envoyée.','sendNotifToast');
                     echo '</div>';
                 }
                 ?>

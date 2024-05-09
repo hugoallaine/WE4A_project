@@ -79,7 +79,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="deleteNotificationModalLabel">Supprimer la notification</h5>
                 </div>
-                <div class="modal-body"
+                <div class="modal-body">
                     <p>Êtes-vous sûr de vouloir supprimer cette notification ?</p>
                 </div>
                 <div class="modal-footer">
