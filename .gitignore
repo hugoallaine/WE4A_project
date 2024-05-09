@@ -1,4 +1,4 @@
-php_tool/vendor
+php/vendor
 private.json
 img/user/*
 TODO.md
