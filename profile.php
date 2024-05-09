@@ -35,7 +35,7 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
 <main>
     <div class="container-fluid ">
         <div class="row">
-            <div class="col p-0 vh-100 overflow-auto">
+            <div class="col p-0 vh-100 overflow-auto" id="profile-view">
                 <div class="card">
                     <div style='width: auto; height: 300px;'>
                         <img src="<?php if(isset($userinfo['banner'])){echo "img/user/".$userinfo['id'].'/'.$userinfo['banner'];}else{echo "img/icon/banner.jpg";} ?>" class="card-img-top object-fit-cover" alt="Banner" style='height:100%; width:100%;'>

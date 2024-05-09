@@ -36,6 +36,75 @@ function ListOnProfileAllGreg() {
     });
 }
 
+function ListOnProfileAllResponse() {
+    var start = $('#posts-container .post').length;
+    $.ajax({
+        url: "php_tool/postManager.php",
+        type: 'GET',
+        data: {
+            echoProfileAllResponse: true,
+            start: start,
+            userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
+        },
+        success: function (response) {
+            var responses = JSON.parse(response);
+            for (rep of responses) {
+                var element = document.querySelector('#posts-container');
+                insertPost(rep, element, false, true);
+            }
+        }
+    });
+}
+
+function ListOnProfileAllLikes() {
+    var start = $('#posts-container .post').length;
+    $.ajax({
+        url: "php_tool/postManager.php",
+        type: 'GET',
+        data: {
+            echoProfileAllLikes: true,
+            start: start,
+            userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
+        },
+        success: function (response) {
+            var responses = JSON.parse(response);
+            for (rep of responses) {
+                var element = document.querySelector('#posts-container');
+                insertPost(rep, element, false, true);
+            }
+        }
+    });
+}
+
+/**
+ * List posts by filter
+ * @param {*} filter 
+ */
+function ListPostByFilter(filter) {
+    switch (filter) {
+        case 'Gregs':
+            ListOnProfileAllGreg();
+            break;
+        case 'Réponses':
+            ListOnProfileAllResponse();
+            break;
+        case 'Likes':
+            ListOnProfileAllLikes();
+            break;
+        default:
+            ListOnProfileAllGreg();
+            break;
+    }
+}
+
+
+/**
+ * Clear posts
+ */
+function clearPosts() {
+    $('#posts-container').empty();
+}
+
 $(document).ready(function () {
     /* Get ID of the user viewed */
     var userId = $('span#pseudo').data('user-id');
@@ -131,4 +200,31 @@ $(document).ready(function () {
             }
         });
     });
+
+    let selectedFilter = sessionStorage.getItem('selectedFilter');
+
+
+    $('.dropdown-menu .dropdown-item').click(function() {
+        var newSelectedFilter = $(this).text();
+        if (newSelectedFilter === 'Suivis' && sessionStorage.getItem('isConnected') === 'false') {
+            $('#modalLogin').modal('show');
+        } else if (newSelectedFilter !== selectedFilter) {
+            clearPosts();
+            selectedFilter = newSelectedFilter;
+            sessionStorage.setItem('selectedFilter', selectedFilter);
+            ListPostByFilter(selectedFilter);
+        }
+    });
+
+    /* Load posts */
+    ListPostByFilter(selectedFilter);
+
+    /* Load more posts */
+    $('#profile-view').on('scroll', function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight && $('#profile-view .post').length > 0){
+            let selectedFilter = sessionStorage.getItem('selectedFilter');
+            ListPostByFilter(selectedFilter);
+        }
+    });
+
 });

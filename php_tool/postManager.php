@@ -296,7 +296,7 @@ function echoProfileAllGreg($start){
         LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id
         WHERE p.id_user = :userIdOfProfileViewed
         ORDER BY p.created_at DESC
-        LIMIT 10 OFFSET :offset");
+        LIMIT 5 OFFSET :offset");
         $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
         $req->bindValue(':offset', $start, PDO::PARAM_INT);
         $req->bindValue(':userIdOfProfileViewed', $_GET['userIdOfProfileViewed'], PDO::PARAM_INT);
@@ -309,6 +309,90 @@ function echoProfileAllGreg($start){
         FROM posts p
         INNER JOIN users ON p.id_user = users.id
         WHERE p.id_user = :userIdOfProfileViewed
+        ORDER BY p.created_at DESC
+        LIMIT 5 OFFSET :offset");
+        $req->bindValue(':offset', $start, PDO::PARAM_INT);
+        $req->bindValue(':userIdOfProfileViewed', $_GET['userIdOfProfileViewed'], PDO::PARAM_INT);
+        $req->execute();
+        $posts = $req->fetchAll();
+    }
+
+    $listPosts = array();
+    foreach ($posts as $post) {
+        $post['content'] = RestoreString_FromSQL($post['content']);
+        $listPosts[] = echoPost($post);
+    }
+
+    echo json_encode($listPosts);
+}
+
+function echoProfileAllResponse($start){
+    global $db;
+    if (isset($_SESSION['id'])) {
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id
+        WHERE p.id_parent IS NOT NULL AND p.id_user = :userIdOfProfileViewed
+        ORDER BY p.created_at DESC
+        LIMIT 10 OFFSET :offset");
+        $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+        $req->bindValue(':offset', $start, PDO::PARAM_INT);
+        $req->bindValue(':userIdOfProfileViewed', $_GET['userIdOfProfileViewed'], PDO::PARAM_INT);
+        $req->execute();
+        $posts = $req->fetchAll();
+    } else {
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, NULL as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        WHERE p.id_parent IS NOT NULL AND p.id_user = :userIdOfProfileViewed
+        ORDER BY p.created_at DESC
+        LIMIT 10 OFFSET :offset");
+        $req->bindValue(':offset', $start, PDO::PARAM_INT);
+        $req->bindValue(':userIdOfProfileViewed', $_GET['userIdOfProfileViewed'], PDO::PARAM_INT);
+        $req->execute();
+        $posts = $req->fetchAll();
+    }
+
+    $listPosts = array();
+    foreach ($posts as $post) {
+        $post['content'] = RestoreString_FromSQL($post['content']);
+        $listPosts[] = echoPost($post);
+    }
+
+    echo json_encode($listPosts);
+}
+
+function echoProfileAllLikes($start){
+    global $db;
+    if (isset($_SESSION['id'])) {
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes1.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        INNER JOIN likes as likes1 ON p.id = likes1.id_post
+        LEFT JOIN likes as likes2 ON p.id = likes2.id_post AND likes2.id_user = :id
+        WHERE likes2.id_user = :userIdOfProfileViewed
+        ORDER BY p.created_at DESC
+        LIMIT 10 OFFSET :offset");
+        $req->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+        $req->bindValue(':offset', $start, PDO::PARAM_INT);
+        $req->bindValue(':userIdOfProfileViewed', $_GET['userIdOfProfileViewed'], PDO::PARAM_INT);
+        $req->execute();
+        $posts = $req->fetchAll();
+    } else {
+        $req = $db->prepare("SELECT p.*, users.pseudo, users.avatar, users.isAdmin, likes1.id as like_id,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+        FROM posts p
+        INNER JOIN users ON p.id_user = users.id
+        INNER JOIN likes as likes1 ON p.id = likes1.id_post
+        WHERE likes1.id_user = :userIdOfProfileViewed
         ORDER BY p.created_at DESC
         LIMIT 10 OFFSET :offset");
         $req->bindValue(':offset', $start, PDO::PARAM_INT);
@@ -419,6 +503,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echoProfileAllGreg($_GET['start']);
         }
     }
+    if (isset($_GET['echoProfileAllResponse'])) {
+        if (isset($_GET['start'])) {
+            echoProfileAllResponse($_GET['start']);
+        }
+    }
+    if (isset($_GET['echoProfileAllLikes'])) {
+        if (isset($_GET['start'])) {
+            echoProfileAllLikes($_GET['start']);
+        }
+    }
+    
 
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {
