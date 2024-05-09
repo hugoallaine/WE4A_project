@@ -216,9 +216,6 @@ $(document).ready(function () {
         }
     });
 
-    /* Load posts */
-    ListPostByFilter(selectedFilter);
-
     /* Load more posts */
     $('#profile-view').on('scroll', function () {
         if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight && $('#profile-view .post').length > 0){

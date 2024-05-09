@@ -300,9 +300,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 break;
         }
     }
-    else {
-        echo "No provided command for GET request";
-    }
 
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['textAreaPostId']) && isset($_FILES['images'])) {

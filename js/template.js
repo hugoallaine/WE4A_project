@@ -37,7 +37,7 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
                                         <li><a class='dropdown-item' href='#'>Bannir l'utilisateur</a></li>
                                       </ul>` : ``}
                     </div>
-                    <div class='col p-0 post' style='cursor: pointer;' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOriginalPost ? "data-is-original-post='true'" : ""}>
+                    <div class='col p-0 post' style='cursor: pointer; ${post.is_sensible && !sessionStorage.getItem(post.id) ? "filter: blur(16px);" : "" } ' data-post-id='${post.id}' data-post-id-parent='${post.id_parent}' ${isOriginalPost ? "data-is-original-post='true'" : ""} ${post.is_sensible ? "onclick='removeBlur(this)'" : ""}>
                         <p>${post.content}</p>
                         ${pictureHtml}    
                     </div>
@@ -148,6 +148,11 @@ function displayResults(query) {
         });
     }
     $('#search-results').show();
+}
+
+function removeBlur(element) {
+    element.style.filter = 'none';
+    sessionStorage.setItem(element.dataset.postId, 'true');
 }
 
 /**
