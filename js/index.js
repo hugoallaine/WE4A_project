@@ -2,7 +2,7 @@
 function ListLatestPosts() {
     var start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "php/postManager.php",
         type: 'GET',
         data: {
             command: 'echoLatestPosts',
@@ -21,7 +21,7 @@ function ListLatestPosts() {
 function ListPopularPosts() {
     var start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "php/postManager.php",
         type: 'GET',
         data: {
             command: 'echoPopularPosts',
@@ -40,7 +40,7 @@ function ListPopularPosts() {
 function ListRandomPosts(token) {
     var start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "php/postManager.php",
         type: 'GET',
         data: {
             command: 'echoRandomPosts',
@@ -60,7 +60,7 @@ function ListRandomPosts(token) {
 function ListFollowedPosts() {
     var start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "php/postManager.php",
         type: 'GET',
         data: {
             command: 'echoFollowedPosts',

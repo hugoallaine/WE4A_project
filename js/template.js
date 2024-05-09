@@ -21,14 +21,14 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
             <div class='card-body'>
                 <div class='row'>
                     <div class='col-md-2 col-3 text-center'>
-                        <a class='link-secondary link-underline link-underline-opacity-0' href='/WE4A_project/profile.php?pseudo=${post.pseudo}'>
+                        <a class='link-secondary link-underline link-underline-opacity-0' href='profile.php?pseudo=${post.pseudo}'>
                         <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'/>
                         <h5 class='card-title m-0'>${post.pseudo}</h5>
                         ${post.isAdmin ? `<span class="badge bg-danger m-2">Admin</span>`: ``}
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
                         ${(sessionStorage.getItem('isAdmin') === 'true') ? `<button class='btn dropdown-toggle pt-3' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
-                                        <img src='/WE4A_project/img/icon/administrateur.png' width='48' height='48' alt='admin button' class='img-fluid'/>
+                                        <img src='img/icon/administrateur.png' width='48' height='48' alt='admin button' class='img-fluid'/>
                                       </button>
                                       <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
                                         <li><a class='dropdown-item' href='#'>Envoyer un avertissement</a></li>
@@ -53,7 +53,7 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
                             </div>
                             <div class='col-12 p-0'>
                                 <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img src='/WE4A_project/img/icon/response.png' alt='response button' class='img-fluid'/>
+                                    <img src='img/icon/response.png' alt='response button' class='img-fluid'/>
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
@@ -110,7 +110,7 @@ function checkNotificationsNumberUnread() {
     let nbNotif = document.getElementById("nbNotif");
     $.ajax({
         type: 'GET',
-        url: 'php_tool/notificationManager.php?count=true',
+        url: 'php/notificationManager.php?count=true',
         success: function (response) {
             if (response.error) {
                 console.log("Récupération des notifications impossible");
@@ -163,7 +163,7 @@ $('#search-bar').on('input', function() {
     if (searchTerm.length >= 3) {
         $.ajax({
             type: 'GET',
-            url: 'php_tool/search.php',
+            url: 'php/search.php',
             data: { 
                 q: searchTerm 
             },
@@ -194,7 +194,7 @@ $(document).ready(function () {
     
     /* Check if user is connected and if is an admin */
     $.ajax({
-        url: "php_tool/checkSession.php",
+        url: "php/checkSession.php",
         type: 'GET',
         success: function (response) {
             if (response.status === true) {
@@ -229,7 +229,7 @@ $(document).ready(function () {
         }
         $.ajax({
             type: 'POST',
-            url: 'php_tool/postManager.php',
+            url: 'php/postManager.php',
             data: formData,
             contentType: false,
             processData: false,
@@ -254,7 +254,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/login.php',
+            url: 'php/login.php',
             data: formData,
             success: function (response) {
                 if (response.error) {
@@ -282,7 +282,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         $.ajax({
             type: 'POST',
-            url: 'php_tool/register.php',
+            url: 'php/register.php',
             data: formData,
             contentType: false,
             processData: false,
@@ -309,7 +309,7 @@ $(document).ready(function () {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/logout.php',
+            url: 'php/logout.php',
             success: function () {
                 location.reload();
             },
@@ -334,7 +334,7 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
         }
 
         $.ajax({
-            url: "php_tool/postManager.php",
+            url: "php/postManager.php",
             type: 'GET',
             data: {
                 command: 'echoResponses',
@@ -366,7 +366,7 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
         var likeCountElement = $(`[data-like-count-for-post='${postId}']`);
 
         $.ajax({
-            url: 'php_tool/like_post.php',
+            url: 'php/like_post.php',
             type: 'POST',
             data: {
                 post_id: postId
@@ -375,9 +375,9 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
                 var data = JSON.parse(response);
 
                 if (data.status === 'liked') {
-                    likeImage.attr('src', '/WE4A_project/img/icon/liked.png');
+                    likeImage.attr('src', 'img/icon/liked.png');
                 } else if (data.status === 'unliked') {
-                    likeImage.attr('src', '/WE4A_project/img/icon/like.png');
+                    likeImage.attr('src', 'img/icon/like.png');
                 }
 
                 likeCountElement.text(data.likeCount);

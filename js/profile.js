@@ -19,7 +19,7 @@ function resetText() {
 function ListOnProfileAllGreg() {
     var start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "php/postManager.php",
         type: 'GET',
         data: {
             command : 'echoProfileAllGreg',
@@ -39,7 +39,7 @@ function ListOnProfileAllGreg() {
 function ListOnProfileAllResponse() {
     var start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "php/postManager.php",
         type: 'GET',
         data: {
             command: 'echoProfileAllResponse',
@@ -59,7 +59,7 @@ function ListOnProfileAllResponse() {
 function ListOnProfileAllLikes() {
     var start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "php/postManager.php",
         type: 'GET',
         data: {
             command : 'echoProfileAllLikes',
@@ -118,7 +118,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         $.ajax({
             type: 'POST',
-            url: 'php_tool/changeAccount.php',
+            url: 'php/changeAccount.php',
             data: formData,
             contentType: false,
             processData: false,
@@ -154,7 +154,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/follow.php',
+            url: 'php/follow.php',
             data: formData,
             success: function (response) {
                 if (response.error) {
@@ -177,7 +177,7 @@ $(document).ready(function () {
         var btn = $(this);
         $.ajax({
             type: 'POST',
-            url: 'php_tool/follow.php',
+            url: 'php/follow.php',
             data: {
                 id: $(this).attr('user-id'),
             },
@@ -203,7 +203,6 @@ $(document).ready(function () {
 
     let selectedFilter = sessionStorage.getItem('selectedFilter');
 
-
     $('.dropdown-menu .dropdown-item').click(function() {
         var newSelectedFilter = $(this).text();
         if (newSelectedFilter === 'Suivis' && sessionStorage.getItem('isConnected') === 'false') {
@@ -223,5 +222,4 @@ $(document).ready(function () {
             ListPostByFilter(selectedFilter);
         }
     });
-
 });

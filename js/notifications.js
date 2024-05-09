@@ -13,7 +13,7 @@ $(document).on({
         let divNotification = $(this).data('divNotification');
         $.ajax({
             type: 'POST',
-            url: 'php_tool/notificationManager.php',
+            url: 'php/notificationManager.php',
             data: {
                 idNotification: idNotification
             },
@@ -28,7 +28,7 @@ $(document).ready(function () {
     let formData = new FormData();
     $.ajax({
         type: 'POST',
-        url: 'php_tool/notificationManager.php',
+        url: 'php/notificationManager.php',
         data: formData,
         processData: false,
         contentType: false,

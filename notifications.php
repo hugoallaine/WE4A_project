@@ -1,16 +1,16 @@
 <?php
-require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
+require_once dirname(__FILE__).'/php/alreadyConnected.php';
 session_start_secure();
 redirectIfNotConnected();
 
-require_once dirname(__FILE__).'/php_tool/parser.php';
-require_once dirname(__FILE__).'/php_tool/notificationManager.php';
+require_once dirname(__FILE__).'/php/parser.php';
+require_once dirname(__FILE__).'/php/notificationManager.php';
 $notificationManager->deleteOldNotifications();
 $notifications = $notificationManager->getNotifications($_SESSION['id'], false, 2);
 
 $currentPage = 'Notifications';
 
-require_once dirname(__FILE__).'/php_tool/template_top.php';
+require_once dirname(__FILE__).'/php/template_top.php';
 ?>
 <main>
     <div class="notifications-container col-12 p-0 overflow-auto vh-100 d-flex align-items-center flex-column">
@@ -93,5 +93,5 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
 
 </main>
 <?php
-require_once dirname(__FILE__).'/php_tool/template_bot.php';
+require_once dirname(__FILE__).'/php/template_bot.php';
 ?>

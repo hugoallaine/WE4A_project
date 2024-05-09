@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
+require_once dirname(__FILE__).'/php/alreadyConnected.php';
 session_start_secure();
 redirectIfNotConnected();
 
 $currentPage = 'Paramètres';
 
-require_once dirname(__FILE__).'/php_tool/db.php';
+require_once dirname(__FILE__).'/php/db.php';
 $req = $db->prepare('SELECT u.name,u.firstname,u.birth_date,a.address,a.city,a.zip_code,a.country FROM users u JOIN address a ON u.id = a.id_user WHERE email = ?');
 $req->execute([$_SESSION['email']]);
 $userinfo = $req->fetch();
@@ -16,8 +16,8 @@ $formattedAddress = RestoreString_FromSQL($userinfo['address']);
 $formattedCity = RestoreString_FromSQL($userinfo['city']);
 $formattedCountry = RestoreString_FromSQL($userinfo['country']);
 
-require_once dirname(__FILE__).'/php_tool/toast.php';
-require_once dirname(__FILE__).'/php_tool/vendor/autoload.php';
+require_once dirname(__FILE__).'/php/toast.php';
+require_once dirname(__FILE__).'/php/vendor/autoload.php';
 use RobThree\Auth\TwoFactorAuth;
 
 if (!isTfaEnabled()) {
@@ -25,7 +25,7 @@ if (!isTfaEnabled()) {
     $tfa_code = $tfa->createSecret();
 }
 
-require_once dirname(__FILE__).'/php_tool/template_top.php';
+require_once dirname(__FILE__).'/php/template_top.php';
 ?>
 <main>
     <div class="p-3">
@@ -210,5 +210,5 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
     ?>
 </main>
 <?php
-require_once dirname(__FILE__).'/php_tool/template_bot.php';
+require_once dirname(__FILE__).'/php/template_bot.php';
 ?>

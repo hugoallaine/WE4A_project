@@ -5,7 +5,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/changeAccount.php',
+            url: 'php/changeAccount.php',
             data: formData,
             success: function (response) {
                 if (response.error) {
@@ -25,7 +25,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/changeAccount.php',
+            url: 'php/changeAccount.php',
             data: formData,
             success: function (response) {
                 if (response.error) {
@@ -45,7 +45,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/changeAccount.php',
+            url: 'php/changeAccount.php',
             data: formData,
             success: function (response) {
                 if (response.error) {
@@ -68,7 +68,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/changeAccount.php',
+            url: 'php/changeAccount.php',
             data: formData,
             success: function (response) {
                 if (response.error) {
@@ -91,7 +91,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
         $.ajax({
             type: 'POST',
-            url: 'php_tool/changeAccount.php',
+            url: 'php/changeAccount.php',
             data: formData,
             success: function (response) {
                 if (response.error) {

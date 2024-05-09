@@ -1,12 +1,12 @@
 <?php
-require_once dirname(__FILE__).'/php_tool/alreadyConnected.php';
-require_once dirname(__FILE__).'/php_tool/db.php';
-require_once dirname(__FILE__).'/php_tool/postManager.php';
+require_once dirname(__FILE__).'/php/alreadyConnected.php';
+require_once dirname(__FILE__).'/php/db.php';
+require_once dirname(__FILE__).'/php/postManager.php';
 session_start_secure();
 
 $currentPage = 'Accueil';
 
-require_once dirname(__FILE__).'/php_tool/template_top.php';
+require_once dirname(__FILE__).'/php/template_top.php';
 ?>
 <main>
     <div class="container-fluid">
@@ -21,5 +21,5 @@ require_once dirname(__FILE__).'/php_tool/template_top.php';
     </div>
 </main>
 <?php
-require_once dirname(__FILE__).'/php_tool/template_bot.php';
+require_once dirname(__FILE__).'/php/template_bot.php';
 ?>
