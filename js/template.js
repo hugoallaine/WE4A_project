@@ -180,7 +180,7 @@ function setAdminModal(type, postId) {
         $("#ban-date-div").append(dateLabel);
         let dateInput = $("<input>");
         dateInput.attr("id", "ban-time");
-        dateInput.attr("type", "date");
+        dateInput.attr("type", "datetime-local");
         dateInput.attr("class", "form-control mb-2")
         dateInput.attr("name", "banTime");
         $("#ban-date-div").append(dateInput);
