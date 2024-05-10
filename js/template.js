@@ -31,7 +31,7 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
                         ${(sessionStorage.getItem('isAdmin') === 'true') ? `<button class='btn dropdown-toggle pt-3' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
-                                        <img src='img/icon/administrateur.png' width='48' height='48' alt='admin button' class='img-fluid'/>
+                                        <img src='img/icon/administrateur.png' width='48' height='48' alt='admin button' class='icon img-fluid'/>
                                       </button>
                                       <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
                                         <li><a class='dropdown-item' href='#' onclick='setAdminModal("warning",${post.id})' data-bs-toggle='modal' data-bs-target='#modalAdmin'>Envoyer un avertissement</a></li>
@@ -48,7 +48,7 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
                         <div class='row'>
                             <div class='col-12 p-0'>
                                 <button class='btn ${isConnected ? `like-button` : ``}' ${isConnected ? `data-post-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='img-fluid' >
+                                    <img data-like-image-for-post='${post.id}' src='${post.like_image}' alt='like button' class='icon img-fluid' >
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>
@@ -56,7 +56,7 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
                             </div>
                             <div class='col-12 p-0'>
                                 <button class='btn' type='button' ${isConnected ? `data-bs-toggle='modal' data-bs-target='#modalPost' data-tweet-id='${post.id}'` : `data-bs-toggle='modal' data-bs-target='#modalLogin'`}>
-                                    <img src='img/icon/response.png' alt='response button' class='img-fluid'/>
+                                    <img src='img/icon/response.png' alt='response button' class='icon img-fluid'/>
                                 </button>
                             </div>
                             <div class='col-12 p-0 mb-2 text-center'>

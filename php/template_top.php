@@ -38,19 +38,19 @@ require_once dirname(__FILE__).'/toast.php';
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a href="index.php" class="nav-link <?php if($currentPage === 'Accueil'){echo 'active';}else{echo 'link-dark';} ?>">
-                                <img src="img/icon/accueil.png" class="bi me-2" width="16" height="16">
+                                <img src="img/icon/accueil.png" class="icon bi me-2" width="16" height="16">
                                 Accueil
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php if(isConnected()){echo "profile.php?pseudo=".$_SESSION['pseudo'];}else{echo '#';} ?>" class="nav-link <?php if($currentPage === 'Profil'){echo 'active';}else{echo 'link-dark';} ?>" aria-current="page" <?php if(!isConnected()){echo "data-bs-toggle='modal' data-bs-target='#modalLogin'";} ?>>
-                                <img src="img/icon/profil.png" class="bi me-2" width="16" height="16">
+                                <img src="img/icon/profil.png" class="icon bi me-2" width="16" height="16">
                                 Profil
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php if(isConnected()){echo "notifications.php";}else{echo '#';} ?>" class="nav-link <?php if($currentPage === 'Notifications'){echo 'active';}else{echo 'link-dark';} ?>"  <?php if(!isConnected()){echo "data-bs-toggle='modal' data-bs-target='#modalLogin'";} ?>>
-                                <img src="img/icon/cloche.png" class="bi me-2" width="16" height="16">
+                                <img src="img/icon/cloche.png" class="icon bi me-2" width="16" height="16">
                                 Notifications
                                 <span id="nbNotif" class="badge text-bg-danger"></span>
                             </a>
@@ -73,11 +73,11 @@ require_once dirname(__FILE__).'/toast.php';
                         </div>
                         <?php else: ?>
                         <a href="#" id="login" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
-                            <img src="img/icon/utilisateur.png" alt="Icon User" width="40" height="40" class="rounded-circle me-3 object-fit-cover">
+                            <img src="img/icon/utilisateur.png" alt="Icon User" width="40" height="40" class="icon rounded-circle me-3 object-fit-cover">
                             <strong class="fs-5">Se connecter</strong>
                         </a>
                         <?php endif; ?>
-                        <img id="icon-theme" src="img/icon/moon.png" class="rounded" onclick="switchTheme()" width="32" height="32">
+                        <img id="icon-theme" src="img/icon/moon.png" class="icon rounded" onclick="switchTheme()" width="32" height="32">
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@ require_once dirname(__FILE__).'/toast.php';
                         <div class="dropdown">
                             <?php if($currentPage == "Accueil" || $currentPage == "Profil"): ?>
                                 <button class="btn btn-light dropdown" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="img/icon/filtre.png" class="img-fluid d-block mx-auto" width="30">
+                                    <img src="img/icon/filtre.png" class="icon img-fluid d-block mx-auto" width="30">
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="filterDropdown">
                                     <?php if("Profil" == $currentPage): ?>
@@ -106,7 +106,7 @@ require_once dirname(__FILE__).'/toast.php';
                         </div>
                         <div class="search-container position-relative top">
                             <input class="form-control me-2" type="search" id="search-bar" name="searchbar" placeholder="Rechercher" aria-label="Search">
-                            <div id="search-results" class="position-absolute w-100 bg-white border rounded border-top-5 border-primary" style="display:none;z-index:2;"></div>
+                            <div id="search-results" class="position-absolute w-100 bg-light border rounded border-top-5 border-primary" style="display:none;z-index:2;"></div>
                         </div>
                         <div class="d-flex align-items-center">
                             <?php 
@@ -298,7 +298,7 @@ require_once dirname(__FILE__).'/toast.php';
                 <?php endif; ?>
                 <!-- Response modal -->
                 <div class="modal fade" id="modalResponses" tabindex="-1" role="dialog" aria-labelledby="modalReponsesLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-dialog modal-xl" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title"></h5>
