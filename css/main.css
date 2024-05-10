@@ -101,3 +101,29 @@ body {
 .dark-theme input[type="file"] {
     color: var(--bs-gray-dark) !important;
 }
+
+.dark-theme .form-control::placeholder {
+    color: var(--bs-gray) !important;
+}
+
+.dark-theme .accordion-button {
+    color: var(--bs-gray-dark) !important;
+    background-color: var(--bs-light-bg) !important;
+}
+
+.dark-theme ::-webkit-scrollbar {
+    width: 8px;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+    background: var(--bs-light-bg);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+    background-color: var(--bs-gray);
+    border-radius: 20px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bs-primary);
+}

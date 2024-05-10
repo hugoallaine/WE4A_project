@@ -94,11 +94,11 @@ require_once dirname(__FILE__).'/php/template_top.php';
                     <form id="formChangePassword" method="POST">
                         <div class="form-group">
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Ancien mot de passe" required>
+                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="" required>
                                 <label for="oldPassword">Ancien mot de passe</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Nouveau mot de passe" required>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="" required>
                                 <label for="newPassword">Nouveau mot de passe</label>
                                 <div class="form-text">
                                     Les caractéristiques minimales pour un mot de passe sont :
@@ -111,7 +111,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                 </div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="newPasswordConfirm" name="newPasswordConfirm" placeholder="Répéter le nouveau mot de passe" required>
+                                <input type="password" class="form-control" id="newPasswordConfirm" name="newPasswordConfirm" placeholder="" required>
                                 <label for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Valider</button>
@@ -133,7 +133,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                         <p>La double authentification est activée sur votre compte.</p>
                         <form id="formDisableTfa" method="POST">
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="password_check" name="password_check" placeholder="Mot de passe" required>
+                                <input type="password" class="form-control" id="password_check" name="password_check" placeholder="" required>
                                 <label for="password_check">Mot de passe</label>
                             </div>
                             <button type="submit" class="btn btn-danger">Désactiver la double authentification</button>
@@ -153,14 +153,14 @@ require_once dirname(__FILE__).'/php/template_top.php';
                             <div class="col-9">
                                 <form id="formEnableTfa" method="POST">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="tfa_code" name="tfa_code" placeholder="Code de vérification" required>
+                                        <input type="text" class="form-control" id="tfa_code" name="tfa_code" placeholder="" required>
                                         <label for="tfa_code">Code de vérification</label>
                                         <div class="form-text">
                                             Insérer le code généré par l'application.
                                         </div>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="password_check_tfa" name="password_check_tfa" placeholder="Mot de passe" required>
+                                        <input type="password" class="form-control" id="password_check_tfa" name="password_check_tfa" placeholder="" required>
                                         <label for="password_check_tfa">Mot de passe</label>
                                         <div class="form-text">
                                             Merci de renseigner votre mot de passe pour vérifier votre identité.
@@ -188,7 +188,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                     <form id="formDeleteAccount" method="POST">
                         <div class="form-group">
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="password_check_delete" name="password_check_delete" placeholder="Mot de passe" required>
+                                <input type="password" class="form-control" id="password_check_delete" name="password_check_delete" placeholder="" required>
                                 <label for="password_check_delete">Mot de passe</label>
                             </div>
                             <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
