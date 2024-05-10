@@ -113,11 +113,11 @@ function switchTheme() {
     let theme = sessionStorage.getItem('theme');
     if (theme === 'light-theme') {
         sessionStorage.setItem('theme', 'dark-theme');
-        $('body').addClass('dark');
+        $('body').addClass('dark-theme');
         $('icon-theme').attr('src', 'img/icon/sunny.png');
     } else {
         sessionStorage.setItem('theme', 'light-theme');
-        $('body').removeClass('dark');
+        $('body').removeClass('dark-theme');
         $('icon-theme').attr('src', 'img/icon/moon.png');
     }
 }
