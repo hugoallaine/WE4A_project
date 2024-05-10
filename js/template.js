@@ -134,7 +134,8 @@ function displayResults(query) {
     if (query.users.length > 0) {
         $('#search-results').append('<h6 class="text-center">Utilisateurs</h6>');
         $.each(query.users, function(index, user) {
-            var resultElement = ('<div><a href="profile.php?pseudo='+ user.pseudo +'" class="link link-primary link-underline-opacity-0 ms-3"><img src="img/user/'+ user.id +'/'+ user.avatar +'" alt="Icon User" class="rounded-circle object-fit-cover me-2 mb-2" width="32" height="32"/>'+ user.pseudo +'</a></div>');
+            let img_path = 'img/user/'+user.id+'/'+user.avatar ? user.avatar : 'img/icon/utilisateur.png';
+            var resultElement = ('<div><a href="profile.php?pseudo='+ user.pseudo +'" class="link link-primary link-underline-opacity-0 ms-3"><img src="'+img_path+'" alt="Icon User" class="rounded-circle object-fit-cover me-2 mb-2" width="32" height="32"/>'+ user.pseudo +'</a></div>');
             $('#search-results').append(resultElement);
         });
     }
