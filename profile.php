@@ -72,8 +72,10 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                             $req->execute(array($_SESSION['id'], $userinfo['id']));
                                             $follow = $req->fetch();
                                             if($follow['follow'] == 0) {
+                                                // Not following
                                                 echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivre</button>';
                                             } else {
+                                                // Following
                                                 echo '<button id="btnFollow" type="submit" class="btn btn-primary" onmouseover="changeText()" onmouseout="resetText()">Suivi</button>';
                                             }
                                         } else {
@@ -173,6 +175,82 @@ require_once dirname(__FILE__).'/php/template_top.php';
             <?php endif; ?>
         </div>
     </div>
+    <!-- Modal confirm unfollow -->
+    <div class="modal fade" id="confirmUnfollowModal" tabindex="-1" aria-labelledby="confirmUnfollowModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteNotificationModalLabel">Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir arrêter de suivre ce profil ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmUnfollowBtn">Ne plus suivre</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- Modal - Followers -->
+     <div class="modal fade" id="modalFollows" tabindex="-1" role="dialog" aria-labelledby="modalFollowsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalFollowsLabel">Gérer les follows</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col overflow-auto">
+                            <h5 class="text-center p-2">Abonnés</h5>
+                            <hr>
+                            <div id="followers-list" class="list-group">
+                                <?php
+                                $req = $db->prepare('SELECT id_user_following FROM follows WHERE id_user_followed = ?');
+                                $req->execute(array($userinfo['id']));
+                                while ($follower = $req->fetch()) {
+                                    $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
+                                    $req2->execute(array($follower['id_user_following']));
+                                    $follower = $req2->fetch();
+                                    if ($follower['avatar'] == null) {
+                                        echo '<div class="d-flex justify-content-between p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
+                                    } else {
+                                        echo '<div class="d-flex justify-content-between p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
+                                    }
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="col overflow-auto">
+                            <h5 class="text-center p-2">Abonnements</h5>
+                            <hr>
+                            <div id="following-list" class="list-group">
+                                <?php
+                                $req = $db->prepare('SELECT id_user_followed FROM follows WHERE id_user_following = ?');
+                                $req->execute(array($userinfo['id']));
+                                while ($following = $req->fetch()) {
+                                    $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
+                                    $req2->execute(array($following['id_user_followed']));
+                                    $following = $req2->fetch();
+                                    if ($following['avatar'] == null) {
+                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
+                                    } else {
+                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
+                                    }
+                                    if(isConnected() && $_SESSION['id'] == $userinfo['id']){
+                                        echo '<button class="btnUnfollow btn btn-secondary" user-id="'.$following['id'].'" type="button">Se désabonner</button></div>';
+                                    }  
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php if(isConnected() && $_SESSION['id'] == $userinfo['id']): ?>
     <!-- Modal - Modifier le profil -->
     <div class="modal fade" id="modalProfile" tabindex="-1" role="dialog" aria-labelledby="modalProfileLabel" aria-hidden="true">
@@ -208,63 +286,6 @@ require_once dirname(__FILE__).'/php/template_top.php';
                         <input type="submit" class="btn btn-primary" name="formProfile" value="Valider"/>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    <!-- Modal - Followers -->
-    <div class="modal fade" id="modalFollows" tabindex="-1" role="dialog" aria-labelledby="modalFollowsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalFollowsLabel">Gérer les follows</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col overflow-auto">
-                            <h5 class="text-center p-2">Abonnés</h5>
-                            <hr>
-                            <div id="followers-list" class="list-group">
-                                <?php
-                                $req = $db->prepare('SELECT id_user_following FROM follows WHERE id_user_followed = ?');
-                                $req->execute(array($userinfo['id']));
-                                while ($follower = $req->fetch()) {
-                                    $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
-                                    $req2->execute(array($follower['id_user_following']));
-                                    $follower = $req2->fetch();
-                                    if ($follower['avatar'] == null) {
-                                        echo '<div class="d-flex justify-content-center p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
-                                    } else {
-                                        echo '<div class="d-flex justify-content-center p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
-                                    }
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <div class="vr"></div>
-                        <div class="col overflow-auto">
-                            <h5 class="text-center p-2">Abonnements</h5>
-                            <hr>
-                            <div id="following-list" class="list-group">
-                                <?php
-                                $req = $db->prepare('SELECT id_user_followed FROM follows WHERE id_user_following = ?');
-                                $req->execute(array($userinfo['id']));
-                                while ($following = $req->fetch()) {
-                                    $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
-                                    $req2->execute(array($following['id_user_followed']));
-                                    $following = $req2->fetch();
-                                    if ($following['avatar'] == null) {
-                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
-                                    } else {
-                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
-                                    }
-                                    echo '<button class="btnUnfollow btn btn-secondary" user-id="'.$following['id'].'" type="button">Se désabonner</button></div>';
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

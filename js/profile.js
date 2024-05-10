@@ -145,11 +145,10 @@ $(document).ready(function () {
     /* Suivre un utilisateur */
     $('#formFollow').submit(function (e) {
         e.preventDefault();
+        
         if ($('#btnFollow').text() == "Ne plus suivre") {
-            let confirmation = confirm("Êtes-vous sûr de vouloir ne plus suivre cet utilisateur ?");
-            if (!confirmation) {
-                return;
-            }
+           $('#confirmUnfollowModal').modal('show');
+           return;
         }
         let formData = $(this).serialize();
         $.ajax({
@@ -223,3 +222,23 @@ $(document).ready(function () {
         }
     });
 });
+
+$(document).on('click', '#confirmUnfollowBtn', function () {
+    $('#confirmUnfollowModal').modal('hide');
+    let formData = $('#formFollow').serialize();
+    $.ajax({
+        type: 'POST',
+        url: 'php/follow.php',
+        data: formData,
+        success: function (response) {
+            if (response.error) {
+                $('#error-message').text(response.message);
+            } else {
+                $('#confirmUnfollowModal').modal('hide');
+                $('#btnFollow').text("Suivre");
+                $('#nbFollowers').text(parseInt($('#nbFollowers').text()) - 1);
+            }
+        }
+    });
+}
+);
