@@ -1,3 +1,6 @@
+/**
+ * Insert a post in the DOM
+ */
 function changeText() {
     let btn = document.getElementById("btnFollow");
     if (btn.textContent == "Suivi") {
@@ -7,6 +10,9 @@ function changeText() {
     }
 }
 
+/**
+ * Reset text of follow button
+ */
 function resetText() {
     let btn = document.getElementById("btnFollow");
     if (btn.textContent == "Ne plus suivre") {
@@ -16,6 +22,10 @@ function resetText() {
     }
 }
 
+/**
+ *  List posts on profile
+ * @param {*} command 
+ */
 function listOnProfile(command) {
     var start = $('#posts-container .post').length;
     $.ajax({
@@ -36,14 +46,23 @@ function listOnProfile(command) {
     });
 }
 
+/**
+ * List all posts on profile
+ */
 function ListOnProfileAllGreg() {
     listOnProfile('echoProfileAllGreg');
 }
 
+/**
+ * List all responses on profile
+ */
 function ListOnProfileAllResponse() {
     listOnProfile('echoProfileAllResponse');
 }
 
+/**
+ * List all likes on profile
+ */
 function ListOnProfileAllLikes() {
     listOnProfile('echoProfileAllLikes');
 }
@@ -195,6 +214,9 @@ $(document).ready(function () {
     });
 });
 
+/**
+ * Confirm unfollow
+ */
 $(document).on('click', '#confirmUnfollowBtn', function () {
     $('#confirmUnfollowModal').modal('hide');
     let formData = $('#formFollow').serialize();
