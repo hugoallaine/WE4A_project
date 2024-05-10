@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $isAdmin = false;
     }
     header('Content-Type: application/json');
-    echo json_encode(array('error' => false,'status' => $status, 'isAdmin' => $isAdmin));
+    echo json_encode(array('error' => false,'status' => $status, 'pseudo' => $_SESSION['pseudo'], 'isAdmin' => $isAdmin));
 } else {
     header('Content-Type: application/json');
     echo json_encode(array('error' => true,'message' => 'Invalid request method'));

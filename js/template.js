@@ -154,11 +154,17 @@ function displayResults(query) {
     $('#search-results').show();
 }
 
+
 function removeBlur(element) {
     element.style.filter = 'none';
     sessionStorage.setItem(element.dataset.postId, 'true');
 }
 
+/**
+ * Set the modal for the admin actions
+ * @param {*} type 
+ * @param {*} postId 
+ */
 function setAdminModal(type, postId) {
     if (type === 'warning') {
         $('#modalAdminLabel').text("Envoyer un avertissement");
@@ -249,6 +255,7 @@ $(document).ready(function () {
         success: function (response) {
             if (response.status === true) {
                 sessionStorage.setItem('isConnected', true);
+                sessionStorage.setItem('pseudo', response.pseudo);
                 if (response.isAdmin === 1) {
                     sessionStorage.setItem('isAdmin', true);
                 }
@@ -260,7 +267,7 @@ $(document).ready(function () {
         }
     });
 
-    /* Envoi du formulaire d'ajout de post */
+    /* Envoi du formulaire d'ajout de post et affichage du post ajouté */
     $('#formPostId').submit(function (e) {
         e.preventDefault();
 
@@ -299,9 +306,10 @@ $(document).ready(function () {
                 response = JSON.parse(response);
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
-                if (document.title.includes("Accueil")) {
+                if (document.title.includes("Accueil") || ($('#pseudo').text() === sessionStorage.getItem('pseudo')) && sessionStorage.getItem('selectedFilter') === 'Gregs') {
                     insertPost(response, document.querySelector('#posts-container'));
-                }
+                    console.log("Post ajouté");
+                }   
             }
         });
     });
