@@ -107,6 +107,22 @@ function TogglePasswordRegister(checked) {
 }
 
 /**
+ * Switch the theme of the website
+ */
+function switchTheme() {
+    let theme = sessionStorage.getItem('theme');
+    if (theme === 'light-theme') {
+        sessionStorage.setItem('theme', 'dark-theme');
+        $('body').addClass('dark');
+        $('icon-theme').attr('src', 'img/icon/sunny.png');
+    } else {
+        sessionStorage.setItem('theme', 'light-theme');
+        $('body').removeClass('dark');
+        $('icon-theme').attr('src', 'img/icon/moon.png');
+    }
+}
+
+/**
  * Display the number of unread notifications
  */
 function checkNotificationsNumberUnread() {
@@ -248,6 +264,15 @@ $(document).on('click', function(e) {
 });
 
 $(document).ready(function () {
+    /* Check the theme for icon */
+    let theme = sessionStorage.getItem('theme');
+    if (theme === null) {
+        sessionStorage.setItem('theme', 'light-theme');
+    }
+    if (theme === 'dark-theme') {
+        switchTheme();
+    }
+
     /* Check if user is connected and if is an admin */
     $.ajax({
         url: "php/checkSession.php",
