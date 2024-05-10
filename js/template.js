@@ -263,6 +263,7 @@ $(document).ready(function () {
     /* Envoi du formulaire d'ajout de post */
     $('#formPostId').submit(function (e) {
         e.preventDefault();
+
         let formData = new FormData(this);
         let text = formData.get('textAreaPostId');
         if (text.length > 290) {
@@ -287,6 +288,7 @@ $(document).ready(function () {
             }
             return;
         }
+        
         $.ajax({
             type: 'POST',
             url: 'php/postManager.php',
