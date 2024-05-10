@@ -155,19 +155,19 @@ function removeBlur(element) {
 function setAdminModal(type, postId) {
     if (type === 'warning') {
         $('#modalAdminLabel').text("Envoyer un avertissement");
-        $('#notif-message').val('Vous avez reçu un avertissement d\'un administrateur pour le message suivant : ');
+        $('#notif-message').val('Vous avez reçu un avertissement d\'un administrateur pour le Greg suivant : ');
         $('#admin-action-type').val('warning');
     } else if (type === 'shock') {
         $('#modalAdminLabel').text("Marquer comme choquant");
-        $('#notif-message').val('Le message suivant a été marqué comme choquant par un administrateur : ');
+        $('#notif-message').val('Le Greg suivant a été marqué comme choquant par un administrateur : ');
         $('#admin-action-type').val('shock');
     } else if (type === 'delete') {
         $('#modalAdminLabel').text("Supprimer le Greg");
-        $('#notif-message').val('Le message suivant a été supprimé par un administrateur : ');
+        $('#notif-message').val('Le Greg suivant a été supprimé par un administrateur : ');
         $('#admin-action-type').val('delete');
     } else if (type === 'ban') {
         $('#modalAdminLabel').text("Bannir l'utilisateur");
-        $('#notif-message').val('Vous avez été banni par un administrateur pour le message suivant : ');
+        $('#notif-message').val('Vous avez été banni par un administrateur pour le Greg suivant : ');
         $('#admin-action-type').val('ban');
     }
     $('#admin-post-control-id').val(postId);

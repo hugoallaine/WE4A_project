@@ -15,6 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $req->fetch()['id_user'];
             $req = $db->prepare('INSERT INTO notifications (user_id, type, content, id_post) VALUES (?, ?, ?, ?)');
             $req->execute(array($userId, $actionType, $content, $postId));
+            if ($actionType == 'shock') {
+                $req = $db->prepare('UPDATE posts SET isSensible = 1 WHERE id = ?');
+                $req->execute(array($postId));
+            } else if ($actionType == 'delete') {
+                $req = $db->prepare('UPDATE posts SET isRemoved = 1 WHERE id = ?');
+                $req->execute(array($postId));
+            }
             header('application/json');
             echo json_encode(array('error' => 'false'));
         } else {
