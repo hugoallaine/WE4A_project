@@ -27,6 +27,7 @@ function echoPost($post) {
         'pseudo' => $post['pseudo'],
         'avatar' => $avatar,
         'isAdmin' => $post['isAdmin'],
+        'isBan' => $post['isBan'],
         'content' => parsePseudoForProfile($post['content']),
         'date' => $formatted_date,
         'like_image' => $like_image,
@@ -43,7 +44,7 @@ function echoPost($post) {
 function echoPostById($postId) {
     global $db;
     
-    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, ";
+    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, users.isBan, ";
     $sql .= isset($_SESSION['id']) ? "likes.id as like_id, " : "NULL as like_id, ";
     $sql .= "(SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count, ";
     $sql .= "(SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count ";
@@ -66,7 +67,7 @@ function echoResponses($postId) {
     global $db;
 
     // Récupérer le post original
-    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, ";
+    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, users.isBan, ";
     $sql .= isset($_SESSION['id']) ? "likes.id as like_id, " : "NULL as like_id, ";
     $sql .= "(SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count, ";
     $sql .= "(SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count ";
@@ -82,7 +83,7 @@ function echoResponses($postId) {
     $originalPost['content'] = RestoreString_FromSQL($originalPost['content']);
 
     // Récupérer les réponses
-    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, ";
+    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, users.isBan, ";
     $sql .= isset($_SESSION['id']) ? "likes.id as like_id, " : "NULL as like_id, ";
     $sql .= "(SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count, ";
     $sql .= "(SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count ";
@@ -111,7 +112,7 @@ function echoResponses($postId) {
 function echoPosts($start, $condition, $order, $params = []){
     global $db;
 
-    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, ";
+    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, users.isBan, ";
     $sql .= isset($_SESSION['id']) ? "likes.id as like_id, " : "NULL as like_id, ";
     $sql .= "(SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count, ";
     $sql .= "(SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count ";
@@ -167,7 +168,7 @@ function echoFollowedPosts($start){
 
 function echoProfilePosts($start, $condition){
     global $db;
-    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, ";
+    $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, users.isBan, ";
     $sql .= isset($_SESSION['id']) ? "likes.id as like_id, " : "NULL as like_id, ";
     $sql .= "(SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count, ";
     $sql .= "(SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count ";

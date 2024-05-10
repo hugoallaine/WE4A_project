@@ -22,6 +22,7 @@ function insertPost(post, element, isOriginalPost = false, insertAfter = false) 
                         <img src='${post.avatar}' width='64' height='64' alt='Avatar' class='rounded-circle mr-2' style='object-fit: cover;'/>
                         <h5 class='card-title m-0'>${post.pseudo}</h5>
                         ${post.isAdmin ? `<span class="badge bg-danger m-2">Admin</span>`: ``}
+                        ${post.isBan ? `<span class="badge bg-danger m-2">Banni</span>`: ``}
                         </a>
                         <p class='card-subtitle text-muted'>${post.date}</p>
                         ${(sessionStorage.getItem('isAdmin') === 'true') ? `<button class='btn dropdown-toggle pt-3' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
