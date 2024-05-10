@@ -49,6 +49,20 @@ function isAdmin() {
  */
 function isBan() {
     global $db;
+    $req = $db->query("SELECT id,isBan,ban_time FROM users");
+    $users = $req->fetchAll();
+    foreach ($users as $user) {
+        if ($user['isBan'] == 1) {
+            if ($user['ban_time'] != null) {
+                $banTime = new DateTime($user['ban_time']);
+                $now = new DateTime();
+                if ($banTime < $now) {
+                    $req = $db->prepare("UPDATE users SET isBan = 0, ban_time = NULL WHERE id = ?");
+                    $req->execute(array($user['id']));
+                }
+            }
+        }
+    }
     if (isset($_SESSION['token']) && isset($_SESSION['id'])) {
         $req = $db->prepare("SELECT isBan FROM users WHERE id = ?");
         $req->execute(array($_SESSION['id']));
