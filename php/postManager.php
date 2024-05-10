@@ -4,6 +4,11 @@ require_once dirname(__FILE__).'/alreadyConnected.php';
 require_once dirname(__FILE__).'/parser.php';
 session_start_secure();
 
+/**
+ * Function to echo a post
+ * @param array $post: the post
+ * @return array
+ */
 function echoPost($post) {
     global $db;
 
@@ -41,6 +46,10 @@ function echoPost($post) {
     return $postInfo;
 }
 
+/**
+ * Function to echo a post by its id
+ * @param int $postId: the id of the post
+ */
 function echoPostById($postId) {
     global $db;
     
@@ -63,6 +72,10 @@ function echoPostById($postId) {
     echo json_encode(echoPost($post));
 }
 
+/**
+ * Function to echo the responses of a post
+ * @param int $postId: the id of the post
+ */
 function echoResponses($postId) {
     global $db;
 
@@ -109,6 +122,13 @@ function echoResponses($postId) {
     echo json_encode($listResponses);
 }
 
+/**
+ * Function to echo the posts
+ * @param int $start: the start index
+ * @param string $condition: the condition
+ * @param string $order: the order
+ * @param array $params: the parameters
+ */
 function echoPosts($start, $condition, $order, $params = []){
     global $db;
 
@@ -150,22 +170,39 @@ function echoPosts($start, $condition, $order, $params = []){
     echo json_encode($listPosts);
 }
 
+/**
+ * Function to echo the latest posts
+ */
 function echoLatestPosts($start){
     echoPosts($start, "WHERE p.id_parent IS NULL ", "p.created_at DESC");
 }
 
+/**
+ * Function to echo the popular posts
+ */
 function echoPopularPosts($start){
     echoPosts($start, "WHERE p.id_parent IS NULL ", "like_count DESC");
 }
 
+/**
+ * Function to echo the list of random posts
+ */
 function echoListRandomPosts($start, $token){
     echoPosts($start, "WHERE p.id_parent IS NULL ", "RAND(:seed)", [':seed' => $token]);
 }
 
+/**
+ * Function to echo the followed posts
+ */
 function echoFollowedPosts($start){
     echoPosts($start, "INNER JOIN follows ON p.id_user = follows.id_user_followed WHERE p.id_parent IS NULL AND follows.id_user_following = :id ", "p.created_at DESC", [':id' => $_SESSION['id']]);
 }
 
+/**
+ * Function to echo the profile posts
+ * @param int $start: the start index
+ * @param string $condition: the condition
+ */
 function echoProfilePosts($start, $condition){
     global $db;
     $sql = "SELECT p.*, users.pseudo, users.avatar, users.isAdmin, users.isBan, ";
@@ -204,18 +241,30 @@ function echoProfilePosts($start, $condition){
     echo json_encode($listPosts);
 }
 
+/**
+ * Function to echo the profile posts
+ */
 function echoProfileAllGreg($start){
     echoProfilePosts($start, "p.id_parent IS NULL");
 }
 
+/**
+ * Function to echo the profile posts
+ */
 function echoProfileAllResponse($start){
     echoProfilePosts($start, "p.id_parent IS NOT NULL");
 }
 
+/**
+ * Function to echo the profile posts
+ */
 function echoProfileAllLikes($start){
     echoProfilePosts($start, "likes.id_user = :userIdOfProfileViewed");
 }
 
+/**
+ * Function to send a post
+ */
 function sendPost(){
     $post = SecurizeString_ForSQL($_POST['textAreaPostId']);
         
@@ -273,6 +322,23 @@ function sendPost(){
     echoPostById($postId);
 }
 
+/**
+ * API to manage the posts
+ * 
+ * GET Parameters:
+ * - command (string): the command to execute
+ * - start (int): the start index
+ * - token (string): the token
+ * - postId (int): the id of the post
+ *
+ * POST Parameters:
+ * - textAreaPostId (string): the content of the post
+ * 
+ * Response:
+ * - array: the posts
+ * - error (string): the error message
+ * - message (string): the message
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['command'])) {
         switch ($_GET['command']) {

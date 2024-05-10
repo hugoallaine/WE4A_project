@@ -6,6 +6,13 @@ require_once dirname(__FILE__).'/vendor/autoload.php';
 use RobThree\Auth\TwoFactorAuth;
 $tfa = new TwoFactorAuth($issuer = 'YGreg');
 
+/**
+ * API to manage the login actions
+ * 
+ * Response:
+ * - error (boolean): true if an error occured
+ * - message (string): the error message
+ */
 if (isset($_POST['user']) && isset($_POST['password'])) {
     $email = SecurizeString_ForSQL($_POST['user']);
     $password = SecurizeString_ForSQL($_POST['password']);

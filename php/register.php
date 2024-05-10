@@ -19,6 +19,29 @@ function getIp() {
     return $ip;
 }
 
+/**
+ * API to register a user
+ * 
+ * POST Parameters:
+ * - mail1-r (string): the first part of the email
+ * - mail2-r (string): the second part of the email
+ * - password-r (string): the password
+ * - password2-r (string): the confirmation of the password
+ * - pseudo-r (string): the pseudo
+ * - name-r (string): the name
+ * - firstname-r (string): the firstname
+ * - birthdate-r (string): the birthdate
+ * - address-r (string): the address
+ * - city-r (string): the city
+ * - zipcode-r (string): the zipcode
+ * - country-r (string): the country
+ * - g-recaptcha-response (string): the reCaptcha response
+ * 
+ * Response:
+ * - error (boolean): true if an error occured
+ * - message (string): the error message
+ * - info (boolean): true if an info message is present
+ */
 if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['password-r']) && isset($_POST['password2-r']) && isset($_POST['pseudo-r']) && isset($_POST['name-r']) && isset($_POST['firstname-r']) && isset($_POST['birthdate-r']) && isset($_POST['address-r']) && isset($_POST['city-r']) && isset($_POST['zipcode-r']) && isset($_POST['country-r'])) {
     $recaptcha = new \ReCaptcha\ReCaptcha($json['reCaptcha_secret']);
     $gRecaptchaResponse = $_POST['g-recaptcha-response'];

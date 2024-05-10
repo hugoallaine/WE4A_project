@@ -12,6 +12,11 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+/**
+ * Secure a string for SQL
+ * @param string $string
+ * @return string
+ */
 function SecurizeString_ForSQL($string){
     $string = trim($string);
     $string = stripcslashes($string);
@@ -20,12 +25,22 @@ function SecurizeString_ForSQL($string){
     return $string;
 }
 
+/**
+ * Restore a string from SQL
+ * @param string $string
+ * @return string
+ */
 function RestoreString_FromSQL($string){
     $string = htmlspecialchars_decode($string);
     $string = stripslashes($string);
     return $string;
 }
 
+/**
+ * Generate a token
+ * @param int $length
+ * @return string
+ */
 function generateToken($length) {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=~';
     $chars_length = strlen($chars);
@@ -36,6 +51,12 @@ function generateToken($length) {
     return $token;
 }
 
+/**
+ * Check if the token is valid for the user
+ * @param string $token
+ * @param int $id
+ * @return bool
+ */
 function checkToken($token, $id) {
     global $db;
     $req = $db->prepare("SELECT * FROM users WHERE token = ? AND id = ?");
@@ -47,6 +68,11 @@ function checkToken($token, $id) {
     return false;
 }
 
+/**
+ * Create a login cookie
+ * @param string $email
+ * @param string $token
+ */
 function createLoginCookie($email, $token) {
     setcookie('email', $email, time() + 24*3600);
     setcookie('token', $token, time() + 24*3600);

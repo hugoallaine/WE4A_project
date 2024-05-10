@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/db.php';
 
 /**
- * Vérification de l'adresse email utilisateur pour la validation du compte
+ * API to verify the email address
  */
 if (isset($_GET['email']) && isset($_GET['key'])) {
     $email = urldecode($_GET['email']);

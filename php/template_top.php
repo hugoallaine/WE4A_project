@@ -1,4 +1,9 @@
 <?php
+/**
+ * Template for the top of the pages
+ * 
+ * This template is used to display the top of the pages
+ */
 require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 require_once dirname(__FILE__).'/toast.php';

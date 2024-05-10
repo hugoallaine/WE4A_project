@@ -3,6 +3,13 @@ require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 require_once dirname(__FILE__).'/db.php';
 
+/**
+ * API to manage the follow actions
+ * 
+ *  Response:
+ * - error (boolean): true if an error occured
+ * - message (string): the error message
+ */
 if (isset($_POST['pseudo']) && isset($_SESSION['id'])) {
     $pseudo = SecurizeString_ForSQL($_POST['pseudo']);
     $req = $db->prepare('SELECT id FROM users WHERE pseudo = ?');
@@ -26,6 +33,13 @@ if (isset($_POST['pseudo']) && isset($_SESSION['id'])) {
     }
 }
 
+/**
+ * API to manage the follow actions
+ * 
+ * Response:
+ * - error (boolean): true if an error occured
+ * - message (string): the error message
+ */
 if (isset($_POST['id']) && isset($_SESSION['id'])) {
     $id = SecurizeString_ForSQL($_POST['id']);
     $req = $db->prepare('SELECT Count(*) AS follow FROM follows WHERE id_user_following = ? AND id_user_followed = ?');

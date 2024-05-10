@@ -1,3 +1,4 @@
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -14,11 +15,8 @@
 ::-webkit-scrollbar-thumb:hover {
     background-color: #007bff;
 }
-/*
-body {
-    font-size: 1vw
-}*/
 
+/* Dark theme */
 .dark-theme {
     --bs-primary: #0d6efd;
     --bs-secondary: #bdc2c7;

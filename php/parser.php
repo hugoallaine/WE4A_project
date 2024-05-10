@@ -1,10 +1,14 @@
 <?php
 require_once dirname(__FILE__).'/db.php';
 
+/**
+ * Parse the pseudo in a string to add a link to the profile
+ * @param string $string
+ * @return string
+ */
 function parsePseudoForProfile($string) {
     global $db;
     $pattern = '/@(\w+)/';
-    
     $parsedString = preg_replace_callback($pattern, function($matches) use ($db) {
         $username = $matches[1];
         $req = $db->prepare('SELECT * FROM users WHERE pseudo = ?');
@@ -15,7 +19,6 @@ function parsePseudoForProfile($string) {
         }
         return "@".$username;
     }, $string);
-    
     return $parsedString;
 }
 
