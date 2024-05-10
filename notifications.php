@@ -31,6 +31,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                 } else {
                     $class = '';
                     $post = "";
+                    $idpost = '';
                 }
                 if ($notification['is_read'] == 0) {
                     $new = "<span class='badge text-bg-danger ms-2'>Nouveau</span>";
