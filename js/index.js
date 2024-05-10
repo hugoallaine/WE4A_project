@@ -1,4 +1,8 @@
-
+/**
+ *  Insert Gregs into the DOM
+ * @param {*} command 
+ * @param {*} token 
+ */
 function listPosts(command, token = null) {
     var start = $('#posts-container .post').length;
     $.ajax({
@@ -23,18 +27,30 @@ function listPosts(command, token = null) {
     });
 }
 
+/**
+ * Insert the latest Gregs
+ */
 function ListLatestPosts() {
     listPosts('echoLatestPosts');
 }
 
+/**
+ * Insert the most popular Gregs
+ */
 function ListPopularPosts() {
     listPosts('echoPopularPosts');
 }
 
+/**
+ * Insert random Gregs
+ */
 function ListRandomPosts() {
     listPosts('echoRandomPosts', sessionStorage.getItem('token'));
 }
 
+/**
+ * Insert followed Gregs
+ */
 function ListFollowedPosts() {
     listPosts('echoFollowedPosts');
 }
