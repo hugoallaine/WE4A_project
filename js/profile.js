@@ -16,64 +16,36 @@ function resetText() {
     }
 }
 
-function ListOnProfileAllGreg() {
+function listOnProfile(command) {
     var start = $('#posts-container .post').length;
     $.ajax({
         url: "php/postManager.php",
         type: 'GET',
         data: {
-            command : 'echoProfileAllGreg',
+            command: command,
             start: start,
             userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
         },
         success: function (response) {
             var responses = JSON.parse(response);
+            var element = document.querySelector('#posts-container');
             for (rep of responses) {
-                var element = document.querySelector('#posts-container');
                 insertPost(rep, element, false, true);
             }
         }
     });
+}
+
+function ListOnProfileAllGreg() {
+    listOnProfile('echoProfileAllGreg');
 }
 
 function ListOnProfileAllResponse() {
-    var start = $('#posts-container .post').length;
-    $.ajax({
-        url: "php/postManager.php",
-        type: 'GET',
-        data: {
-            command: 'echoProfileAllResponse',
-            start: start,
-            userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
-        },
-        success: function (response) {
-            var responses = JSON.parse(response);
-            for (rep of responses) {
-                var element = document.querySelector('#posts-container');
-                insertPost(rep, element, false, true);
-            }
-        }
-    });
+    listOnProfile('echoProfileAllResponse');
 }
 
 function ListOnProfileAllLikes() {
-    var start = $('#posts-container .post').length;
-    $.ajax({
-        url: "php/postManager.php",
-        type: 'GET',
-        data: {
-            command : 'echoProfileAllLikes',
-            start: start,
-            userIdOfProfileViewed: parseInt(sessionStorage.getItem('userIdOfProfileViewed')),
-        },
-        success: function (response) {
-            var responses = JSON.parse(response);
-            for (rep of responses) {
-                var element = document.querySelector('#posts-container');
-                insertPost(rep, element, false, true);
-            }
-        }
-    });
+    listOnProfile('echoProfileAllLikes');
 }
 
 /**
