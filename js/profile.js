@@ -88,7 +88,6 @@ function ListPostByFilter(filter) {
     }
 }
 
-
 /**
  * Clear posts
  */

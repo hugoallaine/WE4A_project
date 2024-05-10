@@ -7,19 +7,61 @@ require_once dirname(__FILE__).'/vendor/autoload.php';
 use RobThree\Auth\TwoFactorAuth;
 $tfa = new TwoFactorAuth($issuer = 'YGreg');
 
+/**
+ * Function to delete a directory and its content
+ */
 function rrmdir($dir) { 
     if (is_dir($dir)) { 
-      $objects = scandir($dir); 
-      foreach ($objects as $object) { 
-        if ($object != "." && $object != "..") { 
-          if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+        $objects = scandir($dir); 
+        foreach ($objects as $object) { 
+            if ($object != "." && $object != "..") { 
+            if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+            } 
         } 
-      } 
-      reset($objects); 
-      rmdir($dir); 
+        reset($objects); 
+        rmdir($dir); 
     } 
-  } 
+} 
 
+/**
+ * API to change account informations
+ * 
+ * POST parameters:
+ * - Change informations:
+ *   - firstname (string): the new firstname
+ *   - name (string): the new name
+ *   - birthdate (string): the new birthdate
+ *   - address (string): the new address
+ *   - city (string): the new city
+ *   - zipcode (string): the new zipcode
+ *   - country (string): the new country
+ * - Change pseudo:
+ *   - pseudo-f (string): the new pseudo
+ * - Change bio:
+ *   - bio-f (string): the new bio
+ * - Change avatar:
+ *   - avatar-f (file): the new avatar
+ * - Change banner:
+ *   - banner-f (file): the new banner
+ * - Change password:
+ *   - oldPassword (string): the old password
+ *   - newPassword (string): the new password
+ *   - newPasswordConfirm (string): the new password confirmation
+ * - Enable 2FA:
+ *   - tfa_code (string): the 2FA code
+ *   - password_check_tfa (string): the password to check 2FA
+ *   - tfa_secret (string): the 2FA secret
+ * - Disable 2FA:
+ *   - password_check (string): the password to check
+ * - Delete account:
+ *   - password_check_delete (string): the password to delete account
+ * 
+ * Response:
+ * - error (boolean): true if an error occured
+ * - message (string): the error message
+ * - changedpseudo (boolean): true if the pseudo has been changed
+ * - pseudo (string): the new pseudo
+ */
 if (isConnected()) {
     // Change informations
     if (isset($_POST['firstname']) && isset($_POST['name']) && isset($_POST['birthdate']) && isset($_POST['address']) && isset($_POST['city']) && isset($_POST['zipcode']) && isset($_POST['country'])) {

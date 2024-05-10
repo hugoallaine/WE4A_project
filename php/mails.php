@@ -6,6 +6,12 @@ require_once dirname(__FILE__).'/vendor/PHPMailer/src/Exception.php';
 require_once dirname(__FILE__).'/vendor/PHPMailer/src/SMTP.php';
 require_once dirname(__FILE__).'/json.php';
 
+/**
+ * Function to send an email
+ * @param string $destinataire
+ * @param string $sujet
+ * @param string $message
+ */
 function sendMail($destinataire, $sujet, $message) {
     global $json;
     $mail = new PHPMailer(true);
@@ -29,6 +35,11 @@ function sendMail($destinataire, $sujet, $message) {
     }
 }
 
+/**
+ * Function to send a confirmation email
+ * @param string $destinataire
+ * @param string $confirmkey
+ */
 function sendMailConfirm($destinataire, $confirmkey) {
     $parent_folder = dirname($_SERVER['SCRIPT_NAME']);
     $validator_path = ($parent_folder === '/') ? 'validator.php' : $parent_folder . '/validator.php';
@@ -72,6 +83,10 @@ function sendMailReset($destinataire, $resetkey) {
     sendMail($destinataire, $sujet, $message);
 }
 
+/**
+ * Function to send an email to notify the user that 2FA has been enabled
+ * @param string $destinataire
+ */
 function sendMailTfaEnabled($destinataire) {
     $sujet = "Activation de l'authentification à deux facteurs YGreg";
     $message = '
@@ -90,6 +105,10 @@ function sendMailTfaEnabled($destinataire) {
     sendMail($destinataire, $sujet, $message);
 }
 
+/**
+ * Function to send an email to notify the user that 2FA has been disabled
+ * @param string $destinataire
+ */
 function sendMailTfaDisabled($destinataire) {
     $sujet = "Désactivation de l'authentification à deux facteurs YGreg";
     $message = '

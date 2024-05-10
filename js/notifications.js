@@ -1,3 +1,6 @@
+/**
+ * function to show the delete notification modal
+ */
 $(document).on({
     'click': function () {
         $('#deleteNotificationModal').modal('show');
@@ -24,6 +27,9 @@ $(document).on({
     }
 }, '#deleteNotificationBtn');
 
+/**
+ * function to read all notifications
+ */
 $(document).ready(function () {
     let formData = new FormData();
     $.ajax({

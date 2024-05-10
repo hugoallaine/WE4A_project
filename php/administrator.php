@@ -3,6 +3,13 @@ require_once dirname(__FILE__).'/alreadyConnected.php';
 session_start_secure();
 require_once dirname(__FILE__).'/db.php';
 
+/**
+ * API to manage the administrator actions
+ * 
+ *  Response:
+ * - error (boolean): true if an error occured
+ * - message (string): the error message
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isConnected() && isAdmin()) {
         if (isset($_POST['notifMessage']) && !empty($_POST['notifMessage']) && isset($_POST['adminPostControlId']) && !empty($_POST['adminPostControlId']) && isset($_POST['adminActionType']) && !empty($_POST['adminActionType'])) {

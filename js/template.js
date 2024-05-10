@@ -170,7 +170,10 @@ function displayResults(query) {
     $('#search-results').show();
 }
 
-
+/**
+ * Remove blur effect on post
+ * @param {*} element 
+ */
 function removeBlur(element) {
     element.style.filter = 'none';
     sessionStorage.setItem(element.dataset.postId, 'true');
