@@ -111,14 +111,14 @@ function TogglePasswordRegister(checked) {
  */
 function switchTheme() {
     let theme = sessionStorage.getItem('theme');
-    if (theme === 'light-theme') {
-        sessionStorage.setItem('theme', 'dark-theme');
+    if (theme === 'light') {
+        sessionStorage.setItem('theme', 'dark');
         $('body').addClass('dark-theme');
-        $('icon-theme').attr('src', 'img/icon/sunny.png');
+        $('#icon-theme').attr('src', 'img/icon/sunny.png');
     } else {
-        sessionStorage.setItem('theme', 'light-theme');
+        sessionStorage.setItem('theme', 'light');
         $('body').removeClass('dark-theme');
-        $('icon-theme').attr('src', 'img/icon/moon.png');
+        $('#icon-theme').attr('src', 'img/icon/moon.png');
     }
 }
 
@@ -267,10 +267,10 @@ $(document).ready(function () {
     /* Check the theme for icon */
     let theme = sessionStorage.getItem('theme');
     if (theme === null) {
-        sessionStorage.setItem('theme', 'light-theme');
-    }
-    if (theme === 'dark-theme') {
-        switchTheme();
+        sessionStorage.setItem('theme', 'light');
+    } else if (theme === 'dark') {
+        $('body').addClass('dark-theme');
+        $('#icon-theme').attr('src', 'img/icon/sunny.png');
     }
 
     /* Check if user is connected and if is an admin */
