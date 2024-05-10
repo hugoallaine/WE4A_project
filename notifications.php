@@ -55,7 +55,9 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                 echo "<img src='img/icon/hide.png' alt='shock' class='icon' width=50 height=50>";
                             } else if ($notification['type'] == 'delete') {
                                 echo "<img src='img/icon/delete.png' alt='delete' class='icon' width=50 height=50>";
-                            }
+                            } else if ($notification['type'] == 'ban') {
+                                echo "<img src='img/icon/ban.png' alt='ban' class='icon' width=50 height=50>";
+                            } 
             echo            "</div>
                             <div class='".$class." col' data-post-id='".$idpost."' style='cursor: pointer;'>
                                 <h5 class='card-title'>".$content."</h5>

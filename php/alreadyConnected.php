@@ -44,6 +44,23 @@ function isAdmin() {
 }
 
 /**
+ * Check if the user is banned
+ * @return bool
+ */
+function isBan() {
+    global $db;
+    if (isset($_SESSION['token']) && isset($_SESSION['id'])) {
+        $req = $db->prepare("SELECT isBan FROM users WHERE id = ?");
+        $req->execute(array($_SESSION['id']));
+        $isBan = $req->fetch();
+        if ($isBan['isBan'] == 1) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Redirect the user to a page if he is connected
  * @param string $url (default: profile.php)
  */

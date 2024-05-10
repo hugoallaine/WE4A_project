@@ -6,7 +6,7 @@ $currentPage = 'Profil';
 
 if (isset($_GET['pseudo'])) {
     $getpseudo = SecurizeString_ForSQL($_GET['pseudo']);
-    $req = $db->prepare('SELECT id,pseudo,avatar,banner,bio,isAdmin FROM users WHERE pseudo = ?');
+    $req = $db->prepare('SELECT id,pseudo,avatar,banner,bio,isAdmin,isBan,ban_time FROM users WHERE pseudo = ?');
     $req->execute(array($getpseudo));
     if ($req->rowCount() > 0) {
         $userinfo = $req->fetch();
@@ -48,8 +48,15 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                 </div>
                                 <?php 
                                 echo '<span data-user-id="'.$userinfo['id'].'" id="pseudo">'.$userinfo['pseudo'].'</span>';
-                                if(isset($userinfo['isAdmin']) && $userinfo['isAdmin'] == 1) {
+                                if (isset($userinfo['isAdmin']) && $userinfo['isAdmin'] == 1) {
                                     echo '<span class="badge bg-danger m-2">Admin</span>';
+                                } 
+                                if (isset($userinfo['isBan']) && $userinfo['isBan'] == 1) {
+                                    if (isset($userinfo['ban_time']) && $userinfo['ban_time'] != null) {
+                                        echo '<span class="badge bg-danger m-2">Banni jusqu\'au '.date('d/m/Y', strtotime($userinfo['ban_time'])).'</span>';
+                                    } else {
+                                        echo '<span class="badge bg-danger m-2">Banni définitivement</span>';
+                                    }
                                 }
                                 ?>
                             </h1>

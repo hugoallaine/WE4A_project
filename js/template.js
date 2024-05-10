@@ -157,18 +157,44 @@ function setAdminModal(type, postId) {
         $('#modalAdminLabel').text("Envoyer un avertissement");
         $('#notif-message').val('Vous avez reçu un avertissement d\'un administrateur pour le Greg suivant : ');
         $('#admin-action-type').val('warning');
+        $("#ban-date-div").empty();
     } else if (type === 'shock') {
         $('#modalAdminLabel').text("Marquer comme choquant");
         $('#notif-message').val('Le Greg suivant a été marqué comme choquant par un administrateur : ');
         $('#admin-action-type').val('shock');
+        $("#ban-date-div").empty();
     } else if (type === 'delete') {
         $('#modalAdminLabel').text("Supprimer le Greg");
         $('#notif-message').val('Le Greg suivant a été supprimé par un administrateur : ');
         $('#admin-action-type').val('delete');
+        $("#ban-date-div").empty();
     } else if (type === 'ban') {
         $('#modalAdminLabel').text("Bannir l'utilisateur");
         $('#notif-message').val('Vous avez été banni par un administrateur pour le Greg suivant : ');
         $('#admin-action-type').val('ban');
+        $("#ban-date-div").empty();
+        let dateLabel = $("<label>");
+        dateLabel.attr("for", "ban-time");
+        dateLabel.attr("class", "form-label mt-2");
+        dateLabel.text("Date de fin du bannissement :");
+        $("#ban-date-div").append(dateLabel);
+        let dateInput = $("<input>");
+        dateInput.attr("id", "ban-time");
+        dateInput.attr("type", "date");
+        dateInput.attr("class", "form-control mb-2")
+        dateInput.attr("name", "banTime");
+        $("#ban-date-div").append(dateInput);
+        let checkBanDef = $("<input>");
+        checkBanDef.attr("type", "checkbox");
+        checkBanDef.attr("id", "ban-def");
+        checkBanDef.attr("name", "banDef");
+        checkBanDef.attr("class", "form-check-input me-2");
+        $("#ban-date-div").append(checkBanDef);
+        let checkLabel = $("<label>");
+        checkLabel.attr("for", "ban-def");
+        checkLabel.attr("class", "form-check-label");
+        checkLabel.text("Bannissement définitif");
+        $("#ban-date-div").append(checkLabel);
     }
     $('#admin-post-control-id').val(postId);
 }
@@ -249,6 +275,7 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
+                console.log(response);
                 response = JSON.parse(response);
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
@@ -348,8 +375,8 @@ $(document).ready(function () {
                     $('#error-message-admin').text(response.message);
                 } else {
                     $('#modalAdmin').modal('hide');
-                    let warningToast = new bootstrap.Toast(document.getElementById('sendNotifToast'));
-                    warningToast.show();
+                    let notifToast = new bootstrap.Toast(document.getElementById('sendNotifToast'));
+                    notifToast.show();
                 }
                 document.getElementById('formAdmin').reset();
             }

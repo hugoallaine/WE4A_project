@@ -113,10 +113,32 @@ require_once dirname(__FILE__).'/toast.php';
                             <input class="form-control me-2" type="search" id="search-bar" name="searchbar" placeholder="Rechercher" aria-label="Search">
                             <div id="search-results" class="position-absolute w-100 bg-white border rounded border-top-5 border-primary" style="display:none;z-index:2;"></div>
                         </div>
-                        <button class="btn btn-primary " type="button" data-bs-toggle='modal' data-bs-target='#<?php if(isConnected()){echo "modalPost";}else{echo "modalLogin";} ?>'>Écrire un Greg</button>
+                        <div class="d-flex align-items-center">
+                            <?php 
+                            if (!isBan()) {
+                                if (isConnected()) {
+                                    $modal = "modalPost";
+                                } else {
+                                    $modal = "modalLogin";
+                                }
+                                echo "<button class='btn btn-primary ' type='button' data-bs-toggle='modal' data-bs-target='#".$modal."'>Écrire un Greg</button>";
+                            } else {
+                                $req = $db->prepare("SELECT ban_time FROM users WHERE id = ?");
+                                $req->execute(array($_SESSION['id']));
+                                $banTime = $req->fetch();
+                                if ($banTime['ban_time'] != null) {
+                                    $banTime = date_create_from_format('Y-m-d H:i:s', $banTime['ban_time']);
+                                    $banTime = $banTime->format('d/m/Y H:i:s');
+                                    echo "<p class='text-danger m-0'>Vous êtes banni jusqu'au ".$banTime."</p>";
+                                } else {
+                                    echo "<p class='text-danger m-0'>Vous êtes banni définitivement.</p>";
+                                }
+                            }
+                            ?>
+                        </div>
                     </div>
                 </nav>
-                <?php if(isConnected()): ?>
+                <?php if(isConnected() && !isBan()): ?>
                 <!-- Modal - Ecrire un tweet -->
                 <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -292,7 +314,7 @@ require_once dirname(__FILE__).'/toast.php';
                         </div>
                     </div>
                 </div>
-                <?php if(isConnected() && isAdmin()): ?>
+                <?php if(isConnected() && isAdmin() && !isBan()): ?>
                 <!-- Modal - Admin Template -->
                 <div class="modal fade" id="modalAdmin" tabindex="-1" role="dialog" aria-labelledby="modalAdminLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -303,8 +325,11 @@ require_once dirname(__FILE__).'/toast.php';
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="notif-message">Contenu de la notification</label>
+                                        <label class="form-label" for="notif-message">Contenu de la notification</label>
                                         <textarea class="form-control" id="notif-message" name="notifMessage" rows="3" required></textarea>
+                                    </div>
+                                    <div id="ban-date-div" class="form-group">
+
                                     </div>
                                     <input type="hidden" id="admin-post-control-id" name="adminPostControlId" value=""/>
                                     <input type="hidden" id="admin-action-type" name="adminActionType" value=""/>
