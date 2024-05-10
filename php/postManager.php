@@ -175,7 +175,12 @@ function echoProfilePosts($start, $condition){
     $sql .= "FROM posts p ";
     $sql .= "INNER JOIN users ON p.id_user = users.id ";
     $sql .= isset($_SESSION['id']) ? "LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user = :id " : "";
-    $sql .= "WHERE p.id_user = :userIdOfProfileViewed AND $condition ";
+    if ($condition === "likes.id_user = :userIdOfProfileViewed") {
+        $sql .= "WHERE (p.id_user = :userIdOfProfileViewed OR likes.id_user = :userIdOfProfileViewed) AND $condition ";
+    }
+    else {
+        $sql .= "WHERE p.id_user = :userIdOfProfileViewed AND $condition ";
+    }
     $sql .= "ORDER BY p.created_at DESC ";
     $sql .= "LIMIT 10 OFFSET :offset";
     
