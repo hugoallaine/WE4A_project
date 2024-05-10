@@ -232,7 +232,11 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                     $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
                                     $req2->execute(array($follower['id_user_following']));
                                     $follower = $req2->fetch();
-                                    echo '<div class="d-flex justify-content-center p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
+                                    if ($follower['avatar'] == null) {
+                                        echo '<div class="d-flex justify-content-center p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
+                                    } else {
+                                        echo '<div class="d-flex justify-content-center p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
+                                    }
                                 }
                                 ?>
                             </div>
@@ -249,7 +253,11 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                     $req2 = $db->prepare('SELECT id,pseudo,avatar FROM users WHERE id = ?');
                                     $req2->execute(array($following['id_user_followed']));
                                     $following = $req2->fetch();
-                                    echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
+                                    if ($following['avatar'] == null) {
+                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
+                                    } else {
+                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
+                                    }
                                     echo '<button class="btnUnfollow btn btn-secondary" user-id="'.$following['id'].'" type="button">Se désabonner</button></div>';
                                 }
                                 ?>
