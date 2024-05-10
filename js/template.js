@@ -275,6 +275,18 @@ $(document).ready(function () {
             }
             return;
         }
+        /* Check if the image is too big */
+        let file = formData.get('images');
+        if (file.size > 2097152) {
+            let errorDiv = $('.modal-body').find('.alert-danger');
+            if (errorDiv.length === 0) {
+                errorDiv = document.createElement('div');
+                errorDiv.className = 'alert alert-danger mt-2 mb-0';
+                errorDiv.textContent = 'L\'image ne peut pas dépasser 2 Mo.';
+                $('.modal-body').append(errorDiv);
+            }
+            return;
+        }
         $.ajax({
             type: 'POST',
             url: 'php/postManager.php',
