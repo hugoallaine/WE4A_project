@@ -28,6 +28,8 @@ if (!isTfaEnabled()) {
 require_once dirname(__FILE__).'/php/template_top.php';
 ?>
 <main>
+    <div class="vh-100 overflow-auto">
+        
     <div class="p-3">
         <h1 class="text-primary">Paramètres</h1>
     </div>
@@ -195,6 +197,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <?php 
     echo '<div class="toast-container position-fixed bottom-0 end-0 m-3">';

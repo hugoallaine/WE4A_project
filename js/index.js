@@ -1,75 +1,18 @@
 
-function ListLatestPosts() {
+function listPosts(command, token = null) {
     var start = $('#posts-container .post').length;
     $.ajax({
         url: "php/postManager.php",
         type: 'GET',
         data: {
-            command: 'echoLatestPosts',
+            command: command,
             start: start,
-        },
-        success: function (response) {
-            var responses = JSON.parse(response);
-            for (rep of responses) {
-                var element = document.querySelector('#posts-container');
-                insertPost(rep, element, false, true);
-            }
-        }
-    });
-}
-
-function ListPopularPosts() {
-    var start = $('#posts-container .post').length;
-    $.ajax({
-        url: "php/postManager.php",
-        type: 'GET',
-        data: {
-            command: 'echoPopularPosts',
-            start: start,
-        },  
-        success: function (response) {
-            var responses = JSON.parse(response);
-            for (rep of responses) {
-                var element = document.querySelector('#posts-container');
-                insertPost(rep, element, false, true);
-            }
-        }
-    });
-}
-
-function ListRandomPosts(token) {
-    var start = $('#posts-container .post').length;
-    $.ajax({
-        url: "php/postManager.php",
-        type: 'GET',
-        data: {
-            command: 'echoRandomPosts',
-            start: start,
-            token: sessionStorage.getItem('token')
-        },
-        success: function (response) {
-            var responses = JSON.parse(response);
-            for (rep of responses) {
-                var element = document.querySelector('#posts-container');
-                insertPost(rep, element, false, true);
-            }
-        }
-    });
-}
-
-function ListFollowedPosts() {
-    var start = $('#posts-container .post').length;
-    $.ajax({
-        url: "php/postManager.php",
-        type: 'GET',
-        data: {
-            command: 'echoFollowedPosts',
-            start: start,
+            token: token
         },
         success: function (response) {
             var responses = JSON.parse(response);
             var element = document.querySelector('#posts-container');
-            if (responses.length === 0) {
+            if (responses.length === 0 && command === 'echoFollowedPosts') {
                 element.innerHTML = "<h2 class='text-center'>Vous ne suivez personne</h2>";
             } else {
                 for (rep of responses) {
@@ -78,6 +21,22 @@ function ListFollowedPosts() {
             }
         }
     });
+}
+
+function ListLatestPosts() {
+    listPosts('echoLatestPosts');
+}
+
+function ListPopularPosts() {
+    listPosts('echoPopularPosts');
+}
+
+function ListRandomPosts() {
+    listPosts('echoRandomPosts', sessionStorage.getItem('token'));
+}
+
+function ListFollowedPosts() {
+    listPosts('echoFollowedPosts');
 }
 
 /**
