@@ -101,3 +101,12 @@ body {
 .dark-theme input[type="file"] {
     color: var(--bs-gray-dark) !important;
 }
+
+.dark-theme .form-control::placeholder {
+    color: var(--bs-gray) !important;
+}
+
+.dark-theme .accordion-button {
+    color: var(--bs-gray-dark) !important;
+    background-color: var(--bs-light-bg) !important;
+}
