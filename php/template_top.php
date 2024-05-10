@@ -27,9 +27,9 @@ require_once dirname(__FILE__).'/toast.php';
         <!-- Container principal -->
         <div class="row">
             <!-- Row contenant 2 colonnes (sidebar | navbar+main) -->
-            <div class="col-2 p-0 vh-100">
+            <div class="col-2 col-lg-2 p-0 vh-100">
                 <!-- Sidebar -->
-                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100">
+                <div class="d-none d-lg-flex flex-column flex-shrink-0 p-3 bg-light h-100">
                     <a href="index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                         <img src="img/logo/YGreg_logo.png" alt="YGreg" width="40" height="40" class="bi me-2">
                         <span class="fs-4">YGreg</span>
@@ -80,8 +80,53 @@ require_once dirname(__FILE__).'/toast.php';
                         <img id="icon-theme" src="img/icon/moon.png" class="icon rounded" onclick="switchTheme()" width="32" height="32">
                     </div>
                 </div>
+                <!-- Sidebar responsive -->
+                <div class="d-lg-none d-flex flex-column flex-shrink-0 bg-light h-100">
+                    <a href="index.php" class="d-flex justify-content-center link-dark text-decoration-none p-3" title data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+                        <img src="img/logo/YGreg_logo.png" alt="YGreg" width="40" height="40" class="bi me-2">
+                    </a>
+                    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+                        <li class="nav-item">
+                            <a href="index.php" class="py-3 border-bottom nav-link <?php if($currentPage === 'Accueil'){echo 'active';}else{echo 'link-dark';} ?>">
+                                <img src="img/icon/accueil.png" class="icon bi me-2" width="32" height="32">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php if(isConnected()){echo "profile.php?pseudo=".$_SESSION['pseudo'];}else{echo '#';} ?>" class="py-3 border-bottom nav-link <?php if($currentPage === 'Profil'){echo 'active';}else{echo 'link-dark';} ?>" aria-current="page" <?php if(!isConnected()){echo "data-bs-toggle='modal' data-bs-target='#modalLogin'";} ?>>
+                                <img src="img/icon/profil.png" class="icon bi me-2" width="32" height="32">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php if(isConnected()){echo "notifications.php";}else{echo '#';} ?>" class="py-3 border-bottom nav-link <?php if($currentPage === 'Notifications'){echo 'active';}else{echo 'link-dark';} ?>"  <?php if(!isConnected()){echo "data-bs-toggle='modal' data-bs-target='#modalLogin'";} ?>>
+                                <img src="img/icon/cloche.png" class="icon bi me-2" width="32" height="32">
+                                <span id="nbNotif" class="badge text-bg-danger"></span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <?php if(isConnected()): ?>
+                    <div class="dropdown border-top">
+                        <a href="#" class="p-3 d-flex justify-content-center align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Icon User" width="40" height="40" class="rounded-circle object-fit-cover">
+                        </a>
+                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                            <li><a class="dropdown-item" href="settings.php">Paramètres</a></li>
+                            <li><a class="dropdown-item" href="mailto:admin@allaine.cc">Support</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a id="logout-button" class="dropdown-item" href="#">Se déconnecter</a></li>       
+                        </ul>
+                    </div>
+                    <?php else: ?>
+                    <a href="#" id="login" class="d-flex align-items-center link-dark text-decoration-none" data-bs-toggle='modal' data-bs-target='#modalLogin'>
+                        <img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="icon rounded-circle object-fit-cover">
+                    </a>
+                    <?php endif; ?>
+                    <div class="d-flex justify-content-center pb-3">
+                        <img id="icon-theme" src="img/icon/moon.png" class="icon rounded" onclick="switchTheme()" width="32" height="32">
+                    </div>
+                </div>
             </div>
-            <div class="col-10 p-0 vh-100">
+            <div class="col-10 col-lg-10 p-0 vh-100">
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid d-flex justify-content-space-around">
@@ -116,7 +161,9 @@ require_once dirname(__FILE__).'/toast.php';
                                 } else {
                                     $modal = "modalLogin";
                                 }
-                                echo "<button class='btn btn-primary ' type='button' data-bs-toggle='modal' data-bs-target='#".$modal."'>Écrire un Greg</button>";
+                                echo "<button class='d-none d-md-block btn btn-primary ' type='button' data-bs-toggle='modal' data-bs-target='#".$modal."'>Écrire un Greg</button>";
+                                echo "<button class='d-block d-md-none btn btn-primary ' type='button' data-bs-toggle='modal' data-bs-target='#".$modal."'>Greg</button>";
+
                             } else {
                                 $req = $db->prepare("SELECT ban_time FROM users WHERE id = ?");
                                 $req->execute(array($_SESSION['id']));
