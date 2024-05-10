@@ -18,3 +18,41 @@
 body {
     font-size: 1vw
 }*/
+
+.dark-theme {
+    --bs-primary: #0d6efd;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #343a40;
+    --bs-dark: #f8f9fa;
+    --bs-white: #212529;
+    --bs-gray: #6c757d;
+    --bs-gray-dark: #343a40;
+    --bs-body-color: #f8f9fa;
+    --bs-body-bg: #212529;
+    --bs-light-bg: #54585c;
+    --bs-body-tertiary-bg: #343a40;
+    --bs-btn-light-bg: #54585c;
+    --bs-btn-light-color: #f8f9fa;
+}
+
+.dark-theme .btn-primary {
+    background-color: var(--bs-light);
+    color: var(--bs-dark);
+}
+
+.dark-theme .bg-light {
+    background-color: var(--bs-light-bg) !important;
+}
+
+.dark-theme .bg-body-tertiary {
+    background-color: var(--bs-body-tertiary-bg) !important;
+}
+
+.dark-theme .btn-light {
+    background-color: var(--bs-btn-light-bg) !important;
+    color: var(--bs-btn-light-color) !important;
+}
