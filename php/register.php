@@ -101,7 +101,7 @@ if (isset($_POST['mail1-r']) && isset($_POST['mail2-r']) && isset($_POST['passwo
                                         }
                                         $req = $db->prepare("INSERT INTO address(id_user,address,city,zip_code,country) VALUES((SELECT id FROM users WHERE email = ?),?,?,?,?)");
                                         $req->execute(array($email, $address, $city, $zipcode, $country));
-                                        $req = $db->prepare("INSERT INTO emailsNonVerifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
+                                        $req = $db->prepare("INSERT INTO emailsnonverifies(email,token,id_user) VALUES (?,?,(SELECT id FROM users WHERE email = ?))");
                                         $req->execute(array($email, $key, $email));
                                         sendMailConfirm($email, $key);
                                     } else {
