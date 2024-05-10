@@ -61,7 +61,7 @@ require_once dirname(__FILE__).'/toast.php';
                         <?php if(isConnected()): ?>
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Icon User" width="40" height="40" class="rounded-circle me-3 object-fit-cover">
+                                <img src="<?php if(!empty($_SESSION['avatar'])){echo "img/user/".$_SESSION['id']."/".$_SESSION['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Icon User" width="40" height="40" class="<?php if(empty($_SESSION['avatar'])){echo 'icon';} ?> rounded-circle me-3 object-fit-cover">
                                 <strong class="fs-5"><?php echo $_SESSION['pseudo']; ?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
