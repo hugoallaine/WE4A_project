@@ -211,7 +211,7 @@ function setAdminModal(type, postId) {
  */
 $('#search-bar').on('input', function() {
     let searchTerm = $(this).val();
-    if (searchTerm.length >= 3) {
+    if (searchTerm.length >= 1) {
         $.ajax({
             type: 'GET',
             url: 'php/search.php',
