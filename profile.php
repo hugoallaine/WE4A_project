@@ -44,7 +44,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                         <div class="d-flex justify-content-between">
                             <h1 class="card-title d-flex align-items-center fs-4">
                                 <div class='rounded me-2' style='width: 60px; height: 60px;'>
-                                    <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="rounded me-2 object-fit-cover" style='height:100%; width:100%;'>
+                                    <img src="<?php if(!empty($userinfo['avatar'])){echo "img/user/".$userinfo['id']."/".$userinfo['avatar'];}else{echo "img/icon/utilisateur.png";} ?>" alt="Avatar de <?php echo $userinfo['pseudo']; ?>" class="<?php if(empty($userinfo['avatar'])){echo 'icon';} ?> rounded me-2 object-fit-cover" style='height:100%; width:100%;'>
                                 </div>
                                 <?php 
                                 echo '<span data-user-id="'.$userinfo['id'].'" id="pseudo">'.$userinfo['pseudo'].'</span>';
@@ -214,7 +214,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                     $req2->execute(array($follower['id_user_following']));
                                     $follower = $req2->fetch();
                                     if ($follower['avatar'] == null) {
-                                        echo '<div class="d-flex justify-content-between p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
+                                        echo '<div class="d-flex justify-content-between p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="icon rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
                                     } else {
                                         echo '<div class="d-flex justify-content-between p-1"><a href="profile.php?pseudo='.$follower['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$follower['id'].'/'.$follower['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$follower['pseudo'].'</a></div>';
                                     }
@@ -235,7 +235,7 @@ require_once dirname(__FILE__).'/php/template_top.php';
                                     $req2->execute(array($following['id_user_followed']));
                                     $following = $req2->fetch();
                                     if ($following['avatar'] == null) {
-                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
+                                        echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/icon/utilisateur.png" alt="Icon User" width="32" height="32" class="icon rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
                                     } else {
                                         echo '<div class="d-flex justify-content-between p-3"><a href="profile.php?pseudo='.$following['pseudo'].'" class="link-primary link-underline link-underline-opacity-0"><img src="img/user/'.$following['id'].'/'.$following['avatar'].'" alt="Icon User" width="32" height="32" class="rounded-circle me-3 object-fit-cover"/>'.$following['pseudo'].'</a>';
                                     }
