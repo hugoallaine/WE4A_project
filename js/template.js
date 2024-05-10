@@ -6,6 +6,11 @@
  * @param {*} insertAfter 
  */
 function insertPost(post, element, isOriginalPost = false, insertAfter = false) {
+
+    if(post.is_removed && !window.location.pathname.includes("notifications")) {
+        return;
+    }
+
     let pictureHtml = "";
     let isConnected = sessionStorage.getItem('isConnected');
     isConnected == 'true' ? isConnected = true : isConnected = false;
@@ -277,7 +282,6 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response);
                 response = JSON.parse(response);
                 document.getElementById('formPostId').reset();
                 $('#modalPost').modal('hide');
@@ -415,6 +419,10 @@ $(document).on('click', '.post, .like-button, [data-bs-toggle="modal"][data-bs-t
                 var header_element = document.querySelector('#modalResponses .modal-header');
                 header_element.innerHTML = '';
                 insertPost(responses[0], header_element, true);
+
+                if (responses[0].is_removed) {
+                    header_element.innerHTML = "<div class='w-100'><h5 class='text-center'>Ce Greg a été supprimé.</h5></div>";
+                }
 
                 if (responses[1] === undefined) {
                     body_element.innerHTML = "<h5 class='text-center'>Pas encore de réponse, soyez le premier à répondre !</h5>";

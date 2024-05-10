@@ -34,11 +34,11 @@ function echoPost($post) {
         'picture' => $picture,
         'like_count' => $post['like_count'],
         'comment_count' => $post['comment_count'],
-        'is_sensible' => $post['isSensible']
+        'is_sensible' => $post['isSensible'],
+        'is_removed' => $post['isRemoved']
     ];
-    if ($post['isRemoved'] === 0) {
-        return $postInfo;
-    }
+
+    return $postInfo;
 }
 
 function echoPostById($postId) {
