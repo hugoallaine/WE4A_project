@@ -67,7 +67,7 @@ function isBan() {
         $req = $db->prepare("SELECT isBan FROM users WHERE id = ?");
         $req->execute(array($_SESSION['id']));
         $isBan = $req->fetch();
-        if ($isBan['isBan'] == 1) {
+        if ($isBan['isBan'] == 1 && $req->rowCount() > 0) {
             return true;
         }
     }
