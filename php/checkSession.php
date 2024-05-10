@@ -9,6 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } else {
         $isAdmin = false;
     }
+    if ($status === false) {
+        $_SESSION['pseudo'] = null;
+    }
     header('Content-Type: application/json');
     echo json_encode(array('error' => false,'status' => $status, 'pseudo' => $_SESSION['pseudo'], 'isAdmin' => $isAdmin));
 } else {
