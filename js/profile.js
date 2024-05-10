@@ -240,5 +240,4 @@ $(document).on('click', '#confirmUnfollowBtn', function () {
             }
         }
     });
-}
-);
+});
